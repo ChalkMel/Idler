@@ -147,7 +147,6 @@ GameObject:
   - component: {fileID: 6085872689651290038}
   - component: {fileID: 5887897905661021250}
   - component: {fileID: 6511500031694527749}
-  - component: {fileID: 115688313145382018}
   m_Layer: 5
   m_Name: ShopSlot
   m_TagString: Untagged
@@ -215,44 +214,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &115688313145382018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5220779243889878880}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e4a17e97df091942bfdaef4c2dbf7fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemName: 
-  itemNameText: {fileID: 0}
-  itemIcon: {fileID: 0}
-  itemIconSprite: {fileID: 0}
-  itemDescription: 
-  itemDescriptionAfter: 
-  itemNameTextDesc: {fileID: 0}
-  itemDescriptionText: {fileID: 0}
-  itemCoef: 0
-  itemCoefText: {fileID: 0}
-  itemCost: 0
-  itemCostText: {fileID: 0}
-  isAcquired: 0
-  mainButton: {fileID: 0}
-  eventScreen: {fileID: 0}
-  isEvent: 0
-  descriptionPanel: {fileID: 0}
-  deactive: {fileID: 0}
-  onOff: {fileID: 0}
-  bought: {fileID: 0}
-  notEnough: {fileID: 0}
-  cup: 0
-  newCup: {fileID: 0}
-  initCup: {fileID: 0}
-  render: {fileID: 0}
-  Clicker: {fileID: 0}
 --- !u!1 &7624873918707215370
 GameObject:
   m_ObjectHideFlags: 0
