@@ -12,6 +12,7 @@ public class Exploration : MonoBehaviour
     [SerializeField] private Image zoneIconImage;
     [SerializeField] private TextMeshProUGUI timeText;
     [SerializeField] private TextMeshProUGUI timerText;
+    [SerializeField] private TextMeshProUGUI timerMainScreenText;
     [SerializeField] private Button confirmButton;
     [SerializeField] private Button cancelButton;
     [SerializeField] private Slider timerSlider;
@@ -66,10 +67,10 @@ public class Exploration : MonoBehaviour
             _explorationTimer -= Time.deltaTime;
             timerSlider.value = _selectedZone.explorationTime - _explorationTimer;
             timerText.text = $"Времени осталось: {Mathf.Round(_explorationTimer)} сек";
+            timerMainScreenText.gameObject.SetActive(true);
+            timerMainScreenText.text = $"Времени осталось: {Mathf.Round(_explorationTimer)} сек";
             yield return null;
         }
-        
-        // Завершаем исследование
         CompleteExploration();
     }
     
@@ -77,10 +78,8 @@ public class Exploration : MonoBehaviour
     {
         _isExploring = false;
         timerSlider.gameObject.SetActive(false);
-        
-        // Выдаем награды
-        
-        // Показываем результат
+        timerMainScreenText.gameObject.SetActive(false);
+        timerText.text = "Пока не идет изучение";
         ShowResultPopup($"Вы исследовали зону: {_selectedZone.zoneName}");
     }
     
