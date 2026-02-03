@@ -2,6 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using JetBrains.Annotations;
+using TMPro;
+
 public class MainButtons : MonoBehaviour
 {
     [Header("Buttons")]
@@ -12,14 +15,19 @@ public class MainButtons : MonoBehaviour
     [SerializeField] private List<Button> closeButton;
     [Header("Frog")]
     [SerializeField] private CanvasGroup frogUI;
+    [SerializeField] private List<string> frogTalks;
+    [SerializeField] private TextMeshProUGUI frogUIText;
     [Header("Deer")]
     [SerializeField] private CanvasGroup deerUI;
+    [SerializeField] private List<string> deerTalks;
     [Header("Shop")]
     [SerializeField] private CanvasGroup shopUI;
     
     private Tween _fadeTween;
+    private System.Random _random;
     private void Start()
     {
+        _random = new System.Random();
         shopButton.onClick.AddListener(OpenShopUI);
         frogButton.onClick.AddListener(OpenFrogUI);
         deerButton.onClick.AddListener(OpenDeerUI);
@@ -33,6 +41,8 @@ public class MainButtons : MonoBehaviour
     private void OpenFrogUI()
     {
         Open(frogUI);
+        int random = _random.Next(0, frogTalks.Count);
+        frogUIText.text = frogTalks[random];
     }
 
     private void Open(CanvasGroup canvasGroup)
