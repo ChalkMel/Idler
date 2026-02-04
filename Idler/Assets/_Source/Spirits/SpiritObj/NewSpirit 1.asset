@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f19cce6d2ddddeb418cf736998b629d8, type: 3}
   m_Name: NewSpirit 1
   m_EditorClassIdentifier: 
+  spiritId: 1
   spiritName: Deer
   icon: {fileID: 8384883214832213892, guid: 70d00ad3d7129234a97a96e9efc78762, type: 3}
   description: 

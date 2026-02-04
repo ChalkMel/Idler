@@ -21,7 +21,7 @@ public class SpiritMenu : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private bool startHidden = true;
     
-    private List<GameObject> spiritButtons = new List<GameObject>();
+    private List<GameObject> _spiritButtons = new List<GameObject>();
     
     private void Start()
     {
@@ -42,20 +42,12 @@ public class SpiritMenu : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void RefreshMenu()
+    private void RefreshMenu()
     {
         ClearAllButtons();
         
-        if (spiritCollection == null)
-        {
-            Debug.LogError("SpiritCollection reference is not set!");
-            ShowErrorMessage("Ошибка: Коллекция духов не назначена");
-            return;
-        }
-        
         CreateSpiritButtons();
-        
-        // Показываем первый дух по умолчанию
+
         if (spiritCollection.unlockedSpirits.Count > 0)
         {
             ShowSpiritDetails(spiritCollection.unlockedSpirits[0]);
@@ -82,18 +74,13 @@ public class SpiritMenu : MonoBehaviour
     
     private void CreateSpiritButtons()
     {
-        if (spiritCollection.allSpirits == null || spiritCollection.allSpirits.Count == 0)
-        {
-            Debug.LogWarning("No spirits found in SpiritCollection!");
-            return;
-        }
         
         foreach (var spirit in spiritCollection.allSpirits)
         {
             if (spirit == null) continue;
 
             GameObject buttonObj = Instantiate(spiritButtonPrefab, spiritListParent);
-            spiritButtons.Add(buttonObj);
+            _spiritButtons.Add(buttonObj);
 
             SetupSpiritButton(buttonObj, spirit);
 
@@ -161,8 +148,6 @@ public class SpiritMenu : MonoBehaviour
     {
         if (spirit == null) return;
         
-        Debug.Log($"Showing details for spirit: {spirit.spiritName}");
-        
         if (selectedSpiritIcon != null)
         {
             if (spirit.icon != null)
@@ -202,7 +187,7 @@ public class SpiritMenu : MonoBehaviour
 
         ClearPanel(likedTeasPanel);
 
-        if (spirit.likedTeas != null && spirit.likedTeas.Length > 0)
+        if (spirit.likedTeas is {Length: > 0})
         {
             foreach (var tea in spirit.likedTeas)
             {
@@ -263,12 +248,12 @@ public class SpiritMenu : MonoBehaviour
     
     private void ClearAllButtons()
     {
-        foreach (var button in spiritButtons)
+        foreach (var button in _spiritButtons)
         {
             if (button != null)
                 Destroy(button);
         }
-        spiritButtons.Clear();
+        _spiritButtons.Clear();
     }
     
     private void OnDestroy()

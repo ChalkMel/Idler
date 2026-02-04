@@ -4,6 +4,7 @@ using UnityEngine;
 public class SpiritData : ScriptableObject
 {
   [Header("Basic Info")]
+  public int spiritId;
   public string spiritName;
   public Sprite icon;
   [TextArea(2, 4)] public string description;

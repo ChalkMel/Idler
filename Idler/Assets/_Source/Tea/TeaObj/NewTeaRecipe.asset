@@ -15,6 +15,7 @@ MonoBehaviour:
   teaName: BerryTea
   icon: {fileID: 6751059058552849831, guid: 94cf5247c89abc74e9dc2df851de983b, type: 3}
   description: 000
+  brewingTime: 2
   ingredients:
   - {fileID: 11400000, guid: 31a24069da1d82f4ab5f32bd7371100a, type: 2}
   - {fileID: 11400000, guid: 31a24069da1d82f4ab5f32bd7371100a, type: 2}

@@ -9,11 +9,11 @@ public class BuffUIElement : MonoBehaviour
   [SerializeField] private TextMeshProUGUI buffTimerText;
   [SerializeField] private Slider timeSlider;
     
-  private SpiritBuff currentBuff;
+  private SpiritBuff _currentBuff;
     
   public void Setup(SpiritBuff buff)
   {
-    currentBuff = buff;
+    _currentBuff = buff;
         
     if (buffIcon != null && buff.spirit != null && buff.spirit.icon != null)
     {
@@ -28,19 +28,19 @@ public class BuffUIElement : MonoBehaviour
     
   private void Update()
   {
-    if (currentBuff != null)
+    if (_currentBuff != null)
     {
       if (buffTimerText != null)
       {
-        buffTimerText.text = Mathf.CeilToInt(currentBuff.TimeLeft) + "с";
+        buffTimerText.text = Mathf.CeilToInt(_currentBuff.TimeLeft) + "с";
       }
             
       if (timeSlider != null)
       {
-        timeSlider.value = currentBuff.TimeLeft / currentBuff.duration;
+        timeSlider.value = _currentBuff.TimeLeft / _currentBuff.duration;
       }
 
-      if (!currentBuff.IsActive)
+      if (!_currentBuff.IsActive)
       {
         Destroy(gameObject);
       }

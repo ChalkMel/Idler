@@ -10,7 +10,7 @@ public class ShopItem : ScriptableObject
     
   [Header("Purchase")]
   public int cost = 100;
-  public bool isPurchased = false;
+  public bool isPurchased;
     
   [Header("Effect")]
   public ShopItemType itemType;
@@ -18,7 +18,12 @@ public class ShopItem : ScriptableObject
   
   public void ApplyEffect()
   {
-    // 
+    switch (itemType)
+    {
+      case ShopItemType.BrewingSpeed:
+        effectValue += effectValue;
+        break;
+    } 
   }
 }
 

@@ -31,7 +31,7 @@ public class Exploration : MonoBehaviour
     private bool _isExploring;
     private float _explorationTimer;
 
-    private Dictionary<ZoneData, Button> zoneButtons = new Dictionary<ZoneData, Button>();
+    private Dictionary<ZoneData, Button> _zoneButtons = new Dictionary<ZoneData, Button>();
     
     private void Start()
     {
@@ -60,7 +60,7 @@ public class Exploration : MonoBehaviour
                 
                 if (button != null)
                 {
-                    zoneButtons[zone] = button;
+                    _zoneButtons[zone] = button;
                 }
             }
         }
@@ -68,12 +68,12 @@ public class Exploration : MonoBehaviour
     
     private void UpdateZoneButtons()
     {
-        foreach (var kvp in zoneButtons)
+        foreach (var kvp in _zoneButtons)
         {
             ZoneData zone = kvp.Key;
             Button button = kvp.Value;
             
-            if (zone == null || button == null) continue;
+            if (!zone || !button) continue;
             
             bool isZoneComplete = zone.AreAllSpiritsFound(spiritCollection);
             bool isZoneUnlocked = zone.isUnlocked;
@@ -106,14 +106,7 @@ public class Exploration : MonoBehaviour
         TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
         if (buttonText != null)
         {
-            if (isComplete)
-            {
-                buttonText.text = $"{zone.zoneName} ✓";
-            }
-            else
-            {
-                buttonText.text = zone.zoneName;
-            }
+            buttonText.text = isComplete ? $"{zone.zoneName} ✓" : zone.zoneName;
         }
     }
     
@@ -126,13 +119,13 @@ public class Exploration : MonoBehaviour
 
         if (!_selectedZone.isUnlocked)
         {
-            Debug.Log($"Зона {_selectedZone.zoneName} заблокирована!");
+            ShowResultPopup($"Зона {_selectedZone.zoneName} заблокирована!");
             return;
         }
 
         if (_selectedZone.AreAllSpiritsFound(spiritCollection))
         {
-            Debug.Log($"Все духи в зоне {_selectedZone.zoneName} уже найдены!");
+            ShowResultPopup($"Все духи в зоне {_selectedZone.zoneName} уже найдены!");
             return;
         }
         
@@ -259,7 +252,7 @@ public class Exploration : MonoBehaviour
     
     private void SetAllZoneButtonsInteractable(bool interactable)
     {
-        foreach (var button in zoneButtons.Values)
+        foreach (var button in _zoneButtons.Values)
         {
             if (button != null)
             {

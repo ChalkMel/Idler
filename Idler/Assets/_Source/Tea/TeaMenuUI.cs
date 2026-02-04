@@ -21,7 +21,7 @@ public class TeaMenu : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private bool startHidden = true;
     
-    private List<GameObject> teaButtons = new List<GameObject>();
+    private List<GameObject> _teaButtons = new List<GameObject>();
     
     private void Start()
     {
@@ -41,24 +41,10 @@ public class TeaMenu : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
-    
-    public void RefreshMenu()
+
+    private void RefreshMenu()
     {
         ClearAllButtons();
-        
-        if (teaMaker == null)
-        {
-            Debug.LogError("TeaMaker reference is not set!");
-            ShowErrorMessage("Ошибка: TeaMaker не назначен");
-            return;
-        }
-        
-        if (teaMaker.allTeas == null || teaMaker.allTeas.Count == 0)
-        {
-            Debug.LogWarning("No teas found in TeaMaker!");
-            ShowErrorMessage("Нет доступных рецептов чая");
-            return;
-        }
         
         CreateTeaButtons();
 
@@ -68,18 +54,6 @@ public class TeaMenu : MonoBehaviour
         }
     }
     
-    private void ShowErrorMessage(string message)
-    {
-        if (selectedTeaName != null)
-            selectedTeaName.text = message;
-        
-        if (selectedTeaDescription != null)
-            selectedTeaDescription.text = "";
-        
-        ClearPanel(recipeIngredientsPanel);
-        ClearPanel(likedSpiritsPanel);
-    }
-    
     private void CreateTeaButtons()
     {
         foreach (var tea in teaMaker.allTeas)
@@ -87,7 +61,7 @@ public class TeaMenu : MonoBehaviour
             if (tea == null) continue;
 
             GameObject buttonObj = Instantiate(teaButtonPrefab, teaListParent);
-            teaButtons.Add(buttonObj);
+            _teaButtons.Add(buttonObj);
 
             SetupTeaButton(buttonObj, tea);
 
@@ -108,12 +82,10 @@ public class TeaMenu : MonoBehaviour
         {
             if (image.transform.parent == buttonObj.transform)
             {
-                // Устанавливаем иконку чая
-                if (tea.icon != null)
-                {
-                    image.sprite = tea.icon;
-                    image.preserveAspect = true;
-                }
+
+                image.sprite = tea.icon;
+                image.preserveAspect = true;
+                
                 break;
             }
         }
@@ -124,10 +96,8 @@ public class TeaMenu : MonoBehaviour
         }
 
         TextMeshProUGUI buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
-        if (buttonText != null)
-        {
-            buttonText.text = tea.teaName;
-        }
+        buttonText.text = tea.teaName;
+        
     }
     
     private void ShowTeaDetails(TeaData tea)
@@ -156,7 +126,7 @@ public class TeaMenu : MonoBehaviour
         ClearPanel(recipeIngredientsPanel);
         ClearPanel(likedSpiritsPanel);
 
-        if (tea.ingredients != null && tea.ingredients.Count > 0)
+        if (tea.ingredients is {Count: > 0})
         {
             foreach (var ingredient in tea.ingredients)
             {
@@ -170,7 +140,7 @@ public class TeaMenu : MonoBehaviour
             CreateTextInPanel(recipeIngredientsPanel, "Рецепт не указан");
         }
 
-        if (tea.likedBySpirits != null && tea.likedBySpirits.Count > 0)
+        if (tea.likedBySpirits is {Count: > 0})
         {
             foreach (var spirit in tea.likedBySpirits)
             {
@@ -231,11 +201,11 @@ public class TeaMenu : MonoBehaviour
     
     private void ClearAllButtons()
     {
-        foreach (var button in teaButtons)
+        foreach (var button in _teaButtons)
         {
             if (button != null)
                 Destroy(button);
         }
-        teaButtons.Clear();
+        _teaButtons.Clear();
     }
 }

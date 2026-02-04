@@ -9,6 +9,9 @@ public class TeaData : ScriptableObject
     public Sprite icon;
     [TextArea(2, 4)] public string description;
     
+    [Header("Brewing")]
+    public float brewingTime = 5f; // Время варки в секундах
+    
     [Header("Recipe")]
     public List<IngredientData> ingredients = new List<IngredientData>();
     
@@ -63,10 +66,5 @@ public class TeaData : ScriptableObject
             }
         }
         return result;
-    }
-
-    public bool HasLikedSpiritForPlayer(SpiritCollection playerSpirits)
-    {
-        return GetLikedSpiritsForPlayer(playerSpirits).Count > 0;
     }
 }

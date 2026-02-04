@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class SpiritBuffManager : MonoBehaviour
 {
@@ -8,49 +9,66 @@ public class SpiritBuffManager : MonoBehaviour
     [SerializeField] private Transform buffsPanel;
     [SerializeField] private GameObject buffUIPrefab;
     [SerializeField] private TextMeshProUGUI buffTimerText;
+    [SerializeField] private Image activeBuffIcon;
+    [SerializeField] private TextMeshProUGUI activeBuffNameText;
+    [SerializeField] private Credits credits;
     
-    private List<SpiritBuff> activeBuffs = new List<SpiritBuff>();
+    private SpiritBuff currentBuff;
     
     private void Update()
     {
-        UpdateBuffs();
+        UpdateBuff();
         UpdateUI();
     }
     
     public void AddBuff(SpiritData spirit)
     {
-        foreach (var buff in activeBuffs)
+        ClearBuff();
+        switch (spirit.spiritId)
         {
-            if (buff.spirit == spirit)
-            {
-                buff.endTime = Time.time + buff.duration;
-                return;
-            }
+            case 0 :
+                credits.dropletsMulti = 2;
+                break;
+            case 1 :
+                credits.flowersMulti = 2;
+                credits.berriesMulti = 2;
+                break;
         }
-        
-        SpiritBuff newBuff = new SpiritBuff
+        Debug.Log("here");
+        currentBuff = new SpiritBuff
         {
             buffName = spirit.buffName,
             multiplier = spirit.buffMultiplier,
-            duration = 30f, // 30 секунд по умолчанию, можно вынести в настройки
-            endTime = Time.time + 30f,
+            duration = spirit.buffDuration,
+            endTime = Time.time + spirit.buffDuration,
             spirit = spirit
         };
         
-        activeBuffs.Add(newBuff);
-        
-        // Создаем UI элемент
-        CreateBuffUI(newBuff);
+        UpdateBuffUI();
     }
     
-    private void UpdateBuffs()
+    public void ClearBuff()
     {
-        for (int i = activeBuffs.Count - 1; i >= 0; i--)
+        currentBuff = null;
+
+        if (activeBuffIcon != null)
+            activeBuffIcon.gameObject.SetActive(false);
+        
+        if (activeBuffNameText != null)
+            activeBuffNameText.text = "";
+        
+        credits.dropletsMulti = 1;
+        credits.flowersMulti = 1;
+        credits.berriesMulti = 1;
+        credits.leavesMulti = 1;
+
+    }
+    
+    private void UpdateBuff()
+    {
+        if (currentBuff != null && !currentBuff.IsActive)
         {
-            if (!activeBuffs[i].IsActive)
-            {
-                activeBuffs.RemoveAt(i);
-            }
+            ClearBuff();
         }
     }
     
@@ -58,57 +76,48 @@ public class SpiritBuffManager : MonoBehaviour
     {
         if (buffTimerText != null)
         {
-            if (activeBuffs.Count > 0)
+            if (currentBuff != null && currentBuff.IsActive)
             {
-                // Показываем самый короткий таймер
-                float minTime = float.MaxValue;
-                foreach (var buff in activeBuffs)
-                {
-                    if (buff.TimeLeft < minTime)
-                        minTime = buff.TimeLeft;
-                }
-                buffTimerText.text = $"Бусты: {Mathf.CeilToInt(minTime)}с";
+                float timeLeft = currentBuff.TimeLeft;
+                buffTimerText.text = $"Буст: {Mathf.CeilToInt(timeLeft)}с";
             }
             else
             {
-                buffTimerText.text = "Бустов нет";
+                buffTimerText.text = "Буста нет";
             }
         }
     }
     
-    private void CreateBuffUI(SpiritBuff buff)
+    private void UpdateBuffUI()
     {
-        if (buffsPanel == null || buffUIPrefab == null) return;
+        if (currentBuff == null || currentBuff.spirit == null) return;
         
-        GameObject buffUI = Instantiate(buffUIPrefab, buffsPanel);
-        
-        BuffUIElement uiElement = buffUI.GetComponent<BuffUIElement>();
-        if (uiElement != null)
+        if (activeBuffIcon != null && currentBuff.spirit.icon != null)
         {
-            uiElement.Setup(buff);
+            activeBuffIcon.sprite = currentBuff.spirit.icon;
+            activeBuffIcon.gameObject.SetActive(true);
+        }
+        
+        if (activeBuffNameText != null)
+        {
+            activeBuffNameText.text = $"{currentBuff.spirit.spiritName}\nx{currentBuff.multiplier:F1}";
         }
     }
     
-    public float GetTotalMultiplier()
+    public float GetCurrentMultiplier()
     {
-        float total = 1f;
-        foreach (var buff in activeBuffs)
-        {
-            if (buff.IsActive)
-            {
-                total *= buff.multiplier;
-            }
-        }
-        return total;
+        return currentBuff != null && currentBuff.IsActive ? currentBuff.multiplier : 1f;
     }
     
-    public bool IsBuffActive(SpiritData spirit)
+    // Проверить, активен ли буст
+    public bool HasActiveBuff()
     {
-        foreach (var buff in activeBuffs)
-        {
-            if (buff.spirit == spirit && buff.IsActive)
-                return true;
-        }
-        return false;
+        return currentBuff != null && currentBuff.IsActive;
+    }
+    
+    // Получить текущий дух
+    public SpiritData GetCurrentSpirit()
+    {
+        return currentBuff != null && currentBuff.IsActive ? currentBuff.spirit : null;
     }
 }

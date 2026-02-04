@@ -18,9 +18,6 @@ public class ZoneButton : MonoBehaviour
   {
     _button = GetComponent<Button>();
     _button.onClick.AddListener(OnClick);
-        
-    // Настраиваем UI кнопки
-    UpdateButtonUI();
   }
     
   private void OnClick()
@@ -30,8 +27,5 @@ public class ZoneButton : MonoBehaviour
       explorationManager.SelectZone(zoneIndex);
     }
   }
-    
-  public void UpdateButtonUI()
-  {
-  }
+
 }

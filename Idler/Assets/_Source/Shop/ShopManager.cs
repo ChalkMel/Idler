@@ -18,7 +18,7 @@ public class ShopManager : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private float messageDisplayTime = 2f;
     
-    private List<ShopItemButton> itemButtons = new List<ShopItemButton>();
+    private List<ShopItemButton> _itemButtons = new List<ShopItemButton>();
     
     private void Start()
     {
@@ -28,20 +28,18 @@ public class ShopManager : MonoBehaviour
         
         if (messageText != null)
             messageText.gameObject.SetActive(false);
-            
-        Debug.Log("ShopManager started. Found " + itemButtons.Count + " item buttons");
+
     }
     
     private void InitializeShopItems()
     {
-        itemButtons.Clear();
-        itemButtons.AddRange(GetComponentsInChildren<ShopItemButton>(true));
+        _itemButtons.Clear();
+        _itemButtons.AddRange(GetComponentsInChildren<ShopItemButton>(true));
         
-        Debug.Log("Found " + itemButtons.Count + " shop item buttons");
         
-        for (int i = 0; i < itemButtons.Count; i++)
+        for (int i = 0; i < _itemButtons.Count; i++)
         {
-            ShopItemButton button = itemButtons[i];
+            ShopItemButton button = _itemButtons[i];
             if (button == null) continue;
             
             Button btnComponent = button.GetComponent<Button>();
@@ -54,43 +52,17 @@ public class ShopManager : MonoBehaviour
             btnComponent.onClick.AddListener(() => OnItemButtonClicked(index));
 
             UpdateItemButton(button);
-            
-            Debug.Log($"Set up button for item: {(button.shopItem != null ? button.shopItem.itemName : "NULL")}");
         }
     }
     
     private void OnItemButtonClicked(int buttonIndex)
     {
-        Debug.Log($"Button clicked: {buttonIndex}");
-        
-        if (buttonIndex < 0 || buttonIndex >= itemButtons.Count)
-        {
-            Debug.LogError($"Invalid button index: {buttonIndex}");
-            return;
-        }
-        
-        ShopItemButton button = itemButtons[buttonIndex];
-        if (button == null || button.shopItem == null)
-        {
-            Debug.LogError("Button or ShopItem is null!");
-            return;
-        }
-        
-        Debug.Log($"Trying to buy: {button.shopItem.itemName}");
+        ShopItemButton button = _itemButtons[buttonIndex];
         BuyItem(button.shopItem);
     }
-    
-    public void BuyItem(ShopItem item)
+
+    private void BuyItem(ShopItem item)
     {
-        if (item == null)
-        {
-            ShowMessage("Ошибка: предмет не найден");
-            Debug.LogError("Trying to buy null item!");
-            return;
-        }
-        
-        Debug.Log($"BuyItem called for: {item.itemName}, Purchased: {item.isPurchased}, Cost: {item.cost}, Player droplets: {credits.droplets}");
-        
         if (item.isPurchased)
         {
             ShowMessage($"Уже куплено: {item.itemName}");
@@ -105,40 +77,9 @@ public class ShopManager : MonoBehaviour
 
         credits.droplets -= item.cost;
         item.isPurchased = true;
-
-        ApplyItemEffect(item);
         
         UpdateDropletsDisplay();
         UpdateAllItemButtons();
-        
-        ShowMessage($"Куплено: {item.itemName}!");
-        Debug.Log($"Purchased: {item.itemName}");
-    }
-    
-    private void ApplyItemEffect(ShopItem item)
-    {
-        switch (item.itemType)
-        {
-            case ShopItemType.CauldronUpgrade:
-                Debug.Log($"Кастрюля улучшена: {item.effectValue}");
-                break;
-                
-            case ShopItemType.BrewingSpeed:
-                Debug.Log($"Скорость варки увеличена: {item.effectValue}");
-                break;
-                
-            case ShopItemType.IngredientBoost:
-                Debug.Log($"Буст ингредиентов: {item.effectValue}");
-                break;
-                
-            case ShopItemType.SpiritChance:
-                Debug.Log($"Шанс найти духа: {item.effectValue}");
-                break;
-                
-            case ShopItemType.DropletMultiplier:
-                Debug.Log($"Множитель капель: {item.effectValue}");
-                break;
-        }
     }
     
     private void UpdateItemButton(ShopItemButton button)
@@ -181,7 +122,7 @@ public class ShopManager : MonoBehaviour
     
     private void UpdateAllItemButtons()
     {
-        foreach (var button in itemButtons)
+        foreach (var button in _itemButtons)
         {
             UpdateItemButton(button);
         }
@@ -191,7 +132,7 @@ public class ShopManager : MonoBehaviour
     {
         if (dropletsText != null && credits != null)
         {
-            dropletsText.text = $"Капли: {credits.droplets}";
+            dropletsText.text = $"{credits.droplets} of droplets";
         }
     }
     

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -27,63 +28,73 @@ public class TeaMaker : MonoBehaviour
     
     [Header("Result Display")]
     [SerializeField] private TextMeshProUGUI messageText;
-    [SerializeField] private Image resultIcon;
-    [SerializeField] private TextMeshProUGUI resultName;
-    [SerializeField] private Transform likedSpiritsPanel;
-    [SerializeField] private GameObject spiritIconPrefab;
+    [SerializeField] private GameObject teaResultPanel;
+    [SerializeField] private Image resultTeaIcon;
+    [SerializeField] private TextMeshProUGUI resultTeaName;
+    [SerializeField] private TextMeshProUGUI resultTeaDescription;
+    [SerializeField] private Image resultSpiritIcon; // Иконка духа
+    [SerializeField] private TextMeshProUGUI resultBuffInfo; // Информация о бусте
     
-    private List<IngredientData> currentIngredients = new List<IngredientData>();
+    [Header("Brewing UI")]
+    [SerializeField] private GameObject brewingPanel;
+    [SerializeField] private Slider brewingSlider;
+    [SerializeField] private TextMeshProUGUI brewingTimeText;
+    [SerializeField] private TextMeshProUGUI brewingTeaNameText;
+    
+    private List<IngredientData> _currentIngredients = new List<IngredientData>();
+    private bool _isBrewing;
+    private Coroutine _brewingCoroutine;
     
     private void Start()
     {
-        if (!CheckReferences())
-        {
-            Debug.LogError("TeaMaker: Some references are missing!");
-            return;
-        }
-
         InitializeIngredientButtons();
 
-        brewButton.onClick.AddListener(BrewTea);
+        brewButton.onClick.AddListener(StartBrewing);
         clearButton.onClick.AddListener(ClearCauldron);
 
         UpdateCounters();
         
-        HideResult();
-        ClearLikedSpiritsPanel();
+        // Скрываем панели
+        if (brewingPanel != null) brewingPanel.SetActive(false);
+        if (teaResultPanel != null) teaResultPanel.SetActive(false);
         
-        Debug.Log("TeaMaker initialized successfully!");
+        // Обновляем доступность кнопки варки
+        UpdateBrewButtonState();
     }
     
-    private bool CheckReferences()
+    private void Update()
     {
-        bool allValid = true;
+        // Постоянно обновляем состояние кнопки варки
+        UpdateBrewButtonState();
+    }
+    
+    private void UpdateBrewButtonState()
+    {
+        if (brewButton == null) return;
         
-        if (credits == null)
+        // Если есть активный буст - кнопка варки неактивна
+        if (buffManager != null && buffManager.HasActiveBuff())
         {
-            Debug.LogError("TeaMaker: Credits reference is missing!");
-            allValid = false;
+            brewButton.interactable = false;
+            
+            // Меняем текст кнопки
+            TextMeshProUGUI buttonText = brewButton.GetComponentInChildren<TextMeshProUGUI>();
+            if (buttonText != null)
+            {
+                buttonText.text = "БУСТ АКТИВЕН";
+            }
         }
-        
-        if (ingredientButtonsPanel == null)
+        else
         {
-            Debug.LogError("TeaMaker: IngredientButtonsPanel is missing!");
-            allValid = false;
+            brewButton.interactable = !_isBrewing;
+            
+            // Возвращаем обычный текст
+            TextMeshProUGUI buttonText = brewButton.GetComponentInChildren<TextMeshProUGUI>();
+            if (buttonText != null)
+            {
+                buttonText.text = "ПРИГОТОВИТЬ";
+            }
         }
-        
-        if (brewButton == null)
-        {
-            Debug.LogError("TeaMaker: BrewButton is missing!");
-            allValid = false;
-        }
-        
-        if (clearButton == null)
-        {
-            Debug.LogError("TeaMaker: ClearButton is missing!");
-            allValid = false;
-        }
-        
-        return allValid;
     }
     
     private void InitializeIngredientButtons()
@@ -105,12 +116,18 @@ public class TeaMaker : MonoBehaviour
             button.onClick.AddListener(() => AddIngredient(ingredient));
         }
     }
-    
-    public void AddIngredient(IngredientData ingredient)
+
+    private void AddIngredient(IngredientData ingredient)
     {
-        if (ingredient == null)
+        if (_isBrewing)
         {
-            Debug.LogError("Trying to add null ingredient!");
+            ShowMessage("Дождитесь окончания варки!");
+            return;
+        }
+        
+        if (buffManager != null && buffManager.HasActiveBuff())
+        {
+            ShowMessage("Дождитесь окончания буста!");
             return;
         }
         
@@ -120,13 +137,13 @@ public class TeaMaker : MonoBehaviour
             return;
         }
         
-        if (currentIngredients.Count >= 6)
+        if (_currentIngredients.Count >= 6)
         {
             ShowMessage("Максимум 6 ингредиентов!");
             return;
         }
         
-        currentIngredients.Add(ingredient);
+        _currentIngredients.Add(ingredient);
         
         if (ingredientUIPrefab != null && ingredientsPanel != null)
         {
@@ -139,8 +156,6 @@ public class TeaMaker : MonoBehaviour
         }
         
         UseIngredient(ingredient);
-        HideResult();
-        ClearLikedSpiritsPanel();
     }
     
     private bool HasIngredient(IngredientData ingredient)
@@ -176,51 +191,226 @@ public class TeaMaker : MonoBehaviour
     }
     
     public void UpdateCounters()
-    {
-        if (credits == null) return;
-        
+    { 
         if (berryCount != null) berryCount.text = credits.berries.ToString();
         if (flowerCount != null) flowerCount.text = credits.flowers.ToString();
         if (leafCount != null) leafCount.text = credits.leaves.ToString();
     }
-    
-    public void BrewTea()
+
+    private void StartBrewing()
     {
-        if (currentIngredients.Count == 0)
+        if (_isBrewing)
+        {
+            ShowMessage("Уже варится!");
+            return;
+        }
+        
+        if (buffManager != null && buffManager.HasActiveBuff())
+        {
+            ShowMessage("Нельзя варить при активном бусте!");
+            return;
+        }
+        
+        if (_currentIngredients.Count == 0)
         {
             ShowMessage("Котел пуст!");
             return;
         }
         
-        TeaData result = FindMatchingTea();
+        TeaData teaToBrew = FindMatchingTea();
         
-        if (result != null)
-        {
-            List<SpiritData> likedSpirits = result.GetLikedSpiritsForPlayer(playerSpirits);
-            
-            if (likedSpirits.Count > 0)
-            {
-                ShowSuccess(result);
-                ShowLikedSpirits(likedSpirits);
-                ShowMessage($"Успех! Приготовлен {result.teaName}");
-                
-                ApplySpiritBuffs(likedSpirits);
-                
-                GiveReward(likedSpirits);
-            }
-            else
-            {
-                ShowMessage("Пока этот чай никому из ваших духов не нравится!");
-                ReturnIngredients();
-            }
-        }
-        else
+        if (teaToBrew == null)
         {
             ShowMessage("Не получилось!");
             ReturnIngredients();
+            ClearVisuals();
+            _currentIngredients.Clear();
+            return;
         }
         
+        _isBrewing = true;
+        brewButton.interactable = false;
+        clearButton.interactable = false;
+        SetIngredientButtonsInteractable(false);
+        
+        _brewingCoroutine = StartCoroutine(BrewingCoroutine(teaToBrew));
+    }
+    
+    private IEnumerator BrewingCoroutine(TeaData tea)
+    {
+        // Показываем панель варки
+        if (brewingPanel != null)
+        {
+            brewingPanel.SetActive(true);
+            
+            if (brewingTeaNameText != null)
+                brewingTeaNameText.text = $"Варится: {tea.teaName}";
+            
+            if (brewingSlider != null)
+                brewingSlider.value = 0f;
+        }
+        
+        float brewingTime = tea.brewingTime;
+        float timer = 0f;
+        
+        while (timer < brewingTime)
+        {
+            timer += Time.deltaTime;
+            float progress = timer / brewingTime;
+            
+            if (brewingSlider != null)
+                brewingSlider.value = progress;
+            
+            if (brewingTimeText != null)
+                brewingTimeText.text = $"Осталось: {Mathf.CeilToInt(brewingTime - timer)}с";
+            
+            yield return null;
+        }
+        
+        CompleteBrewing(tea);
+    }
+    
+    private void CompleteBrewing(TeaData tea)
+    {
+        if (brewingPanel != null)
+            brewingPanel.SetActive(false);
+        
+        List<SpiritData> likedSpirits = tea.GetLikedSpiritsForPlayer(playerSpirits);
+        
+        if (likedSpirits.Count > 0)
+        {
+            // Выбираем случайного духа из тех, кому нравится чай
+            SpiritData chosenSpirit = likedSpirits[Random.Range(0, likedSpirits.Count)];
+            
+            // Показываем результат с выбранным духом
+            ShowTeaResult(tea, chosenSpirit);
+            
+            // Применяем буст выбранного духа
+            ApplySpiritBuff(chosenSpirit);
+            
+            // Даем награду
+            GiveReward(chosenSpirit);
+            
+            ShowMessage($"Успех! Приготовлен {tea.teaName}");
+        }
+        else
+        {
+            ShowMessage("Пока этот чай никому из ваших духов не нравится!");
+            ReturnIngredients();
+        }
+        
+        _isBrewing = false;
+        clearButton.interactable = true;
+        SetIngredientButtonsInteractable(true);
+        
         ClearCauldron();
+    }
+    
+    private void ApplySpiritBuff(SpiritData spirit)
+    {
+        if (buffManager == null || spirit == null) return;
+        
+        // Применяем буст духа
+        buffManager.AddBuff(spirit);
+        
+        // Также можно добавить мгновенный эффект
+        ApplyInstantSpiritEffect(spirit);
+    }
+    
+    private void ApplyInstantSpiritEffect(SpiritData spirit)
+    {
+        if (credits == null || spirit == null) return;
+        
+        // Мгновенные бонусы в зависимости от типа духа
+        switch (spirit.spiritName)
+        {
+            case "Лесной дух":
+                credits.berries += 3;
+                ShowMessage("+3 ягоды от Лесного духа!");
+                break;
+            case "Цветочный дух":
+                credits.flowers += 3;
+                ShowMessage("+3 цветка от Цветочного духа!");
+                break;
+            case "Лиственный дух":
+                credits.leaves += 3;
+                ShowMessage("+3 листочка от Лиственного духа!");
+                break;
+            case "Ягодный дух":
+                credits.berries += 5;
+                ShowMessage("+5 ягод от Ягодного духа!");
+                break;
+        }
+        
+        UpdateCounters();
+    }
+    
+    private void ShowTeaResult(TeaData tea, SpiritData spirit)
+    {
+        if (teaResultPanel == null) return;
+
+        // Настраиваем информацию о чае
+        if (resultTeaIcon != null && tea.icon != null)
+        {
+            resultTeaIcon.sprite = tea.icon;
+        }
+        
+        if (resultTeaName != null)
+        {
+            resultTeaName.text = tea.teaName;
+        }
+        
+        if (resultTeaDescription != null)
+        {
+            resultTeaDescription.text = tea.description;
+        }
+        
+        // Настраиваем информацию о духе
+        if (resultSpiritIcon != null && spirit.icon != null)
+        {
+            resultSpiritIcon.sprite = spirit.icon;
+            resultSpiritIcon.gameObject.SetActive(true);
+        }
+        
+        if (resultBuffInfo != null)
+        {
+            resultBuffInfo.text = $"{spirit.spiritName}\n{spirit.buffName}\nx{spirit.buffMultiplier:F1} на {spirit.buffDuration}с";
+            resultBuffInfo.gameObject.SetActive(true);
+        }
+        
+        teaResultPanel.SetActive(true);
+
+        StartCoroutine(HideResultPanelAfterDelay(4f));
+    }
+    
+    private IEnumerator HideResultPanelAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        
+        if (teaResultPanel != null)
+            teaResultPanel.SetActive(false);
+    }
+    
+    private void GiveReward(SpiritData spirit)
+    {
+        if (credits == null || spirit == null) return;
+        
+        // Базовая награда
+        int baseReward = 10;
+        
+        // Умножаем на силу буста духа
+        int finalReward = Mathf.RoundToInt(baseReward * spirit.buffMultiplier);
+        
+        // Добавляем капли
+        credits.droplets += finalReward;
+        
+        // Обновляем UI если есть метод UpdateUI
+        if (credits is MonoBehaviour creditMono)
+        {
+            creditMono.Invoke("UpdateUI", 0.1f);
+        }
+        
+        ShowMessage($"Получено {finalReward} капель (x{spirit.buffMultiplier:F1})!");
     }
     
     private TeaData FindMatchingTea()
@@ -230,139 +420,37 @@ public class TeaMaker : MonoBehaviour
         foreach (var tea in allTeas)
         {
             if (tea == null) continue;
-            if (tea.Matches(currentIngredients))
+            if (tea.Matches(_currentIngredients))
                 return tea;
         }
         return null;
     }
     
-    private void ShowLikedSpirits(List<SpiritData> spirits)
+    private void SetIngredientButtonsInteractable(bool interactable)
     {
-        ClearLikedSpiritsPanel();
+        if (ingredientButtonsPanel == null) return;
         
-        if (likedSpiritsPanel == null || spiritIconPrefab == null) return;
-        
-        foreach (var spirit in spirits)
+        var buttons = ingredientButtonsPanel.GetComponentsInChildren<Button>();
+        foreach (var button in buttons)
         {
-            if (spirit == null) continue;
-            
-            GameObject spiritIcon = Instantiate(spiritIconPrefab, likedSpiritsPanel);
-            Image image = spiritIcon.GetComponent<Image>();
-            if (image != null && spirit.icon != null)
-            {
-                image.sprite = spirit.icon;
-            }
+            button.interactable = interactable;
         }
     }
     
-    private void ClearLikedSpiritsPanel()
+    private void ClearCauldron()
     {
-        if (likedSpiritsPanel == null) return;
-        
-        foreach (Transform child in likedSpiritsPanel)
-        {
-            Destroy(child.gameObject);
-        }
-    }
-    
-    private void ApplySpiritBuffs(List<SpiritData> spirits)
-    {
-        if (buffManager == null || spirits == null) return;
-        
-        foreach (var spirit in spirits)
-        {
-            if (spirit == null) continue;
-            
-            buffManager.AddBuff(spirit);
-            
-            ApplyInstantSpiritEffect(spirit);
-        }
-    }
-    
-    private void ApplyInstantSpiritEffect(SpiritData spirit)
-    {
-        if (credits == null) return;
-        
-        switch (spirit.spiritName)
-        {
-            case "Лесной дух":
-                credits.berries += 2;
-                break;
-            case "Цветочный дух":
-                credits.flowers += 2;
-                break;
-            case "Лиственный дух":
-                credits.leaves += 2;
-                break;
-            case "Ягодный дух":
-                credits.berries += 3;
-                break;
-        }
-        
-        UpdateCounters();
-    }
-    
-    private void GiveReward(List<SpiritData> spirits)
-    {
-        if (credits == null) return;
-        
-        int baseReward = 10;
-        float multiplier = 1f;
-        
-        if (buffManager != null)
-        {
-            multiplier = buffManager.GetTotalMultiplier();
-        }
-        
-        multiplier += spirits.Count * 0.1f;
-        
-        int finalReward = Mathf.RoundToInt(baseReward * multiplier);
-        
-        // 
-        
-        Debug.Log($"Награда за чай: {finalReward} (x{multiplier:F1})");
-    }
-    
-    private void ShowSuccess(TeaData tea)
-    {
-        if (resultIcon != null && tea.icon != null)
-        {
-            resultIcon.sprite = tea.icon;
-            resultIcon.gameObject.SetActive(true);
-        }
-        
-        if (resultName != null)
-        {
-            resultName.text = tea.teaName;
-            resultName.gameObject.SetActive(true);
-        }
-    }
-    
-    private void HideResult()
-    {
-        if (resultIcon != null)
-            resultIcon.gameObject.SetActive(false);
-        
-        if (resultName != null)
-            resultName.gameObject.SetActive(false);
-    }
-    
-    public void ClearCauldron()
-    {
-        ReturnIngredients();
-        currentIngredients.Clear();
+        _currentIngredients.Clear();
         ClearVisuals();
-        ClearLikedSpiritsPanel();
     }
     
     private void ClearVisuals()
-    {
+    { 
         if (ingredientsPanel != null)
         {
             foreach (Transform child in ingredientsPanel)
                 Destroy(child.gameObject);
         }
-        HideResult();
+        
         UpdateCounters();
     }
     
@@ -370,7 +458,7 @@ public class TeaMaker : MonoBehaviour
     {
         if (credits == null) return;
         
-        foreach (var ingredient in currentIngredients)
+        foreach (var ingredient in _currentIngredients)
         {
             switch (ingredient.type)
             {
@@ -386,5 +474,11 @@ public class TeaMaker : MonoBehaviour
     {
         if (messageText != null)
             messageText.text = message;
+    }
+    
+    private void OnDestroy()
+    {
+        if (_brewingCoroutine != null)
+            StopCoroutine(_brewingCoroutine);
     }
 }
