@@ -5,10 +5,15 @@ public class SpiritBuff
 {
   public string buffName;
   public float multiplier;
-  public float duration; // в секундах
-  public float endTime; // время окончания действия
-  public SpiritData spirit; // ссылка на духа
+  public float duration;
+  public float endTime;
+  public SpiritData spirit;
     
   public bool IsActive => Time.time < endTime;
   public float TimeLeft => Mathf.Max(0, endTime - Time.time);
+
+  public float ApplyToValue(float value)
+  {
+    return value * multiplier;
+  }
 }

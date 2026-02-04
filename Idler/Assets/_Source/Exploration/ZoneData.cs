@@ -14,8 +14,7 @@ public class ZoneData : ScriptableObject
     
   [Header("Zone State")]
   public bool isUnlocked = true;
-    
-  // Проверяет, все ли духи в зоне найдены
+  
   public bool AreAllSpiritsFound(SpiritCollection playerSpirits)
   {
     if (playerSpirits == null || availableSpirits.Count == 0)
@@ -28,8 +27,7 @@ public class ZoneData : ScriptableObject
     }
     return true;
   }
-    
-  // Получает список еще не найденных духов
+  
   public List<SpiritData> GetUnfoundSpirits(SpiritCollection playerSpirits)
   {
     List<SpiritData> unfoundSpirits = new List<SpiritData>();
@@ -46,8 +44,7 @@ public class ZoneData : ScriptableObject
     }
     return unfoundSpirits;
   }
-    
-  // Получает случайного еще не найденного духа
+  
   public SpiritData GetRandomUnfoundSpirit(SpiritCollection playerSpirits)
   {
     List<SpiritData> unfoundSpirits = GetUnfoundSpirits(playerSpirits);

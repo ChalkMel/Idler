@@ -19,6 +19,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fdb9ca0c220d95547ad3bcaf76376175, type: 2}
   buffName: 
   buffDescription: 
-  buffMultiplier: 1
-  isUnlocked: 1
+  buffMultiplier: 2
+  buffDuration: 30
+  isUnlocked: 0
   unlockCost: 100

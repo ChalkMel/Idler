@@ -15,7 +15,7 @@ public class SpiritData : ScriptableObject
   public string buffName;
   [TextArea(1, 2)] public string buffDescription;
   public float buffMultiplier = 1.0f;
-  public float buffDuration = 60f; // Длительность буста в секундах
+  public float buffDuration = 30f;
     
   [Header("Unlock")]
   public bool isUnlocked = false;

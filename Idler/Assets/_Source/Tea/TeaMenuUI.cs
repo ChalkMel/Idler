@@ -61,8 +61,7 @@ public class TeaMenu : MonoBehaviour
         }
         
         CreateTeaButtons();
-        
-        // Показываем первый чай по умолчанию
+
         if (teaMaker.allTeas.Count > 0)
         {
             ShowTeaDetails(teaMaker.allTeas[0]);
@@ -86,15 +85,12 @@ public class TeaMenu : MonoBehaviour
         foreach (var tea in teaMaker.allTeas)
         {
             if (tea == null) continue;
-            
-            // Создаем кнопку
+
             GameObject buttonObj = Instantiate(teaButtonPrefab, teaListParent);
             teaButtons.Add(buttonObj);
-            
-            // Настраиваем кнопку
+
             SetupTeaButton(buttonObj, tea);
-            
-            // Назначаем обработчик клика
+
             Button button = buttonObj.GetComponent<Button>();
             if (button != null)
             {
@@ -106,12 +102,10 @@ public class TeaMenu : MonoBehaviour
     
     private void SetupTeaButton(GameObject buttonObj, TeaData tea)
     {
-        // Ищем все Image компоненты на кнопке
         Image[] images = buttonObj.GetComponentsInChildren<Image>();
         
         foreach (var image in images)
         {
-            // Если это дочерний объект (не сам Button)
             if (image.transform.parent == buttonObj.transform)
             {
                 // Устанавливаем иконку чая
@@ -120,17 +114,15 @@ public class TeaMenu : MonoBehaviour
                     image.sprite = tea.icon;
                     image.preserveAspect = true;
                 }
-                break; // Используем первый дочерний Image
+                break;
             }
         }
-        
-        // Если не нашли дочерний Image, используем основной
+
         if (buttonObj.GetComponent<Image>() != null && tea.icon != null)
         {
             buttonObj.GetComponent<Image>().sprite = tea.icon;
         }
-        
-        // Добавляем текст с названием если есть TextMeshPro
+
         TextMeshProUGUI buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
         if (buttonText != null)
         {
@@ -141,8 +133,7 @@ public class TeaMenu : MonoBehaviour
     private void ShowTeaDetails(TeaData tea)
     {
         if (tea == null) return;
-        
-        // Основная информация о чае
+
         if (selectedTeaIcon != null)
         {
             if (tea.icon != null)
@@ -161,12 +152,10 @@ public class TeaMenu : MonoBehaviour
         {
             selectedTeaDescription.text = tea.description;
         }
-        
-        // Очищаем панели
+
         ClearPanel(recipeIngredientsPanel);
         ClearPanel(likedSpiritsPanel);
-        
-        // Отображаем ингредиенты рецепта
+
         if (tea.ingredients != null && tea.ingredients.Count > 0)
         {
             foreach (var ingredient in tea.ingredients)
@@ -180,8 +169,7 @@ public class TeaMenu : MonoBehaviour
         {
             CreateTextInPanel(recipeIngredientsPanel, "Рецепт не указан");
         }
-        
-        // Отображаем духов
+
         if (tea.likedBySpirits != null && tea.likedBySpirits.Count > 0)
         {
             foreach (var spirit in tea.likedBySpirits)
@@ -202,16 +190,14 @@ public class TeaMenu : MonoBehaviour
         if (panel == null || iconPrefab == null) return;
         
         GameObject iconObj = Instantiate(iconPrefab, panel);
-        
-        // Настройка Image
+
         Image iconImage = iconObj.GetComponent<Image>();
         if (iconImage != null && icon != null)
         {
             iconImage.sprite = icon;
             iconImage.preserveAspect = true;
         }
-        
-        // Можно добавить подпись под иконкой
+
         TextMeshProUGUI text = iconObj.GetComponentInChildren<TextMeshProUGUI>();
         if (text != null)
         {

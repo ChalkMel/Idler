@@ -33,7 +33,5 @@ public class ZoneButton : MonoBehaviour
     
   public void UpdateButtonUI()
   {
-    // Можно обновлять внешний вид кнопки
-    // Например, показывать прогресс по духам
   }
 }

@@ -48,7 +48,6 @@ public class TeaData : ScriptableObject
                flowerCount == requiredFlower;
     }
     
-    // Получает список духов, которым нравится этот чай И которые разблокированы у игрока
     public List<SpiritData> GetLikedSpiritsForPlayer(SpiritCollection playerSpirits)
     {
         List<SpiritData> result = new List<SpiritData>();
@@ -65,8 +64,7 @@ public class TeaData : ScriptableObject
         }
         return result;
     }
-    
-    // Проверяет, есть ли у игрока хоть один дух, которому нравится этот чай
+
     public bool HasLikedSpiritForPlayer(SpiritCollection playerSpirits)
     {
         return GetLikedSpiritsForPlayer(playerSpirits).Count > 0;

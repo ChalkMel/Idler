@@ -9,14 +9,14 @@ public class SpiritMenu : MonoBehaviour
     [SerializeField] private SpiritCollection spiritCollection;
     
     [Header("UI Elements")]
-    [SerializeField] private Transform spiritListParent; // Родитель для списка духов
-    [SerializeField] private GameObject spiritButtonPrefab; // Префаб кнопки духа
-    [SerializeField] private Image selectedSpiritIcon; // Большая иконка выбранного духа
-    [SerializeField] private TextMeshProUGUI selectedSpiritName; // Имя духа
-    [SerializeField] private TextMeshProUGUI selectedSpiritDescription; // Описание
-    [SerializeField] private TextMeshProUGUI selectedSpiritBuff; // Информация о бусте
-    [SerializeField] private Transform likedTeasPanel; // Панель для чаев, которые нравится духу
-    [SerializeField] private GameObject teaIconPrefab; // Префаб для иконок чая
+    [SerializeField] private Transform spiritListParent; 
+    [SerializeField] private GameObject spiritButtonPrefab; 
+    [SerializeField] private Image selectedSpiritIcon; 
+    [SerializeField] private TextMeshProUGUI selectedSpiritName; 
+    [SerializeField] private TextMeshProUGUI selectedSpiritDescription;
+    [SerializeField] private TextMeshProUGUI selectedSpiritBuff; 
+    [SerializeField] private Transform likedTeasPanel; 
+    [SerializeField] private GameObject teaIconPrefab;
     
     [Header("Settings")]
     [SerializeField] private bool startHidden = true;
@@ -31,20 +31,17 @@ public class SpiritMenu : MonoBehaviour
         }
     }
     
-    // Открытие меню
     public void OpenMenu()
     {
         gameObject.SetActive(true);
         RefreshMenu();
     }
-    
-    // Закрытие меню
+
     public void CloseMenu()
     {
         gameObject.SetActive(false);
     }
-    
-    // Обновление меню
+
     public void RefreshMenu()
     {
         ClearAllButtons();
@@ -65,7 +62,6 @@ public class SpiritMenu : MonoBehaviour
         }
         else if (spiritCollection.allSpirits.Count > 0)
         {
-            // Показываем первый дух из всех, даже если не разблокирован
             ShowSpiritDetails(spiritCollection.allSpirits[0]);
         }
     }
@@ -95,27 +91,22 @@ public class SpiritMenu : MonoBehaviour
         foreach (var spirit in spiritCollection.allSpirits)
         {
             if (spirit == null) continue;
-            
-            // Создаем кнопку
+
             GameObject buttonObj = Instantiate(spiritButtonPrefab, spiritListParent);
             spiritButtons.Add(buttonObj);
-            
-            // Настраиваем кнопку
+
             SetupSpiritButton(buttonObj, spirit);
-            
-            // Назначаем обработчик клика
+
             Button button = buttonObj.GetComponent<Button>();
             if (button != null)
             {
                 SpiritData currentSpirit = spirit;
                 button.onClick.AddListener(() => ShowSpiritDetails(currentSpirit));
-                
-                // Если дух не разблокирован, кнопка неактивна или серая
+
                 if (!spirit.isUnlocked)
                 {
                     button.interactable = false;
-                    
-                    // Делаем иконку полупрозрачной
+
                     Image buttonImage = buttonObj.GetComponent<Image>();
                     if (buttonImage != null)
                     {
@@ -128,12 +119,10 @@ public class SpiritMenu : MonoBehaviour
     
     private void SetupSpiritButton(GameObject buttonObj, SpiritData spirit)
     {
-        // Ищем Image для иконки духа
         Image[] images = buttonObj.GetComponentsInChildren<Image>();
         
         foreach (var image in images)
         {
-            // Используем дочерний Image (не сам Button)
             if (image.transform.parent == buttonObj.transform)
             {
                 if (spirit.icon != null)
@@ -141,7 +130,6 @@ public class SpiritMenu : MonoBehaviour
                     image.sprite = spirit.icon;
                     image.preserveAspect = true;
                     
-                    // Если дух не разблокирован, делаем иконку темнее
                     if (!spirit.isUnlocked)
                     {
                         image.color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
@@ -151,7 +139,7 @@ public class SpiritMenu : MonoBehaviour
             }
         }
         
-        // Если не нашли дочерний Image, используем основной
+        
         if (buttonObj.GetComponent<Image>() != null && spirit.icon != null)
         {
             buttonObj.GetComponent<Image>().sprite = spirit.icon;
@@ -162,17 +150,10 @@ public class SpiritMenu : MonoBehaviour
             }
         }
         
-        // Добавляем текст с именем духа
         TextMeshProUGUI buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
         if (buttonText != null)
         {
             buttonText.text = spirit.spiritName;
-            
-            // Добавляем замок если дух не разблокирован
-            if (!spirit.isUnlocked)
-            {
-                buttonText.text += " 🔒";
-            }
         }
     }
     
@@ -182,15 +163,13 @@ public class SpiritMenu : MonoBehaviour
         
         Debug.Log($"Showing details for spirit: {spirit.spiritName}");
         
-        // Основная информация о духе
         if (selectedSpiritIcon != null)
         {
             if (spirit.icon != null)
             {
                 selectedSpiritIcon.sprite = spirit.icon;
                 selectedSpiritIcon.preserveAspect = true;
-                
-                // Если дух не разблокирован, делаем иконку темнее
+
                 selectedSpiritIcon.color = spirit.isUnlocked ? Color.white : new Color(0.5f, 0.5f, 0.5f, 0.5f);
             }
         }
@@ -220,11 +199,9 @@ public class SpiritMenu : MonoBehaviour
                 selectedSpiritBuff.text = "Этот дух еще не найден";
             }
         }
-        
-        // Очищаем панель чаев
+
         ClearPanel(likedTeasPanel);
-        
-        // Отображаем чаи, которые нравятся духу
+
         if (spirit.likedTeas != null && spirit.likedTeas.Length > 0)
         {
             foreach (var tea in spirit.likedTeas)
@@ -245,16 +222,14 @@ public class SpiritMenu : MonoBehaviour
         if (panel == null || teaIconPrefab == null) return;
         
         GameObject iconObj = Instantiate(teaIconPrefab, panel);
-        
-        // Настройка иконки чая
+
         Image iconImage = iconObj.GetComponent<Image>();
         if (iconImage != null && tea.icon != null)
         {
             iconImage.sprite = tea.icon;
             iconImage.preserveAspect = true;
         }
-        
-        // Добавляем подпись с названием чая
+
         TextMeshProUGUI text = iconObj.GetComponentInChildren<TextMeshProUGUI>();
         if (text != null)
         {

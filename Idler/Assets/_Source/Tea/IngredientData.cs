@@ -1,4 +1,3 @@
-// IngredientData.cs
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewIngredient", menuName = "Tea/Ingredient")]

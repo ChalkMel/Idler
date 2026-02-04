@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Exploration : MonoBehaviour
 {
     [SerializeField] private ZoneData[] availableZones;
-    [SerializeField] private SpiritCollection spiritCollection; // Коллекция духов игрока
+    [SerializeField] private SpiritCollection spiritCollection;
     
     [SerializeField] private GameObject explorationPanel;
     [SerializeField] private TextMeshProUGUI zoneNameText;
@@ -30,8 +30,7 @@ public class Exploration : MonoBehaviour
     private ZoneData _selectedZone;
     private bool _isExploring;
     private float _explorationTimer;
-    
-    // Для отслеживания кнопок зон
+
     private Dictionary<ZoneData, Button> zoneButtons = new Dictionary<ZoneData, Button>();
     
     private void Start()
@@ -43,16 +42,13 @@ public class Exploration : MonoBehaviour
         explorationPanel.SetActive(false);
         spiritFoundPanel.SetActive(false);
         
-        // Инициализируем кнопки зон
         InitializeZoneButtons();
-        
-        // Обновляем состояние кнопок зон
+
         UpdateZoneButtons();
     }
     
     private void InitializeZoneButtons()
     {
-        // Находим все кнопки зон в сцене
         ZoneButton[] zoneButtonComponents = FindObjectsOfType<ZoneButton>();
         
         foreach (var zoneButton in zoneButtonComponents)
@@ -79,14 +75,11 @@ public class Exploration : MonoBehaviour
             
             if (zone == null || button == null) continue;
             
-            // Проверяем условия для кнопки
             bool isZoneComplete = zone.AreAllSpiritsFound(spiritCollection);
             bool isZoneUnlocked = zone.isUnlocked;
-            
-            // Обновляем визуальное состояние кнопки
+
             UpdateZoneButtonVisual(button, zone, isZoneComplete, isZoneUnlocked);
-            
-            // Обновляем доступность кнопки
+
             button.interactable = isZoneUnlocked && !isZoneComplete && !_isExploring;
         }
     }
@@ -110,7 +103,6 @@ public class Exploration : MonoBehaviour
             }
         }
         
-        // Можно добавить Text на кнопке
         TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
         if (buttonText != null)
         {
@@ -131,15 +123,13 @@ public class Exploration : MonoBehaviour
             return;
             
         _selectedZone = availableZones[zoneIndex];
-        
-        // Проверяем доступность зоны
+
         if (!_selectedZone.isUnlocked)
         {
             Debug.Log($"Зона {_selectedZone.zoneName} заблокирована!");
             return;
         }
-        
-        // Проверяем, все ли духи уже найдены
+
         if (_selectedZone.AreAllSpiritsFound(spiritCollection))
         {
             Debug.Log($"Все духи в зоне {_selectedZone.zoneName} уже найдены!");
@@ -149,8 +139,7 @@ public class Exploration : MonoBehaviour
         zoneNameText.text = _selectedZone.zoneName;
         zoneDescriptionText.text = _selectedZone.zoneDescription;
         zoneIconImage.sprite = _selectedZone.zoneIcon;
-        
-        // Показываем информацию о духах в зоне
+
         string spiritsInfo = GetZoneSpiritsInfo(_selectedZone);
         timeText.text = $"Время: {_selectedZone.explorationTime} сек\n{spiritsInfo}";
         
@@ -176,8 +165,7 @@ public class Exploration : MonoBehaviour
         explorationPanel.SetActive(false);
         _isExploring = true;
         _explorationTimer = _selectedZone.explorationTime;
-        
-        // Отключаем все кнопки зон на время исследования
+
         SetAllZoneButtonsInteractable(false);
         
         StartCoroutine(ExplorationCoroutine());
@@ -208,29 +196,23 @@ public class Exploration : MonoBehaviour
         timerSlider.gameObject.SetActive(false);
         timerMainScreenText.gameObject.SetActive(false);
         timerText.text = "Пока не идет изучение";
-        
-        // Получаем случайного духа
+
         SpiritData foundSpirit = _selectedZone.GetRandomUnfoundSpirit(spiritCollection);
         
         if (foundSpirit != null)
         {
-            // Разблокируем духа
             if (spiritCollection.UnlockSpirit(foundSpirit))
             {
-                // Показываем окно с найденным духом
                 ShowSpiritFoundPopup(foundSpirit);
             }
         }
         else
         {
-            // Все духи уже найдены
             ShowResultPopup($"Вы исследовали зону: {_selectedZone.zoneName}\nВсе духи в этой зоне уже найдены!");
         }
         
-        // Обновляем состояние кнопок зон
         UpdateZoneButtons();
         
-        // Включаем кнопки зон обратно
         SetAllZoneButtonsInteractable(true);
     }
     
@@ -238,7 +220,6 @@ public class Exploration : MonoBehaviour
     {
         if (spiritFoundPanel == null) return;
         
-        // Настраиваем UI для найденного духа
         if (foundSpiritIcon != null && spirit.icon != null)
         {
             foundSpiritIcon.sprite = spirit.icon;
@@ -254,16 +235,14 @@ public class Exploration : MonoBehaviour
         {
             foundSpiritDescription.text = $"{spirit.description}\n\nБуст: {spirit.buffName}\n{spirit.buffDescription}";
         }
-        
-        // Показываем панель
+
         spiritFoundPanel.SetActive(true);
     }
     
     private void CloseSpiritFoundPanel()
     {
         spiritFoundPanel.SetActive(false);
-        
-        // Показываем общее сообщение о завершении
+
         ShowResultPopup($"Вы исследовали зону: {_selectedZone.zoneName}\nНайден новый дух!");
     }
     
@@ -276,7 +255,6 @@ public class Exploration : MonoBehaviour
     private void ShowResultPopup(string message)
     {
         Debug.Log(message);
-        // Здесь можно добавить UI для показа сообщения
     }
     
     private void SetAllZoneButtonsInteractable(bool interactable)
@@ -289,8 +267,7 @@ public class Exploration : MonoBehaviour
             }
         }
     }
-    
-    // Метод для разблокировки зоны (можно вызывать из других скриптов)
+
     public void UnlockZone(ZoneData zone)
     {
         if (zone != null)
@@ -299,8 +276,7 @@ public class Exploration : MonoBehaviour
             UpdateZoneButtons();
         }
     }
-    
-    // Метод для принудительного обновления UI кнопок
+
     public void RefreshZoneButtons()
     {
         UpdateZoneButtons();
