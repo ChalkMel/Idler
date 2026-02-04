@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using JetBrains.Annotations;
 using TMPro;
 
 public class MainButtons : MonoBehaviour
@@ -20,6 +19,7 @@ public class MainButtons : MonoBehaviour
     [Header("Deer")]
     [SerializeField] private CanvasGroup deerUI;
     [SerializeField] private List<string> deerTalks;
+    [SerializeField] private TeaMaker teaMaker;
     [Header("Shop")]
     [SerializeField] private CanvasGroup shopUI;
     
@@ -55,6 +55,7 @@ public class MainButtons : MonoBehaviour
     private void OpenDeerUI()
     {
         Open(deerUI);
+        teaMaker.UpdateCounters();
     }
     
     private void OpenShopUI()

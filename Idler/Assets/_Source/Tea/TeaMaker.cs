@@ -32,26 +32,61 @@ public class TeaMaker : MonoBehaviour
     
     private void Start()
     {
+        Debug.Log("TeaMaker Start: Initializing...");
+        
+        // Проверяем ссылки
+        if (ingredientButtonsPanel == null)
+        {
+            Debug.LogError("ingredientButtonsPanel is not assigned!");
+            return;
+        }
+        
         var ingredientButtons = ingredientButtonsPanel.GetComponentsInChildren<IngredientButton>();
+        Debug.Log($"Found {ingredientButtons.Length} ingredient buttons");
         
         foreach (var ingredientButton in ingredientButtons)
         {
+            if (ingredientButton == null || ingredientButton.ingredientData == null)
+            {
+                Debug.LogWarning("Found null ingredient button or data");
+                continue;
+            }
             
             Button button = ingredientButton.GetComponent<Button>();
-            IngredientData ingredient = ingredientButton.ingredientData;
-            button.onClick.AddListener(() => AddIngredient(ingredient));
-            Debug.Log($"Set up button for {ingredient.ingredientName}");
+            if (button != null)
+            {
+                IngredientData ingredient = ingredientButton.ingredientData;
+                button.onClick.AddListener(() => AddIngredient(ingredient));
+                Debug.Log($"Set up button for {ingredient.ingredientName}");
+            }
         }
         
-        brewButton.onClick.AddListener(BrewTea);
-        clearButton.onClick.AddListener(ClearCauldron);
+        if (brewButton != null)
+            brewButton.onClick.AddListener(BrewTea);
+        else
+            Debug.LogError("brewButton is not assigned!");
+        
+        if (clearButton != null)
+            clearButton.onClick.AddListener(ClearCauldron);
+        else
+            Debug.LogError("clearButton is not assigned!");
         
         UpdateCounters();
         HideResult();
+        
+        Debug.Log("TeaMaker initialized successfully!");
     }
     
     public void AddIngredient(IngredientData ingredient)
     {
+        Debug.Log($"Attempting to add {ingredient?.ingredientName}");
+        
+        if (ingredient == null)
+        {
+            Debug.LogError("Trying to add null ingredient!");
+            return;
+        }
+        
         if (!HasIngredient(ingredient))
         {
             ShowMessage($"Нет {ingredient.ingredientName}!");
@@ -66,19 +101,30 @@ public class TeaMaker : MonoBehaviour
         
         currentIngredients.Add(ingredient);
         
-        var ui = Instantiate(ingredientUIPrefab, ingredientsPanel);
-        var image = ui.GetComponentInChildren<Image>();
-        if (image != null && ingredient.icon != null)
+        if (ingredientUIPrefab != null && ingredientsPanel != null)
         {
-            image.sprite = ingredient.icon;
+            var ui = Instantiate(ingredientUIPrefab, ingredientsPanel);
+            var image = ui.GetComponentInChildren<Image>();
+            if (image != null && ingredient.icon != null)
+            {
+                image.sprite = ingredient.icon;
+            }
         }
         
         UseIngredient(ingredient);
         HideResult();
+        
+        Debug.Log($"Added {ingredient.ingredientName}. Total: {currentIngredients.Count}");
     }
     
     private bool HasIngredient(IngredientData ingredient)
     {
+        if (credits == null)
+        {
+            Debug.LogError("Credits reference is null!");
+            return false;
+        }
+        
         return ingredient.type switch
         {
             IngredientType.Berry => credits.berries > 0,
@@ -90,6 +136,8 @@ public class TeaMaker : MonoBehaviour
     
     private void UseIngredient(IngredientData ingredient)
     {
+        if (credits == null) return;
+        
         switch (ingredient.type)
         {
             case IngredientType.Berry: 
@@ -105,8 +153,10 @@ public class TeaMaker : MonoBehaviour
         UpdateCounters();
     }
     
-    private void UpdateCounters()
+    public void UpdateCounters()
     {
+        if (credits == null) return;
+        
         if (berryCount != null) berryCount.text = credits.berries.ToString();
         if (flowerCount != null) flowerCount.text = credits.flowers.ToString();
         if (leafCount != null) leafCount.text = credits.leaves.ToString();
@@ -114,7 +164,7 @@ public class TeaMaker : MonoBehaviour
     
     public void BrewTea()
     {
-        ShowMessage("Brewing tea...");
+        Debug.Log("Brewing tea...");
     
         if (currentIngredients.Count == 0)
         {
@@ -127,6 +177,7 @@ public class TeaMaker : MonoBehaviour
         if (result != null)
         {
             ShowSuccess(result);
+            Debug.Log($"Successfully brewed: {result.teaName}");
             currentIngredients.Clear();
             ClearVisuals();
         }
@@ -146,15 +197,16 @@ public class TeaMaker : MonoBehaviour
             foreach (Transform child in ingredientsPanel)
                 Destroy(child.gameObject);
         }
-        HideResult();
-        UpdateCounters(); // Обновляем счетчики (особенно важно при возврате)
-    }
     
+        HideResult();
+        UpdateCounters();
+    }
     public void ClearCauldron()
     {
         ReturnIngredients();
         currentIngredients.Clear();
         ClearVisuals();
+        Debug.Log("Cauldron cleared manually");
     }
     
     private TeaData FindMatchingTea()
@@ -162,6 +214,7 @@ public class TeaMaker : MonoBehaviour
         foreach (var tea in allTeas)
         {
             if (tea == null) continue;
+            
             if (tea.Matches(currentIngredients))
                 return tea;
         }
@@ -181,6 +234,8 @@ public class TeaMaker : MonoBehaviour
             resultName.text = tea.teaName;
             resultName.gameObject.SetActive(true);
         }
+        
+        ShowMessage($"Успех! Приготовлен {tea.teaName}");
     }
     
     private void HideResult()
@@ -191,6 +246,8 @@ public class TeaMaker : MonoBehaviour
         if (resultName != null)
             resultName.gameObject.SetActive(false);
     }
+    
+   
     
     private void ReturnIngredients()
     {
