@@ -20,4 +20,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 08e1e322de420e141ac7836b8c9beead, type: 2}
   - {fileID: 11400000, guid: 08e1e322de420e141ac7836b8c9beead, type: 2}
   likedBySpirits:
-  - {fileID: 1995049460818199479, guid: 1b7325142d02dcb448bc483834cf5fa2, type: 3}
+  - {fileID: 11400000, guid: e7255aba9c5f502469a85f74a664d3b6, type: 2}

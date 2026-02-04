@@ -9,14 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7eb6deeb3f5464942b3bd32414f2adfa, type: 3}
-  m_Name: ForestZone
+  m_Script: {fileID: 11500000, guid: 0e23b5faab51f1441bb46a7366169f59, type: 3}
+  m_Name: Collection
   m_EditorClassIdentifier: 
-  zoneName: Forest
-  zoneDescription: Description of Forest
-  zoneIcon: {fileID: -7094705925289595810, guid: 32531e72485d7cb4e9a2e6363edb38a8, type: 3}
-  explorationTime: 10
-  availableSpirits:
+  allSpirits:
   - {fileID: 11400000, guid: e7255aba9c5f502469a85f74a664d3b6, type: 2}
   - {fileID: 11400000, guid: 02738390d45f4f249bff74d2d422efba, type: 2}
-  isUnlocked: 1
+  unlockedSpirits:
+  - {fileID: 11400000, guid: 02738390d45f4f249bff74d2d422efba, type: 2}
+  - {fileID: 11400000, guid: e7255aba9c5f502469a85f74a664d3b6, type: 2}

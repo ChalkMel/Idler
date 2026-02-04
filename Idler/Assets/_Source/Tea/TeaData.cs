@@ -1,51 +1,74 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewTeaRecipe", menuName = "Tea/Tea Recipe")]
+[CreateAssetMenu(fileName = "NewTea", menuName = "Tea/Tea Data")]
 public class TeaData : ScriptableObject
 {
-  [Header("Basic Info")]
-  public string teaName;
-  public Sprite icon;
-  [TextArea(2, 4)] public string description;
+    [Header("Basic Info")]
+    public string teaName;
+    public Sprite icon;
+    [TextArea(2, 4)] public string description;
     
-  [Header("Recipe")]
-  public List<IngredientData> ingredients = new List<IngredientData>();
+    [Header("Recipe")]
+    public List<IngredientData> ingredients = new List<IngredientData>();
     
-  [Header("Liked By")]
-  public List<Sprite> likedBySpirits = new List<Sprite>();
+    [Header("Spirits who like this tea")]
+    public List<SpiritData> likedBySpirits = new List<SpiritData>();
     
-  public bool Matches(List<IngredientData> inputIngredients)
-  {
-    if (inputIngredients.Count != ingredients.Count)
-      return false;
-        
-    // Считаем типы ингредиентов
-    int leafCount = 0, berryCount = 0, flowerCount = 0;
-    int requiredLeaf = 0, requiredBerry = 0, requiredFlower = 0;
-        
-    foreach (var ing in inputIngredients)
+    public bool Matches(List<IngredientData> inputIngredients)
     {
-      switch (ing.type)
-      {
-        case IngredientType.Leaf: leafCount++; break;
-        case IngredientType.Berry: berryCount++; break;
-        case IngredientType.Flower: flowerCount++; break;
-      }
-    }
+        if (inputIngredients.Count != ingredients.Count)
+            return false;
         
-    foreach (var ing in ingredients)
+        int leafCount = 0, berryCount = 0, flowerCount = 0;
+        int requiredLeaf = 0, requiredBerry = 0, requiredFlower = 0;
+        
+        foreach (var ing in inputIngredients)
+        {
+            switch (ing.type)
+            {
+                case IngredientType.Leaf: leafCount++; break;
+                case IngredientType.Berry: berryCount++; break;
+                case IngredientType.Flower: flowerCount++; break;
+            }
+        }
+        
+        foreach (var ing in ingredients)
+        {
+            switch (ing.type)
+            {
+                case IngredientType.Leaf: requiredLeaf++; break;
+                case IngredientType.Berry: requiredBerry++; break;
+                case IngredientType.Flower: requiredFlower++; break;
+            }
+        }
+        
+        return leafCount == requiredLeaf && 
+               berryCount == requiredBerry && 
+               flowerCount == requiredFlower;
+    }
+    
+    // Получает список духов, которым нравится этот чай И которые разблокированы у игрока
+    public List<SpiritData> GetLikedSpiritsForPlayer(SpiritCollection playerSpirits)
     {
-      switch (ing.type)
-      {
-        case IngredientType.Leaf: requiredLeaf++; break;
-        case IngredientType.Berry: requiredBerry++; break;
-        case IngredientType.Flower: requiredFlower++; break;
-      }
-    }
+        List<SpiritData> result = new List<SpiritData>();
         
-    return leafCount == requiredLeaf && 
-           berryCount == requiredBerry && 
-           flowerCount == requiredFlower;
-  }
+        if (playerSpirits == null || likedBySpirits == null || playerSpirits.unlockedSpirits == null)
+            return result;
+            
+        foreach (var spirit in likedBySpirits)
+        {
+            if (spirit != null && playerSpirits.unlockedSpirits.Contains(spirit))
+            {
+                result.Add(spirit);
+            }
+        }
+        return result;
+    }
+    
+    // Проверяет, есть ли у игрока хоть один дух, которому нравится этот чай
+    public bool HasLikedSpiritForPlayer(SpiritCollection playerSpirits)
+    {
+        return GetLikedSpiritsForPlayer(playerSpirits).Count > 0;
+    }
 }

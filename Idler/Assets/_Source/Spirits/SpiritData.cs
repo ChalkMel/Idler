@@ -1,13 +1,23 @@
-// SpiritData.cs
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewSpirit", menuName = "Tea/Spirit")]
+[CreateAssetMenu(fileName = "NewSpirit", menuName = "Tea/Spirit Data")]
 public class SpiritData : ScriptableObject
 {
+  [Header("Basic Info")]
   public string spiritName;
-  public Sprite spiritIcon;
-  public string description;
+  public Sprite icon;
+  [TextArea(2, 4)] public string description;
     
   [Header("Preferences")]
-  public bool unlocked = false;
+  public TeaData[] likedTeas;
+    
+  [Header("Buff")]
+  public string buffName;
+  [TextArea(1, 2)] public string buffDescription;
+  public float buffMultiplier = 1.0f;
+  public float buffDuration = 60f; // Длительность буста в секундах
+    
+  [Header("Unlock")]
+  public bool isUnlocked = false;
+  public int unlockCost = 100;
 }
