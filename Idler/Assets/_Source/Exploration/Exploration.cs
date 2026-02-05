@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+using DG.Tweening;
 public class Exploration : MonoBehaviour
 {
     [SerializeField] private ZoneData[] availableZones;
     [SerializeField] private SpiritCollection spiritCollection;
-    
+    [SerializeField] private GameObject frogSprite;
+    [SerializeField] private GameObject frogMover;
     [SerializeField] private GameObject explorationPanel;
     [SerializeField] private TextMeshProUGUI zoneNameText;
     [SerializeField] private TextMeshProUGUI zoneDescriptionText;
@@ -19,7 +20,7 @@ public class Exploration : MonoBehaviour
     [SerializeField] private Button confirmButton;
     [SerializeField] private Button cancelButton;
     [SerializeField] private Slider timerSlider;
-    
+    [SerializeField] private TextMeshProUGUI frogTalks;
     [Header("Spirit Found UI")]
     [SerializeField] private GameObject spiritFoundPanel;
     [SerializeField] private Image foundSpiritIcon;
@@ -30,6 +31,8 @@ public class Exploration : MonoBehaviour
     private ZoneData _selectedZone;
     private bool _isExploring;
     private float _explorationTimer;
+    private Vector3 _originalFrogPosition;
+    private Transform _selectedZoneButtonTransform;
 
     private Dictionary<ZoneData, Button> _zoneButtons = new Dictionary<ZoneData, Button>();
     
@@ -42,6 +45,8 @@ public class Exploration : MonoBehaviour
         explorationPanel.SetActive(false);
         spiritFoundPanel.SetActive(false);
         
+        _originalFrogPosition = frogMover.transform.position;
+        
         InitializeZoneButtons();
 
         UpdateZoneButtons();
@@ -49,7 +54,7 @@ public class Exploration : MonoBehaviour
     
     private void InitializeZoneButtons()
     {
-        ZoneButton[] zoneButtonComponents = FindObjectsOfType<ZoneButton>();
+        ZoneButton[] zoneButtonComponents = FindObjectsByType<ZoneButton>(FindObjectsSortMode.None);
         
         foreach (var zoneButton in zoneButtonComponents)
         {
@@ -119,13 +124,21 @@ public class Exploration : MonoBehaviour
 
         if (!_selectedZone.isUnlocked)
         {
-            ShowResultPopup($"Зона {_selectedZone.zoneName} заблокирована!");
+            ShowResultPopup($"Zone {_selectedZone.zoneName} is locked!");
             return;
         }
 
         if (_selectedZone.AreAllSpiritsFound(spiritCollection))
         {
-            ShowResultPopup($"Все духи в зоне {_selectedZone.zoneName} уже найдены!");
+            ShowResultPopup($"All spirits in {_selectedZone.zoneName} already found!");
+            return;
+        }
+        
+        FindAndSetZoneButtonTransform();
+        
+        if (_selectedZoneButtonTransform == null)
+        {
+            ShowResultPopup($"Could not find button for zone {_selectedZone.zoneName}");
             return;
         }
         
@@ -134,34 +147,118 @@ public class Exploration : MonoBehaviour
         zoneIconImage.sprite = _selectedZone.zoneIcon;
 
         string spiritsInfo = GetZoneSpiritsInfo(_selectedZone);
-        timeText.text = $"Время: {_selectedZone.explorationTime} сек\n{spiritsInfo}";
+        timeText.text = $"Time: {_selectedZone.explorationTime} sec\n{spiritsInfo}";
         
         explorationPanel.SetActive(true);
+    }
+
+    private void FindAndSetZoneButtonTransform()
+    {
+        _selectedZoneButtonTransform = null;
+        
+        foreach (var kvp in _zoneButtons)
+        {
+            if (kvp.Key == _selectedZone)
+            {
+                if (kvp.Value != null)
+                {
+                    _selectedZoneButtonTransform = kvp.Value.transform;
+                }
+                break;
+            }
+        }
+ 
+        if (_selectedZoneButtonTransform == null)
+        {
+            ZoneButton[] zoneButtons = FindObjectsByType<ZoneButton>(FindObjectsSortMode.None);
+            foreach (var zoneButton in zoneButtons)
+            {
+                if (zoneButton.zoneIndex >= 0 && 
+                    zoneButton.zoneIndex < availableZones.Length && 
+                    availableZones[zoneButton.zoneIndex] == _selectedZone)
+                {
+                    _selectedZoneButtonTransform = zoneButton.transform;
+                    break;
+                }
+            }
+        }
     }
     
     private string GetZoneSpiritsInfo(ZoneData zone)
     {
         if (zone.availableSpirits.Count == 0)
-            return "В зоне нет духов";
+            return "There is no spirits";
             
         List<SpiritData> unfoundSpirits = zone.GetUnfoundSpirits(spiritCollection);
         int foundCount = zone.availableSpirits.Count - unfoundSpirits.Count;
         
-        return $"Духи: {foundCount}/{zone.availableSpirits.Count} найдено";
+        return $"Spirits: {foundCount}/{zone.availableSpirits.Count} found";
     }
     
     private void StartExploration()
     {
         if (_selectedZone == null)
+        {
+            ShowResultPopup("No zone selected!");
             return;
+        }
+
+        if (_selectedZoneButtonTransform == null)
+        {
+            ShowResultPopup($"Could not find zone button for {_selectedZone.zoneName}");
+            FindAndSetZoneButtonTransform();
             
+            if (_selectedZoneButtonTransform == null)
+            {
+                explorationPanel.SetActive(false);
+                _selectedZone = null;
+                return;
+            }
+        }
+
+        frogMover.gameObject.SetActive(true);
+        
+        frogSprite.transform.DOPunchScale(new Vector2(0.5f, 0.5f), 0.2f);
+        frogSprite.gameObject.SetActive(false);
         explorationPanel.SetActive(false);
+        
+        SetAllZoneButtonsInteractable(false);
+
+        StartCoroutine(MoveFrogToZoneAndBack());
+    }
+    
+    private IEnumerator MoveFrogToZoneAndBack()
+    {
         _isExploring = true;
+        
+        if (_selectedZoneButtonTransform == null)
+        {
+            Debug.LogError("Zone button transform is null! Can't move frog.");
+            CompleteExploration();
+            yield break;
+        }
+        
+        Vector3 targetPosition = _selectedZoneButtonTransform.position;
+  
+        float moveDuration = 0.5f;
+        frogMover.transform.DOMove(targetPosition, moveDuration).SetEase(Ease.OutQuad);
+        yield return new WaitForSeconds(moveDuration);
+ 
         _explorationTimer = _selectedZone.explorationTime;
 
-        SetAllZoneButtonsInteractable(false);
-        
-        StartCoroutine(ExplorationCoroutine());
+        yield return StartCoroutine(ExplorationCoroutine());
+
+        yield return new WaitForSeconds(0.5f);
+
+        frogMover.transform.DOMove(_originalFrogPosition, moveDuration).SetEase(Ease.InQuad);
+        yield return new WaitForSeconds(moveDuration);
+
+        frogMover.gameObject.SetActive(false);
+        frogSprite.gameObject.SetActive(true);
+
+        frogSprite.transform.DOPunchScale(new Vector2(0.5f, 0.5f), 0.2f);
+
+        CompleteExploration();
     }
     
     private IEnumerator ExplorationCoroutine()
@@ -174,13 +271,11 @@ public class Exploration : MonoBehaviour
         {
             _explorationTimer -= Time.deltaTime;
             timerSlider.value = _selectedZone.explorationTime - _explorationTimer;
-            timerText.text = $"Времени осталось: {Mathf.Round(_explorationTimer)} сек";
+            timerText.text = $"Time Left: {Mathf.Round(_explorationTimer)} sec";
             timerMainScreenText.gameObject.SetActive(true);
-            timerMainScreenText.text = $"Исследование: {Mathf.Round(_explorationTimer)} сек";
+            timerMainScreenText.text = $"Exploration: {Mathf.Round(_explorationTimer)} sec";
             yield return null;
         }
-        
-        CompleteExploration();
     }
     
     private void CompleteExploration()
@@ -188,7 +283,7 @@ public class Exploration : MonoBehaviour
         _isExploring = false;
         timerSlider.gameObject.SetActive(false);
         timerMainScreenText.gameObject.SetActive(false);
-        timerText.text = "Пока не идет изучение";
+        timerText.text = "No exploration yet";
 
         SpiritData foundSpirit = _selectedZone.GetRandomUnfoundSpirit(spiritCollection);
         
@@ -201,12 +296,13 @@ public class Exploration : MonoBehaviour
         }
         else
         {
-            ShowResultPopup($"Вы исследовали зону: {_selectedZone.zoneName}\nВсе духи в этой зоне уже найдены!");
+            ShowResultPopup($"You already explored: {_selectedZone.zoneName}\nAll spirits already found!");
         }
         
         UpdateZoneButtons();
-        
         SetAllZoneButtonsInteractable(true);
+        _selectedZone = null;
+        _selectedZoneButtonTransform = null;
     }
     
     private void ShowSpiritFoundPopup(SpiritData spirit)
@@ -221,12 +317,12 @@ public class Exploration : MonoBehaviour
         
         if (foundSpiritName != null)
         {
-            foundSpiritName.text = $"Найден дух: {spirit.spiritName}";
+            foundSpiritName.text = $"Found spirit: {spirit.spiritName}";
         }
         
         if (foundSpiritDescription != null)
         {
-            foundSpiritDescription.text = $"{spirit.description}\n\nБуст: {spirit.buffName}\n{spirit.buffDescription}";
+            foundSpiritDescription.text = $"{spirit.description}\n\nBoost: {spirit.buffName}\n{spirit.buffDescription}";
         }
 
         spiritFoundPanel.SetActive(true);
@@ -236,18 +332,19 @@ public class Exploration : MonoBehaviour
     {
         spiritFoundPanel.SetActive(false);
 
-        ShowResultPopup($"Вы исследовали зону: {_selectedZone.zoneName}\nНайден новый дух!");
+        ShowResultPopup($"You explored: {_selectedZone.zoneName}\nFound new spirit!");
     }
     
     private void CancelExploration()
     {
         explorationPanel.SetActive(false);
         _selectedZone = null;
+        _selectedZoneButtonTransform = null;
     }
     
     private void ShowResultPopup(string message)
     {
-        Debug.Log(message);
+        frogTalks.text = message;
     }
     
     private void SetAllZoneButtonsInteractable(bool interactable)

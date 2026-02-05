@@ -50,12 +50,12 @@ public class ShopItemButton : MonoBehaviour
     {
       if (shopItem.isPurchased)
       {
-        itemPriceText.text = "КУПЛЕНО";
+        itemPriceText.text = "Bought";
         itemPriceText.color = Color.green;
       }
       else
       {
-        itemPriceText.text = $"{shopItem.cost} капель";
+        itemPriceText.text = $"{shopItem.cost} droplets";
         itemPriceText.color = Color.white;
       }
     }

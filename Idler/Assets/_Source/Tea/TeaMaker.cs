@@ -32,18 +32,21 @@ public class TeaMaker : MonoBehaviour
     [SerializeField] private Image resultTeaIcon;
     [SerializeField] private TextMeshProUGUI resultTeaName;
     [SerializeField] private TextMeshProUGUI resultTeaDescription;
-    [SerializeField] private Image resultSpiritIcon; // Иконка духа
-    [SerializeField] private TextMeshProUGUI resultBuffInfo; // Информация о бусте
+    [SerializeField] private Image resultSpiritIcon;
+    [SerializeField] private TextMeshProUGUI resultSpiritName;
+    [SerializeField] private TextMeshProUGUI resultBuffInfo;
     
     [Header("Brewing UI")]
     [SerializeField] private GameObject brewingPanel;
     [SerializeField] private Slider brewingSlider;
     [SerializeField] private TextMeshProUGUI brewingTimeText;
     [SerializeField] private TextMeshProUGUI brewingTeaNameText;
+    [SerializeField] private Image brewingTeaIcon;
     
     private List<IngredientData> _currentIngredients = new List<IngredientData>();
     private bool _isBrewing;
     private Coroutine _brewingCoroutine;
+    private TeaData _currentBrewingTea;
     
     private void Start()
     {
@@ -54,17 +57,14 @@ public class TeaMaker : MonoBehaviour
 
         UpdateCounters();
         
-        // Скрываем панели
         if (brewingPanel != null) brewingPanel.SetActive(false);
         if (teaResultPanel != null) teaResultPanel.SetActive(false);
         
-        // Обновляем доступность кнопки варки
         UpdateBrewButtonState();
     }
     
     private void Update()
     {
-        // Постоянно обновляем состояние кнопки варки
         UpdateBrewButtonState();
     }
     
@@ -72,27 +72,24 @@ public class TeaMaker : MonoBehaviour
     {
         if (brewButton == null) return;
         
-        // Если есть активный буст - кнопка варки неактивна
         if (buffManager != null && buffManager.HasActiveBuff())
         {
             brewButton.interactable = false;
             
-            // Меняем текст кнопки
             TextMeshProUGUI buttonText = brewButton.GetComponentInChildren<TextMeshProUGUI>();
             if (buttonText != null)
             {
-                buttonText.text = "БУСТ АКТИВЕН";
+                buttonText.text = "Boost is Active";
             }
         }
         else
         {
             brewButton.interactable = !_isBrewing;
             
-            // Возвращаем обычный текст
             TextMeshProUGUI buttonText = brewButton.GetComponentInChildren<TextMeshProUGUI>();
             if (buttonText != null)
             {
-                buttonText.text = "ПРИГОТОВИТЬ";
+                buttonText.text = "Make";
             }
         }
     }
@@ -121,25 +118,25 @@ public class TeaMaker : MonoBehaviour
     {
         if (_isBrewing)
         {
-            ShowMessage("Дождитесь окончания варки!");
+            ShowMessage("Wait until brew end!");
             return;
         }
         
         if (buffManager != null && buffManager.HasActiveBuff())
         {
-            ShowMessage("Дождитесь окончания буста!");
+            ShowMessage("Wait until boost end!");
             return;
         }
         
         if (!HasIngredient(ingredient))
         {
-            ShowMessage($"Нет {ingredient.ingredientName}!");
+            ShowMessage($"You don't have {ingredient.ingredientName}!");
             return;
         }
         
         if (_currentIngredients.Count >= 6)
         {
-            ShowMessage("Максимум 6 ингредиентов!");
+            ShowMessage("Max is 6!");
             return;
         }
         
@@ -201,27 +198,27 @@ public class TeaMaker : MonoBehaviour
     {
         if (_isBrewing)
         {
-            ShowMessage("Уже варится!");
+            ShowMessage("Already making!");
             return;
         }
         
         if (buffManager != null && buffManager.HasActiveBuff())
         {
-            ShowMessage("Нельзя варить при активном бусте!");
+            ShowMessage("You can't brew while boost on!");
             return;
         }
         
         if (_currentIngredients.Count == 0)
         {
-            ShowMessage("Котел пуст!");
+            ShowMessage("Add something in!");
             return;
         }
         
-        TeaData teaToBrew = FindMatchingTea();
+        _currentBrewingTea = FindMatchingTea();
         
-        if (teaToBrew == null)
+        if (_currentBrewingTea == null)
         {
-            ShowMessage("Не получилось!");
+            ShowMessage("Something went wrong!");
             ReturnIngredients();
             ClearVisuals();
             _currentIngredients.Clear();
@@ -233,18 +230,23 @@ public class TeaMaker : MonoBehaviour
         clearButton.interactable = false;
         SetIngredientButtonsInteractable(false);
         
-        _brewingCoroutine = StartCoroutine(BrewingCoroutine(teaToBrew));
+        _brewingCoroutine = StartCoroutine(BrewingCoroutine(_currentBrewingTea));
     }
     
     private IEnumerator BrewingCoroutine(TeaData tea)
     {
-        // Показываем панель варки
         if (brewingPanel != null)
         {
             brewingPanel.SetActive(true);
             
             if (brewingTeaNameText != null)
-                brewingTeaNameText.text = $"Варится: {tea.teaName}";
+                brewingTeaNameText.text = $"Brewing: {tea.teaName}";
+            
+            if (brewingTeaIcon != null && tea.icon != null)
+            {
+                brewingTeaIcon.sprite = tea.icon;
+                brewingTeaIcon.gameObject.SetActive(true);
+            }
             
             if (brewingSlider != null)
                 brewingSlider.value = 0f;
@@ -262,7 +264,7 @@ public class TeaMaker : MonoBehaviour
                 brewingSlider.value = progress;
             
             if (brewingTimeText != null)
-                brewingTimeText.text = $"Осталось: {Mathf.CeilToInt(brewingTime - timer)}с";
+                brewingTimeText.text = $"Time left: {Mathf.CeilToInt(brewingTime - timer)}s";
             
             yield return null;
         }
@@ -273,29 +275,29 @@ public class TeaMaker : MonoBehaviour
     private void CompleteBrewing(TeaData tea)
     {
         if (brewingPanel != null)
+        {
             brewingPanel.SetActive(false);
+            if (brewingTeaIcon != null)
+                brewingTeaIcon.gameObject.SetActive(false);
+        }
         
         List<SpiritData> likedSpirits = tea.GetLikedSpiritsForPlayer(playerSpirits);
         
         if (likedSpirits.Count > 0)
         {
-            // Выбираем случайного духа из тех, кому нравится чай
             SpiritData chosenSpirit = likedSpirits[Random.Range(0, likedSpirits.Count)];
             
-            // Показываем результат с выбранным духом
-            ShowTeaResult(tea, chosenSpirit);
+            ShowTeaAndSpiritResult(tea, chosenSpirit);
             
-            // Применяем буст выбранного духа
             ApplySpiritBuff(chosenSpirit);
             
-            // Даем награду
             GiveReward(chosenSpirit);
             
-            ShowMessage($"Успех! Приготовлен {tea.teaName}");
+            ShowMessage($"Hooray! Brewed {tea.teaName} and {chosenSpirit.spiritName} came");
         }
         else
         {
-            ShowMessage("Пока этот чай никому из ваших духов не нравится!");
+            ShowMessage("This tea not liked by any!");
             ReturnIngredients();
         }
         
@@ -306,81 +308,49 @@ public class TeaMaker : MonoBehaviour
         ClearCauldron();
     }
     
-    private void ApplySpiritBuff(SpiritData spirit)
-    {
-        if (buffManager == null || spirit == null) return;
-        
-        // Применяем буст духа
-        buffManager.AddBuff(spirit);
-        
-        // Также можно добавить мгновенный эффект
-        ApplyInstantSpiritEffect(spirit);
-    }
-    
-    private void ApplyInstantSpiritEffect(SpiritData spirit)
-    {
-        if (credits == null || spirit == null) return;
-        
-        // Мгновенные бонусы в зависимости от типа духа
-        switch (spirit.spiritName)
-        {
-            case "Лесной дух":
-                credits.berries += 3;
-                ShowMessage("+3 ягоды от Лесного духа!");
-                break;
-            case "Цветочный дух":
-                credits.flowers += 3;
-                ShowMessage("+3 цветка от Цветочного духа!");
-                break;
-            case "Лиственный дух":
-                credits.leaves += 3;
-                ShowMessage("+3 листочка от Лиственного духа!");
-                break;
-            case "Ягодный дух":
-                credits.berries += 5;
-                ShowMessage("+5 ягод от Ягодного духа!");
-                break;
-        }
-        
-        UpdateCounters();
-    }
-    
-    private void ShowTeaResult(TeaData tea, SpiritData spirit)
+    private void ShowTeaAndSpiritResult(TeaData tea, SpiritData spirit)
     {
         if (teaResultPanel == null) return;
-
-        // Настраиваем информацию о чае
+        
         if (resultTeaIcon != null && tea.icon != null)
         {
             resultTeaIcon.sprite = tea.icon;
+            resultTeaIcon.gameObject.SetActive(true);
         }
         
         if (resultTeaName != null)
         {
-            resultTeaName.text = tea.teaName;
+            resultTeaName.text = $"You made:\n{tea.teaName}";
+            resultTeaName.gameObject.SetActive(true);
         }
         
         if (resultTeaDescription != null)
         {
             resultTeaDescription.text = tea.description;
+            resultTeaDescription.gameObject.SetActive(true);
         }
         
-        // Настраиваем информацию о духе
         if (resultSpiritIcon != null && spirit.icon != null)
         {
             resultSpiritIcon.sprite = spirit.icon;
             resultSpiritIcon.gameObject.SetActive(true);
         }
         
+        if (resultSpiritName != null)
+        {
+            resultSpiritName.text = $"Spirit that came:\n{spirit.spiritName}";
+            resultSpiritName.gameObject.SetActive(true);
+        }
+        
         if (resultBuffInfo != null)
         {
-            resultBuffInfo.text = $"{spirit.spiritName}\n{spirit.buffName}\nx{spirit.buffMultiplier:F1} на {spirit.buffDuration}с";
+            resultBuffInfo.text = $"Boost: {spirit.buffName}\nStrength: x{spirit.buffMultiplier:F1}\nDuration: {spirit.buffDuration}с";
             resultBuffInfo.gameObject.SetActive(true);
         }
         
         teaResultPanel.SetActive(true);
 
-        StartCoroutine(HideResultPanelAfterDelay(4f));
+        StartCoroutine(HideResultPanelAfterDelay(5f));
     }
     
     private IEnumerator HideResultPanelAfterDelay(float delay)
@@ -389,28 +359,43 @@ public class TeaMaker : MonoBehaviour
         
         if (teaResultPanel != null)
             teaResultPanel.SetActive(false);
+        
+        if (resultTeaIcon != null) resultTeaIcon.gameObject.SetActive(false);
+        if (resultTeaName != null) resultTeaName.gameObject.SetActive(false);
+        if (resultTeaDescription != null) resultTeaDescription.gameObject.SetActive(false);
+        if (resultSpiritIcon != null) resultSpiritIcon.gameObject.SetActive(false);
+        if (resultSpiritName != null) resultSpiritName.gameObject.SetActive(false);
+        if (resultBuffInfo != null) resultBuffInfo.gameObject.SetActive(false);
+    }
+    
+    private void ApplySpiritBuff(SpiritData spirit)
+    {
+        if (buffManager == null || spirit == null) return;
+        
+        buffManager.AddBuff(spirit);
+        ApplyInstantSpiritEffect(spirit);
+    }
+    
+    private void ApplyInstantSpiritEffect(SpiritData spirit)
+    {
+        if (credits == null || spirit == null) return;
+        
+        UpdateCounters();
     }
     
     private void GiveReward(SpiritData spirit)
     {
         if (credits == null || spirit == null) return;
         
-        // Базовая награда
         int baseReward = 10;
-        
-        // Умножаем на силу буста духа
         int finalReward = Mathf.RoundToInt(baseReward * spirit.buffMultiplier);
         
-        // Добавляем капли
         credits.droplets += finalReward;
         
-        // Обновляем UI если есть метод UpdateUI
         if (credits is MonoBehaviour creditMono)
         {
             creditMono.Invoke("UpdateUI", 0.1f);
         }
-        
-        ShowMessage($"Получено {finalReward} капель (x{spirit.buffMultiplier:F1})!");
     }
     
     private TeaData FindMatchingTea()
@@ -474,11 +459,5 @@ public class TeaMaker : MonoBehaviour
     {
         if (messageText != null)
             messageText.text = message;
-    }
-    
-    private void OnDestroy()
-    {
-        if (_brewingCoroutine != null)
-            StopCoroutine(_brewingCoroutine);
     }
 }

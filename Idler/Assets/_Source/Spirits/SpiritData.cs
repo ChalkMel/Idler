@@ -20,5 +20,4 @@ public class SpiritData : ScriptableObject
     
   [Header("Unlock")]
   public bool isUnlocked = false;
-  public int unlockCost = 100;
 }

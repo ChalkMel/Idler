@@ -28,7 +28,13 @@ public class ShopManager : MonoBehaviour
         
         if (messageText != null)
             messageText.gameObject.SetActive(false);
-
+        foreach (var item in shopItems)
+        {
+            item.isPurchased = false;
+            if(item.itemType == ShopItemType.Helper)
+                item.cost = 200;
+        }
+        
     }
     
     private void InitializeShopItems()
@@ -65,18 +71,20 @@ public class ShopManager : MonoBehaviour
     {
         if (item.isPurchased)
         {
-            ShowMessage($"Уже куплено: {item.itemName}");
+            ShowMessage($"Already bought: {item.itemName}");
             return;
         }
         
         if (credits.droplets < item.cost)
         {
-            ShowMessage($"Недостаточно капель! Нужно: {item.cost}");
+            ShowMessage($"Not enough! You need: {item.cost}");
             return;
         }
-
-        credits.droplets -= item.cost;
         item.isPurchased = true;
+        credits.droplets -= item.cost;
+        item.ApplyEffect(item, credits);
+        
+        
         
         UpdateDropletsDisplay();
         UpdateAllItemButtons();
@@ -91,11 +99,11 @@ public class ShopManager : MonoBehaviour
         {
             if (button.shopItem.isPurchased)
             {
-                buttonText.text = "КУПЛЕНО";
+                buttonText.text = "Bought";
             }
             else
             {
-                buttonText.text = $"КУПИТЬ\n{button.shopItem.cost}";
+                buttonText.text = $"Buy\n{button.shopItem.cost}";
             }
         }
 
@@ -109,12 +117,12 @@ public class ShopManager : MonoBehaviour
         {
             if (button.shopItem.isPurchased)
             {
-                button.itemPriceText.text = "КУПЛЕНО";
+                button.itemPriceText.text = "Bought";
                 button.itemPriceText.color = Color.green;
             }
             else
             {
-                button.itemPriceText.text = $"{button.shopItem.cost} капель";
+                button.itemPriceText.text = $"{button.shopItem.cost} droplets";
                 button.itemPriceText.color = Color.white;
             }
         }
@@ -153,19 +161,6 @@ public class ShopManager : MonoBehaviour
         if (messageText != null)
             messageText.gameObject.SetActive(false);
     }
-    
-    public void OpenShop()
-    {
-        gameObject.SetActive(true);
-        UpdateDropletsDisplay();
-        UpdateAllItemButtons();
-    }
-    
-    public void CloseShop()
-    {
-        gameObject.SetActive(false);
-    }
-
     private void OnEnable()
     {
         if (credits != null)

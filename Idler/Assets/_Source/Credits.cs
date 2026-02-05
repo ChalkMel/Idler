@@ -1,15 +1,16 @@
-using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Random = System.Random;
 
 public class Credits : MonoBehaviour
 {
   [Header("Credits")]
-  [SerializeField] public int droplets = 0;
-  [SerializeField] public int leaves = 0;
-  [SerializeField] public int berries = 0;
-  [SerializeField] public int flowers = 0;
+  [SerializeField] public int droplets;
+  [SerializeField] public int leaves;
+  [SerializeField] public int berries;
+  [SerializeField] public int flowers;
+  [SerializeField] private float _helperTimer;
   [Header("Chances")]
   [SerializeField] private List<int> _dropletsChance  = new List<int>(2);
   [SerializeField] private List<int> _leavesChance  = new List<int>(2);
@@ -25,11 +26,28 @@ public class Credits : MonoBehaviour
   public int berriesMulti = 1;
   public int flowersMulti = 1;
 
-  private System.Random _random;
-
+  private Random _random;
+  private float _timer;
+  public int HelperCount = 0;
   private void Awake()
   {
-    _random = new System.Random();
+    UpdateUI();
+    _random = new Random();
+  }
+
+  private void Update()
+  {
+    if (HelperCount == 0) return;
+    _timer += Time.deltaTime;
+    if (_timer >= _helperTimer)
+    {
+      droplets += HelperCount;
+      leaves += HelperCount;
+      berries += HelperCount;
+      flowers += HelperCount;
+      _timer = 0;
+      UpdateUI();
+    }
   }
 
   public void BushDrop()

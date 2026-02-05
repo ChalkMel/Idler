@@ -9,17 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f19cce6d2ddddeb418cf736998b629d8, type: 3}
-  m_Name: NewSpirit
+  m_Script: {fileID: 11500000, guid: 048e8cf3c9205b949b8273e096df3b37, type: 3}
+  m_Name: NewShopItem
   m_EditorClassIdentifier: 
-  spiritId: 0
-  spiritName: Frog
+  itemName: Bushes+
   icon: {fileID: -7094705925289595810, guid: 32531e72485d7cb4e9a2e6363edb38a8, type: 3}
-  description: Frog Description
-  likedTeas:
-  - {fileID: 11400000, guid: e164f1450fba186459b7a75a04cdbceb, type: 2}
-  buffName: More droplets
-  buffDescription: Give you x2 droplets
-  buffMultiplier: 2
-  buffDuration: 30
-  isUnlocked: 0
+  description: Gives you more ingredients
+  cost: 300
+  isPurchased: 0
+  itemType: 1
+  effectValue: 1

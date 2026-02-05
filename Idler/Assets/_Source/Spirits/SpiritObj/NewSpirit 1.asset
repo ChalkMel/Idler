@@ -21,6 +21,5 @@ MonoBehaviour:
   buffName: 
   buffDescription: 
   buffMultiplier: 2
-  buffDuration: 30
+  buffDuration: 20
   isUnlocked: 0
-  unlockCost: 100

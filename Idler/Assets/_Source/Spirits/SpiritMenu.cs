@@ -164,7 +164,7 @@ public class SpiritMenu : MonoBehaviour
             selectedSpiritName.text = spirit.spiritName;
             if (!spirit.isUnlocked)
             {
-                selectedSpiritName.text += " (Заблокирован)";
+                selectedSpiritName.text += " (Locked)";
             }
         }
         
@@ -177,11 +177,11 @@ public class SpiritMenu : MonoBehaviour
         {
             if (spirit.isUnlocked)
             {
-                selectedSpiritBuff.text = $"Буст: {spirit.buffName}\n{spirit.buffDescription}\nМножитель: {spirit.buffMultiplier}x";
+                selectedSpiritBuff.text = $"{spirit.buffName}\n{spirit.buffDescription}";
             }
             else
             {
-                selectedSpiritBuff.text = "Этот дух еще не найден";
+                selectedSpiritBuff.text = "This spirit not found yet";
             }
         }
 
@@ -198,7 +198,7 @@ public class SpiritMenu : MonoBehaviour
         }
         else
         {
-            CreateTextInPanel(likedTeasPanel, "Не любит никакие чаи");
+            CreateTextInPanel(likedTeasPanel, "Doesn't like any tea yet");
         }
     }
     

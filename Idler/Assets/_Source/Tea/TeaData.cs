@@ -10,7 +10,7 @@ public class TeaData : ScriptableObject
     [TextArea(2, 4)] public string description;
     
     [Header("Brewing")]
-    public float brewingTime = 5f; // Время варки в секундах
+    public float brewingTime = 5f; 
     
     [Header("Recipe")]
     public List<IngredientData> ingredients = new List<IngredientData>();

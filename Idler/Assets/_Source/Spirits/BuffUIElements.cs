@@ -32,7 +32,7 @@ public class BuffUIElement : MonoBehaviour
     {
       if (buffTimerText != null)
       {
-        buffTimerText.text = Mathf.CeilToInt(_currentBuff.TimeLeft) + "с";
+        buffTimerText.text = Mathf.CeilToInt(_currentBuff.TimeLeft) + "with";
       }
             
       if (timeSlider != null)

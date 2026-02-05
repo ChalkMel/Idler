@@ -11,10 +11,4 @@ public class SpiritBuff
     
   public bool IsActive => Time.time < endTime;
   public float TimeLeft => Mathf.Max(0, endTime - Time.time);
-    
-  public string GetInfoText()
-  {
-    if (spirit == null) return "Нет буста";
-    return $"{spirit.spiritName}\n{spirit.buffName}\nx{multiplier:F1} на {duration}с";
-  }
 }

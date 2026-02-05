@@ -1,102 +1,101 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
+using DG.Tweening;
 
 public class BushGenerator : MonoBehaviour
 {
-    [SerializeField] private Tile bushTile;
+    [SerializeField] private GameObject bushPrefab;
     [SerializeField] private int bushCount;
     [SerializeField] private float bushDuration;
     [SerializeField] private Credits credits;
-        
-    private Tilemap _tilemap;
+    
+    [Header("Spawn Area")]
+    [SerializeField] private Vector2 spawnAreaMin = new Vector2(-5, -2);
+    [SerializeField] private Vector2 spawnAreaMax = new Vector2(5, 2);
+    [SerializeField] private float minDistance;
+    
+    private List<Bush> _bushes = new List<Bush>();
     private System.Random _random;
-        
-    private const int MAX_X = 9;
-    private const int MAX_Y = 6;
-    private const int MIN = 0;
-
+    
     private void Awake()
     {
         _random = new System.Random();
-        _tilemap = GetComponent<Tilemap>();
+        
         for (int i = 0; i < bushCount; i++)
         {
             GenerateSingleBush();
         }
     }
-
+    
     private void GenerateSingleBush()
     {
         int attempts = 0;
-        const int maxAttempts = 10;
-
+        const int maxAttempts = 100;
+        
         while (attempts < maxAttempts)
         {
-            int x = _random.Next(MIN, MAX_X);
-            int y = _random.Next(MIN, MAX_Y);
+            float x = Mathf.Lerp(spawnAreaMin.x, spawnAreaMax.x, (float)_random.NextDouble());
+            float y = Mathf.Lerp(spawnAreaMin.y, spawnAreaMax.y, (float)_random.NextDouble());
+            Vector2 position = new Vector2(x, y);
 
-            Vector3Int position = new Vector3Int(x, y, 0);
-
-            if (!_tilemap.HasTile(position))
+            if (CanSpawnAt(position))
             {
-                if (HasTouch(position))
-                {
-                    attempts++;
-                    continue;
-                }
-
-                _tilemap.SetTile(position, bushTile);
+                CreateBush(position);
                 return;
             }
-
+            
             attempts++;
         }
+
+        float fallbackX = Mathf.Lerp(spawnAreaMin.x, spawnAreaMax.x, (float)_random.NextDouble());
+        float fallbackY = Mathf.Lerp(spawnAreaMin.y, spawnAreaMax.y, (float)_random.NextDouble());
+        CreateBush(new Vector2(fallbackX, fallbackY));
     }
-
-    private bool HasTouch(Vector3Int position)
+    
+    private bool CanSpawnAt(Vector2 position)
     {
-        for (int dx = -1; dx <= 1; dx++)
+        foreach (var bush in _bushes)
         {
-            for (int dy = -1; dy <= 1; dy++)
+            if (bush == null) continue;
+            
+            float distance = Vector2.Distance(position, bush.transform.position);
+            if (distance < minDistance)
             {
-                if (dx == 0 && dy == 0) continue;
-
-                Vector3Int neighborPos = new Vector3Int(
-                    position.x + dx,
-                    position.y + dy,
-                    0
-                );
-
-                if (_tilemap.HasTile(neighborPos))
-                {
-                    return true;
-                }
+                return false;
             }
         }
-
-        return false;
+        return true;
     }
-        
-
-    private void OnMouseDown()
+    
+    private void CreateBush(Vector2 position)
     {
-        Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3Int cellPos = _tilemap.WorldToCell(worldPos);
-        cellPos.z = 0;
-
-        credits.BushDrop();
-            
-        if (_tilemap.HasTile(cellPos))
+        GameObject bushObj = Instantiate(bushPrefab, position, Quaternion.identity, transform);
+        Bush bush = bushObj.GetComponent<Bush>();
+        bush.transform.DOPunchScale(new Vector2(0.5f, 0.5f), 0.2f);
+        if (bush != null)
         {
-            StartCoroutine(RespawnBush(cellPos));
+            bush.Initialize(this);
+            _bushes.Add(bush);
         }
     }
-
-    private IEnumerator RespawnBush(Vector3Int removedPosition)
+    
+    public void OnBushClicked(Bush bush)
     {
-        _tilemap.SetTile(removedPosition, null);
+        credits.BushDrop();
+        StartCoroutine(RespawnBush(bush));
+    }
+    
+    private IEnumerator RespawnBush(Bush bush)
+    {
+        _bushes.Remove(bush);
+        
+        bush.transform.DOPunchScale(new Vector2(0.5f, 0.5f), 0.2f);
+        yield return new WaitForSeconds(0.2f);
+        Destroy(bush.gameObject);
+
         yield return new WaitForSeconds(bushDuration);
+
         GenerateSingleBush();
     }
 }
