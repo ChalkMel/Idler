@@ -19,8 +19,7 @@ public class SpiritBuffManager : MonoBehaviour
     
     private void Start()
     {
-        if (tooltipObject != null)
-            tooltipObject.SetActive(false);
+        tooltipObject.SetActive(false);
     }
     
     private void Update()
@@ -167,20 +166,18 @@ public class SpiritBuffManager : MonoBehaviour
     
     private void UpdateUI()
     {
-        if (buffTimerText != null)
+        if (_currentBuff != null && _currentBuff.IsActive)
         {
-            if (_currentBuff != null && _currentBuff.IsActive)
-            {
-                BuffPanel.SetActive(true);
-                float timeLeft = _currentBuff.TimeLeft;
-                buffTimerText.text = $"Boost: {Mathf.CeilToInt(timeLeft)}s";
-            }
-            else
-            {
-                BuffPanel.SetActive(false);
-                buffTimerText.text = "No Boost";
-            }
+            BuffPanel.SetActive(true);
+            float timeLeft = _currentBuff.TimeLeft;
+            buffTimerText.text = $"Boost: {Mathf.CeilToInt(timeLeft)}s";
         }
+        else
+        {
+            BuffPanel.SetActive(false);
+            buffTimerText.text = "No Boost";
+        }
+        
     }
     
     public bool HasActiveBuff()

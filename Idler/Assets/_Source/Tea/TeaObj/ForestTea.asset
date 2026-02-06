@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teaName: Forest Tea
   icon: {fileID: 7102577523675558947, guid: c514a9efe60c5ff44a56bd7509575e89, type: 3}
-  description: 
-  brewingTime: 3
+  description: Forest Tea, very leafy
+  brewingTime: 10
   ingredients:
   - {fileID: 11400000, guid: 08e1e322de420e141ac7836b8c9beead, type: 2}
   - {fileID: 11400000, guid: 08e1e322de420e141ac7836b8c9beead, type: 2}

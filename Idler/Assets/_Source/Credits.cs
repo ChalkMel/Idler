@@ -41,7 +41,7 @@ public class Credits : MonoBehaviour
     _timer += Time.deltaTime;
     if (_timer >= _helperTimer)
     {
-      droplets += HelperCount;
+      droplets += HelperCount * dropletsMulti;
       leaves += HelperCount;
       berries += HelperCount;
       flowers += HelperCount;

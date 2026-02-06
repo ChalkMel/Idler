@@ -15,7 +15,7 @@ MonoBehaviour:
   spiritId: 0
   spiritName: Frog
   icon: {fileID: -7094705925289595810, guid: 32531e72485d7cb4e9a2e6363edb38a8, type: 3}
-  description: Frog Description
+  description: Very jumpy and wet
   likedTeas:
   - {fileID: 11400000, guid: e164f1450fba186459b7a75a04cdbceb, type: 2}
   buffName: More droplets

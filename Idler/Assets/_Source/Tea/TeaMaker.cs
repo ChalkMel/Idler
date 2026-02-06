@@ -157,7 +157,6 @@ public class TeaMaker : MonoBehaviour
     
     private bool HasIngredient(IngredientData ingredient)
     {
-        if (credits == null) return false;
         
         return ingredient.type switch
         {
@@ -189,9 +188,9 @@ public class TeaMaker : MonoBehaviour
     
     public void UpdateCounters()
     { 
-        if (berryCount != null) berryCount.text = credits.berries.ToString();
-        if (flowerCount != null) flowerCount.text = credits.flowers.ToString();
-        if (leafCount != null) leafCount.text = credits.leaves.ToString();
+        berryCount.text = credits.berries.ToString();
+        flowerCount.text = credits.flowers.ToString();
+        leafCount.text = credits.leaves.ToString();
     }
 
     private void StartBrewing()
@@ -235,22 +234,19 @@ public class TeaMaker : MonoBehaviour
     
     private IEnumerator BrewingCoroutine(TeaData tea)
     {
-        if (brewingPanel != null)
+        brewingPanel.SetActive(true);
+            
+        if (brewingTeaNameText != null)
+            brewingTeaNameText.text = $"Brewing: {tea.teaName}";
+            
+        if (brewingTeaIcon != null && tea.icon != null)
         {
-            brewingPanel.SetActive(true);
-            
-            if (brewingTeaNameText != null)
-                brewingTeaNameText.text = $"Brewing: {tea.teaName}";
-            
-            if (brewingTeaIcon != null && tea.icon != null)
-            {
-                brewingTeaIcon.sprite = tea.icon;
-                brewingTeaIcon.gameObject.SetActive(true);
-            }
-            
-            if (brewingSlider != null)
-                brewingSlider.value = 0f;
+            brewingTeaIcon.sprite = tea.icon;
+            brewingTeaIcon.gameObject.SetActive(true);
         }
+            
+        if (brewingSlider != null)
+            brewingSlider.value = 0f;
         
         float brewingTime = tea.brewingTime;
         float timer = 0f;
@@ -305,48 +301,31 @@ public class TeaMaker : MonoBehaviour
         clearButton.interactable = true;
         SetIngredientButtonsInteractable(true);
         
-        ClearCauldron();
+        ClearVisuals();
     }
     
     private void ShowTeaAndSpiritResult(TeaData tea, SpiritData spirit)
     {
         if (teaResultPanel == null) return;
         
-        if (resultTeaIcon != null && tea.icon != null)
-        {
-            resultTeaIcon.sprite = tea.icon;
-            resultTeaIcon.gameObject.SetActive(true);
-        }
+        resultTeaIcon.sprite = tea.icon; 
+        resultTeaIcon.gameObject.SetActive(true);
         
-        if (resultTeaName != null)
-        {
-            resultTeaName.text = $"You made:\n{tea.teaName}";
-            resultTeaName.gameObject.SetActive(true);
-        }
+        resultTeaName.text = $"You made:\n{tea.teaName}";
+        resultTeaName.gameObject.SetActive(true);
         
-        if (resultTeaDescription != null)
-        {
-            resultTeaDescription.text = tea.description;
-            resultTeaDescription.gameObject.SetActive(true);
-        }
+
+        resultTeaDescription.text = tea.description;
+        resultTeaDescription.gameObject.SetActive(true);
+
+        resultSpiritIcon.sprite = spirit.icon;
+        resultSpiritIcon.gameObject.SetActive(true);
         
-        if (resultSpiritIcon != null && spirit.icon != null)
-        {
-            resultSpiritIcon.sprite = spirit.icon;
-            resultSpiritIcon.gameObject.SetActive(true);
-        }
+        resultSpiritName.text = $"Spirit that came:\n{spirit.spiritName}";
+        resultSpiritName.gameObject.SetActive(true);
         
-        if (resultSpiritName != null)
-        {
-            resultSpiritName.text = $"Spirit that came:\n{spirit.spiritName}";
-            resultSpiritName.gameObject.SetActive(true);
-        }
-        
-        if (resultBuffInfo != null)
-        {
-            resultBuffInfo.text = $"Boost: {spirit.buffName}\nStrength: x{spirit.buffMultiplier:F1}\nDuration: {spirit.buffDuration}с";
-            resultBuffInfo.gameObject.SetActive(true);
-        }
+        resultBuffInfo.text = $"Boost: {spirit.buffName}\nStrength: x{spirit.buffMultiplier:F1}\nDuration: {spirit.buffDuration}с";
+        resultBuffInfo.gameObject.SetActive(true);
         
         teaResultPanel.SetActive(true);
 
@@ -357,15 +336,14 @@ public class TeaMaker : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         
-        if (teaResultPanel != null)
             teaResultPanel.SetActive(false);
         
-        if (resultTeaIcon != null) resultTeaIcon.gameObject.SetActive(false);
-        if (resultTeaName != null) resultTeaName.gameObject.SetActive(false);
-        if (resultTeaDescription != null) resultTeaDescription.gameObject.SetActive(false);
-        if (resultSpiritIcon != null) resultSpiritIcon.gameObject.SetActive(false);
-        if (resultSpiritName != null) resultSpiritName.gameObject.SetActive(false);
-        if (resultBuffInfo != null) resultBuffInfo.gameObject.SetActive(false);
+        resultTeaIcon.gameObject.SetActive(false);
+        resultTeaName.gameObject.SetActive(false);
+        resultTeaDescription.gameObject.SetActive(false);
+        resultSpiritIcon.gameObject.SetActive(false);
+        resultSpiritName.gameObject.SetActive(false);
+        resultBuffInfo.gameObject.SetActive(false);
     }
     
     private void ApplySpiritBuff(SpiritData spirit)
@@ -424,8 +402,10 @@ public class TeaMaker : MonoBehaviour
     
     private void ClearCauldron()
     {
+        ReturnIngredients();
         _currentIngredients.Clear();
         ClearVisuals();
+        
     }
     
     private void ClearVisuals()
@@ -435,7 +415,6 @@ public class TeaMaker : MonoBehaviour
             foreach (Transform child in ingredientsPanel)
                 Destroy(child.gameObject);
         }
-        
         UpdateCounters();
     }
     

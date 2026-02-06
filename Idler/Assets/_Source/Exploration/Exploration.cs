@@ -33,6 +33,7 @@ public class Exploration : MonoBehaviour
     private float _explorationTimer;
     private Vector3 _originalFrogPosition;
     private Transform _selectedZoneButtonTransform;
+    private string _lastExploredZoneName;
 
     private Dictionary<ZoneData, Button> _zoneButtons = new Dictionary<ZoneData, Button>();
     
@@ -83,22 +84,18 @@ public class Exploration : MonoBehaviour
             bool isZoneComplete = zone.AreAllSpiritsFound(spiritCollection);
             bool isZoneUnlocked = zone.isUnlocked;
 
-            UpdateZoneButtonVisual(button, zone, isZoneComplete, isZoneUnlocked);
+            UpdateZoneButtonVisual(button, zone, isZoneComplete);
 
             button.interactable = isZoneUnlocked && !isZoneComplete && !_isExploring;
         }
     }
     
-    private void UpdateZoneButtonVisual(Button button, ZoneData zone, bool isComplete, bool isUnlocked)
+    private void UpdateZoneButtonVisual(Button button, ZoneData zone, bool isComplete)
     {
         Image buttonImage = button.GetComponent<Image>();
         if (buttonImage != null)
         {
-            if (!isUnlocked)
-            {
-                buttonImage.color = Color.gray;
-            }
-            else if (isComplete)
+            if (isComplete)
             {
                 buttonImage.color = Color.green;
             }
@@ -109,10 +106,8 @@ public class Exploration : MonoBehaviour
         }
         
         TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
-        if (buttonText != null)
-        {
-            buttonText.text = isComplete ? $"{zone.zoneName} ✓" : zone.zoneName;
-        }
+        buttonText.text = isComplete ? $"{zone.zoneName} ✓" : zone.zoneName;
+        
     }
     
     public void SelectZone(int zoneIndex)
@@ -121,12 +116,6 @@ public class Exploration : MonoBehaviour
             return;
             
         _selectedZone = availableZones[zoneIndex];
-
-        if (!_selectedZone.isUnlocked)
-        {
-            ShowResultPopup($"Zone {_selectedZone.zoneName} is locked!");
-            return;
-        }
 
         if (_selectedZone.AreAllSpiritsFound(spiritCollection))
         {
@@ -195,6 +184,41 @@ public class Exploration : MonoBehaviour
         return $"Spirits: {foundCount}/{zone.availableSpirits.Count} found";
     }
     
+    private void CompleteExploration()
+    {
+        _isExploring = false;
+        timerSlider.gameObject.SetActive(false);
+        timerMainScreenText.gameObject.SetActive(false);
+        timerText.text = "No exploration yet";
+
+        _lastExploredZoneName = _selectedZone != null ? _selectedZone.zoneName : "Unknown Zone";
+        
+        SpiritData foundSpirit = _selectedZone.GetRandomUnfoundSpirit(spiritCollection);
+        
+        if (foundSpirit != null)
+        {
+            if (spiritCollection.UnlockSpirit(foundSpirit))
+            {
+                ShowSpiritFoundPopup(foundSpirit);
+            }
+        }
+        else
+        {
+            ShowResultPopup($"You already explored: {_lastExploredZoneName}\nAll spirits already found!");
+        }
+        
+        UpdateZoneButtons();
+        SetAllZoneButtonsInteractable(true);
+        _selectedZone = null;
+        _selectedZoneButtonTransform = null;
+    }
+    
+    private void CloseSpiritFoundPanel()
+    {
+        spiritFoundPanel.SetActive(false);
+
+        ShowResultPopup($"You explored: {_lastExploredZoneName}\nFound new spirit!");
+    }
     private void StartExploration()
     {
         if (_selectedZone == null)
@@ -278,61 +302,13 @@ public class Exploration : MonoBehaviour
         }
     }
     
-    private void CompleteExploration()
-    {
-        _isExploring = false;
-        timerSlider.gameObject.SetActive(false);
-        timerMainScreenText.gameObject.SetActive(false);
-        timerText.text = "No exploration yet";
-
-        SpiritData foundSpirit = _selectedZone.GetRandomUnfoundSpirit(spiritCollection);
-        
-        if (foundSpirit != null)
-        {
-            if (spiritCollection.UnlockSpirit(foundSpirit))
-            {
-                ShowSpiritFoundPopup(foundSpirit);
-            }
-        }
-        else
-        {
-            ShowResultPopup($"You already explored: {_selectedZone.zoneName}\nAll spirits already found!");
-        }
-        
-        UpdateZoneButtons();
-        SetAllZoneButtonsInteractable(true);
-        _selectedZone = null;
-        _selectedZoneButtonTransform = null;
-    }
-    
     private void ShowSpiritFoundPopup(SpiritData spirit)
     {
-        if (spiritFoundPanel == null) return;
-        
-        if (foundSpiritIcon != null && spirit.icon != null)
-        {
-            foundSpiritIcon.sprite = spirit.icon;
-            foundSpiritIcon.preserveAspect = true;
-        }
-        
-        if (foundSpiritName != null)
-        {
-            foundSpiritName.text = $"Found spirit: {spirit.spiritName}";
-        }
-        
-        if (foundSpiritDescription != null)
-        {
-            foundSpiritDescription.text = $"{spirit.description}\n\nBoost: {spirit.buffName}\n{spirit.buffDescription}";
-        }
-
+        foundSpiritIcon.sprite = spirit.icon;
+        foundSpiritIcon.preserveAspect = true;
+        foundSpiritName.text = $"Found spirit: {spirit.spiritName}";
+        foundSpiritDescription.text = $"{spirit.description}\n\nBoost: {spirit.buffName}\n{spirit.buffDescription}";
         spiritFoundPanel.SetActive(true);
-    }
-    
-    private void CloseSpiritFoundPanel()
-    {
-        spiritFoundPanel.SetActive(false);
-
-        ShowResultPopup($"You explored: {_selectedZone.zoneName}\nFound new spirit!");
     }
     
     private void CancelExploration()
@@ -356,19 +332,5 @@ public class Exploration : MonoBehaviour
                 button.interactable = interactable;
             }
         }
-    }
-
-    public void UnlockZone(ZoneData zone)
-    {
-        if (zone != null)
-        {
-            zone.isUnlocked = true;
-            UpdateZoneButtons();
-        }
-    }
-
-    public void RefreshZoneButtons()
-    {
-        UpdateZoneButtons();
     }
 }

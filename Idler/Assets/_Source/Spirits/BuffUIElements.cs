@@ -19,27 +19,17 @@ public class BuffUIElement : MonoBehaviour
     {
       buffIcon.sprite = buff.spirit.icon;
     }
-        
-    if (buffNameText != null)
-    {
-      buffNameText.text = buff.buffName;
-    }
+    buffNameText.text = buff.buffName;
+    
   }
     
   private void Update()
   {
     if (_currentBuff != null)
     {
-      if (buffTimerText != null)
-      {
-        buffTimerText.text = Mathf.CeilToInt(_currentBuff.TimeLeft) + "with";
-      }
-            
-      if (timeSlider != null)
-      {
-        timeSlider.value = _currentBuff.TimeLeft / _currentBuff.duration;
-      }
-
+      buffTimerText.text = Mathf.CeilToInt(_currentBuff.TimeLeft) + "with";
+      timeSlider.value = _currentBuff.TimeLeft / _currentBuff.duration;
+      
       if (!_currentBuff.IsActive)
       {
         Destroy(gameObject);

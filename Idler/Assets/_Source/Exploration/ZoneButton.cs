@@ -27,5 +27,4 @@ public class ZoneButton : MonoBehaviour
       explorationManager.SelectZone(zoneIndex);
     }
   }
-
 }

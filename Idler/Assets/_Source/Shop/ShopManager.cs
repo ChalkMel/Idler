@@ -26,8 +26,7 @@ public class ShopManager : MonoBehaviour
         
         InitializeShopItems();
         
-        if (messageText != null)
-            messageText.gameObject.SetActive(false);
+        messageText.gameObject.SetActive(false);
         foreach (var item in shopItems)
         {
             item.isPurchased = false;
@@ -83,9 +82,7 @@ public class ShopManager : MonoBehaviour
         item.isPurchased = true;
         credits.droplets -= item.cost;
         item.ApplyEffect(item, credits);
-        
-        
-        
+
         UpdateDropletsDisplay();
         UpdateAllItemButtons();
     }
@@ -95,36 +92,27 @@ public class ShopManager : MonoBehaviour
         if (button == null || button.shopItem == null) return;
         
         TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
-        if (buttonText != null)
+        if (button.shopItem.isPurchased)
         {
-            if (button.shopItem.isPurchased)
-            {
-                buttonText.text = "Bought";
-            }
-            else
-            {
-                buttonText.text = $"Buy\n{button.shopItem.cost}";
-            }
+            buttonText.text = $"{button.shopItem.itemName}";
+        }
+        else
+        {
+            buttonText.text = $"Buy\n{button.shopItem.cost}";
         }
 
         Button btn = button.GetComponent<Button>();
-        if (btn != null)
-        {
-            btn.interactable = !button.shopItem.isPurchased && credits.droplets >= button.shopItem.cost;
-        }
+        btn.interactable = !button.shopItem.isPurchased && credits.droplets >= button.shopItem.cost;
 
-        if (button.itemPriceText != null)
+        if (button.shopItem.isPurchased)
         {
-            if (button.shopItem.isPurchased)
-            {
-                button.itemPriceText.text = "Bought";
-                button.itemPriceText.color = Color.green;
-            }
-            else
-            {
-                button.itemPriceText.text = $"{button.shopItem.cost} droplets";
-                button.itemPriceText.color = Color.white;
-            }
+            button.itemPriceText.text = "Bought";
+            button.itemPriceText.color = Color.green;
+        }
+        else
+        {
+            button.itemPriceText.text = $"{button.shopItem.cost} droplets";
+            button.itemPriceText.color = Color.white;
         }
     }
     
@@ -138,35 +126,26 @@ public class ShopManager : MonoBehaviour
     
     private void UpdateDropletsDisplay()
     {
-        if (dropletsText != null && credits != null)
-        {
-            dropletsText.text = $"{credits.droplets} of droplets";
-        }
+        dropletsText.text = $"{credits.droplets} of droplets";
     }
     
     private void ShowMessage(string message)
     {
-        if (messageText != null)
-        {
-            messageText.text = message;
-            messageText.gameObject.SetActive(true);
+        messageText.text = message;
+        messageText.gameObject.SetActive(true);
             
-            CancelInvoke(nameof(HideMessage));
-            Invoke(nameof(HideMessage), messageDisplayTime);
-        }
+        CancelInvoke(nameof(HideMessage));
+        Invoke(nameof(HideMessage), messageDisplayTime);
+        
     }
     
     private void HideMessage()
     {
-        if (messageText != null)
-            messageText.gameObject.SetActive(false);
+        messageText.gameObject.SetActive(false);
     }
     private void OnEnable()
     {
-        if (credits != null)
-        {
-            UpdateDropletsDisplay();
-            UpdateAllItemButtons();
-        }
+        UpdateDropletsDisplay();
+        UpdateAllItemButtons();
     }
 }

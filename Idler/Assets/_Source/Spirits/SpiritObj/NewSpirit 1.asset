@@ -15,11 +15,11 @@ MonoBehaviour:
   spiritId: 1
   spiritName: Deer
   icon: {fileID: 8384883214832213892, guid: 70d00ad3d7129234a97a96e9efc78762, type: 3}
-  description: 
+  description: Loves nature deerly :D
   likedTeas:
   - {fileID: 11400000, guid: fdb9ca0c220d95547ad3bcaf76376175, type: 2}
-  buffName: 
-  buffDescription: 
+  buffName: Nature's fav
+  buffDescription: Gives you x2 flowers or berries
   buffMultiplier: 2
   buffDuration: 20
   isUnlocked: 0

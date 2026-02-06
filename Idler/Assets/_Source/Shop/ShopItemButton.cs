@@ -31,33 +31,18 @@ public class ShopItemButton : MonoBehaviour
     
   private void SetupUI()
   {
-    if (itemIcon != null && shopItem.icon != null)
+    itemIcon.sprite = shopItem.icon;
+    itemNameText.text = shopItem.itemName;
+    itemDescriptionText.text = shopItem.description;
+    if (shopItem.isPurchased)
     {
-      itemIcon.sprite = shopItem.icon;
+      itemPriceText.text = "Bought";
+      itemPriceText.color = Color.green;
     }
-        
-    if (itemNameText != null)
+    else
     {
-      itemNameText.text = shopItem.itemName;
-    }
-        
-    if (itemDescriptionText != null)
-    {
-      itemDescriptionText.text = shopItem.description;
-    }
-        
-    if (itemPriceText != null)
-    {
-      if (shopItem.isPurchased)
-      {
-        itemPriceText.text = "Bought";
-        itemPriceText.color = Color.green;
-      }
-      else
-      {
-        itemPriceText.text = $"{shopItem.cost} droplets";
-        itemPriceText.color = Color.white;
-      }
+      itemPriceText.text = $"{shopItem.cost} droplets";
+      itemPriceText.color = Color.white;
     }
     
     Image bgImage = GetComponent<Image>();
