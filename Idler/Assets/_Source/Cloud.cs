@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using DG.Tweening;
 public class Cloud : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class Cloud : MonoBehaviour
     [SerializeField] private float duration;
     private void OnMouseDown()
     {
+        if(EventSystem.current.IsPointerOverGameObject()) return;
         credits.DropletsDrop();
         transform.DOPunchScale(punchScale, duration);
         

@@ -1,7 +1,5 @@
-using System;
 using UnityEngine;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using Random = UnityEngine.Random;
 
 [CreateAssetMenu(fileName = "NewZone", menuName = "Explore/Zone Data")]

@@ -42,6 +42,9 @@ public class TeaMaker : MonoBehaviour
     [SerializeField] private TextMeshProUGUI brewingTimeText;
     [SerializeField] private TextMeshProUGUI brewingTeaNameText;
     [SerializeField] private Image brewingTeaIcon;
+    [SerializeField] private  TextMeshProUGUI brewingTimer;
+    [SerializeField] private Image brewingTimerIcon;
+    [SerializeField] private GameObject wrongPanel;
     
     private List<IngredientData> _currentIngredients = new List<IngredientData>();
     private bool _isBrewing;
@@ -50,8 +53,6 @@ public class TeaMaker : MonoBehaviour
     
     private void Start()
     {
-        InitializeIngredientButtons();
-
         brewButton.onClick.AddListener(StartBrewing);
         clearButton.onClick.AddListener(ClearCauldron);
 
@@ -93,28 +94,7 @@ public class TeaMaker : MonoBehaviour
             }
         }
     }
-    
-    private void InitializeIngredientButtons()
-    {
-        if (ingredientButtonsPanel == null) return;
-        
-        var ingredientButtons = ingredientButtonsPanel.GetComponentsInChildren<IngredientButton>();
-        
-        foreach (var ingredientButton in ingredientButtons)
-        {
-            if (ingredientButton == null) continue;
-            
-            Button button = ingredientButton.GetComponent<Button>();
-            if (button == null) continue;
-            
-            IngredientData ingredient = ingredientButton.ingredientData;
-            if (ingredient == null) continue;
-            
-            button.onClick.AddListener(() => AddIngredient(ingredient));
-        }
-    }
-
-    private void AddIngredient(IngredientData ingredient)
+    public void AddIngredient(IngredientData ingredient)
     {
         if (_isBrewing)
         {
@@ -250,7 +230,7 @@ public class TeaMaker : MonoBehaviour
         
         float brewingTime = tea.brewingTime;
         float timer = 0f;
-        
+        //TODO
         while (timer < brewingTime)
         {
             timer += Time.deltaTime;
@@ -261,7 +241,10 @@ public class TeaMaker : MonoBehaviour
             
             if (brewingTimeText != null)
                 brewingTimeText.text = $"Time left: {Mathf.CeilToInt(brewingTime - timer)}s";
-            
+            brewingTimer.gameObject.SetActive(true);
+            brewingTimerIcon.gameObject.SetActive(true);
+            brewingTimer.text = $"Time left: {brewingTime - timer:F0}s";
+            brewingTimerIcon.sprite = _currentBrewingTea.icon;
             yield return null;
         }
         
@@ -276,7 +259,8 @@ public class TeaMaker : MonoBehaviour
             if (brewingTeaIcon != null)
                 brewingTeaIcon.gameObject.SetActive(false);
         }
-        
+        brewingTimer.gameObject.SetActive(false);
+        brewingTimerIcon.gameObject.SetActive(false);
         List<SpiritData> likedSpirits = tea.GetLikedSpiritsForPlayer(playerSpirits);
         
         if (likedSpirits.Count > 0)
@@ -294,6 +278,7 @@ public class TeaMaker : MonoBehaviour
         else
         {
             ShowMessage("This tea not liked by any!");
+            wrongPanel.SetActive(true);
             ReturnIngredients();
         }
         
@@ -313,7 +298,6 @@ public class TeaMaker : MonoBehaviour
         
         resultTeaName.text = $"You made:\n{tea.teaName}";
         resultTeaName.gameObject.SetActive(true);
-        
 
         resultTeaDescription.text = tea.description;
         resultTeaDescription.gameObject.SetActive(true);
@@ -369,11 +353,7 @@ public class TeaMaker : MonoBehaviour
         int finalReward = Mathf.RoundToInt(baseReward * spirit.buffMultiplier);
         
         credits.droplets += finalReward;
-        
-        if (credits is MonoBehaviour creditMono)
-        {
-            creditMono.Invoke("UpdateUI", 0.1f);
-        }
+        credits.UpdateUI();
     }
     
     private TeaData FindMatchingTea()
@@ -415,6 +395,7 @@ public class TeaMaker : MonoBehaviour
             foreach (Transform child in ingredientsPanel)
                 Destroy(child.gameObject);
         }
+        _currentIngredients.Clear();
         UpdateCounters();
     }
     

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Bush : MonoBehaviour
 {
@@ -10,10 +11,11 @@ public class Bush : MonoBehaviour
     }
     
     private void OnMouseDown()
-    {
-       var collider = GetComponent<Collider2D>();
-       collider.enabled = false;
-      generator.OnBushClicked(this);
+    { 
+        if(EventSystem.current.IsPointerOverGameObject()) return; 
+        var collider = GetComponent<Collider2D>(); 
+        GetComponent<Collider2D>().enabled = false; 
+        generator.OnBushClicked(this);
         
     }
 }

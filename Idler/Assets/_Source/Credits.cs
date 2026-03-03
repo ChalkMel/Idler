@@ -72,7 +72,7 @@ public class Credits : MonoBehaviour
     UpdateUI();
   }
     
-  private void UpdateUI()
+  public void UpdateUI()
   {
     _dropletsText.text = $"{droplets} of droplets";
     _leavesText.text = $"{leaves} of leaves";
