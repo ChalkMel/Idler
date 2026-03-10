@@ -92,15 +92,7 @@ public class ShopManager : MonoBehaviour
         if (button == null || button.shopItem == null) return;
         
         TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
-        if (button.shopItem.isPurchased)
-        {
-            buttonText.text = $"{button.shopItem.itemName}";
-        }
-        else
-        {
-            buttonText.text = $"Buy\n{button.shopItem.cost}";
-        }
-
+        buttonText.text = $"{button.shopItem.itemName}";
         Button btn = button.GetComponent<Button>();
         btn.interactable = !button.shopItem.isPurchased && credits.droplets >= button.shopItem.cost;
 

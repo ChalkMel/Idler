@@ -10,6 +10,7 @@ public class TeaMaker : MonoBehaviour
     [SerializeField] private Credits credits;
     [SerializeField] private SpiritCollection playerSpirits;
     [SerializeField] private SpiritBuffManager buffManager;
+    [SerializeField] private SpiritVisitor spiritVisitor;
     
     [Header("Tea Recipes")]
     [SerializeField] public List<TeaData> allTeas = new List<TeaData>();
@@ -35,6 +36,7 @@ public class TeaMaker : MonoBehaviour
     [SerializeField] private Image resultSpiritIcon;
     [SerializeField] private TextMeshProUGUI resultSpiritName;
     [SerializeField] private TextMeshProUGUI resultBuffInfo;
+    [SerializeField] private GameObject orderUI;
     
     [Header("Brewing UI")]
     [SerializeField] private GameObject brewingPanel;
@@ -50,7 +52,12 @@ public class TeaMaker : MonoBehaviour
     private bool _isBrewing;
     private Coroutine _brewingCoroutine;
     private TeaData _currentBrewingTea;
-    
+    private TeaData _lastBrewedTea;
+
+    public TeaData GetLastBrewedTea()
+    {
+        return _lastBrewedTea;
+    }
     private void Start()
     {
         brewButton.onClick.AddListener(StartBrewing);
@@ -247,7 +254,7 @@ public class TeaMaker : MonoBehaviour
             brewingTimerIcon.sprite = _currentBrewingTea.icon;
             yield return null;
         }
-        
+        _lastBrewedTea = tea;
         CompleteBrewing(tea);
     }
     
@@ -262,8 +269,7 @@ public class TeaMaker : MonoBehaviour
         brewingTimer.gameObject.SetActive(false);
         brewingTimerIcon.gameObject.SetActive(false);
         List<SpiritData> likedSpirits = tea.GetLikedSpiritsForPlayer(playerSpirits);
-        
-        if (likedSpirits.Count > 0)
+        if (likedSpirits.Count > 0 && !spiritVisitor.IsWaitingForTea)
         {
             SpiritData chosenSpirit = likedSpirits[Random.Range(0, likedSpirits.Count)];
             
@@ -274,10 +280,21 @@ public class TeaMaker : MonoBehaviour
             GiveReward(chosenSpirit);
             
             ShowMessage($"Hooray! Brewed {tea.teaName} and {chosenSpirit.spiritName} came");
+
+            _lastBrewedTea = null;
+        }
+        else if (spiritVisitor.IsWaitingForTea)
+        {
+            if (spiritVisitor.RequestedTea == _lastBrewedTea)
+            {
+               ShowMessage("You completed order");
+               orderUI.SetActive(true); 
+            }
+            
         }
         else
         {
-            ShowMessage("This tea not liked by any!");
+            ShowMessage("This tea not liked by any spirit!");
             wrongPanel.SetActive(true);
             ReturnIngredients();
         }
