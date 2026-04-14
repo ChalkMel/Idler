@@ -1,6 +1,7 @@
 using UnityEngine;
+using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "NewSpirit", menuName = "Tea/Spirit Data")]
+[CreateAssetMenu(fileName = "NewSpirit", menuName = "Spirit")]
 public class SpiritData : ScriptableObject
 {
   [Header("Basic Info")]
@@ -20,4 +21,17 @@ public class SpiritData : ScriptableObject
     
   [Header("Unlock")]
   public bool isUnlocked = false;
+    
+  [Header("Relationships")]
+  public List<SpiritRelationship> relationships = new List<SpiritRelationship>();
+    
+  public RelationshipType GetRelationshipWith(SpiritData otherSpirit)
+  {
+    foreach (var relationship in relationships)
+    {
+      if (relationship.otherSpirit == otherSpirit)
+        return relationship.relationshipType;
+    }
+    return RelationshipType.Neutral;
+  }
 }

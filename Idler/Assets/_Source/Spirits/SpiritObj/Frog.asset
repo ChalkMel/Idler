@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f19cce6d2ddddeb418cf736998b629d8, type: 3}
-  m_Name: NewSpirit
+  m_Name: Frog
   m_EditorClassIdentifier: 
   spiritId: 0
   spiritName: Frog
@@ -22,4 +22,9 @@ MonoBehaviour:
   buffDescription: Give you x2 droplets
   buffMultiplier: 2
   buffDuration: 30
-  isUnlocked: 0
+  isUnlocked: 1
+  relationships:
+  - otherSpirit: {fileID: 11400000, guid: 02738390d45f4f249bff74d2d422efba, type: 2}
+    relationshipType: 1
+  - otherSpirit: {fileID: 11400000, guid: 74ec35319b4cc894ca41b2555a8a56e8, type: 2}
+    relationshipType: 2

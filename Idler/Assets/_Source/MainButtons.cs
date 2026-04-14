@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
+using UnityEngine.Serialization;
 
 public class MainButtons : MonoBehaviour
 {
@@ -11,14 +12,17 @@ public class MainButtons : MonoBehaviour
     [SerializeField] private Button frogButton;
     [SerializeField] private Button deerButton;
     [SerializeField] private float duration;
+    [SerializeField] private Button shopCloseButton;
     [SerializeField] private List<Button> closeButton;
     [Header("Frog")]
     [SerializeField] private CanvasGroup frogUI;
     [SerializeField] private List<string> frogTalks;
     [SerializeField] private TextMeshProUGUI frogUIText;
     [Header("Deer")]
-    [SerializeField] private CanvasGroup deerUI;
+    [SerializeField] private CanvasGroup TeaUI;
     [SerializeField] private List<string> deerTalks;
+    [SerializeField] private CanvasGroup DeerUI;
+    [SerializeField] private TextMeshProUGUI deerUIText;
     [SerializeField] private TeaMaker teaMaker;
     [Header("Shop")]
     [SerializeField] private CanvasGroup shopUI;
@@ -31,6 +35,7 @@ public class MainButtons : MonoBehaviour
         shopButton.onClick.AddListener(OpenShopUI);
         frogButton.onClick.AddListener(OpenFrogUI);
         deerButton.onClick.AddListener(OpenDeerUI);
+        shopCloseButton.onClick.AddListener(CloseShopUI);
         foreach (Button t in closeButton)
         {
             t.onClick.AddListener(CloseUI);
@@ -48,25 +53,29 @@ public class MainButtons : MonoBehaviour
     private void Open(CanvasGroup canvasGroup)
     {
         CloseUI();
-        canvasGroup.gameObject.SetActive(true);
-        canvasGroup.alpha = 0;
-        _fadeTween = canvasGroup.DOFade(1f, duration);
+        WindowHelper.Show(canvasGroup,0);
     }
     private void OpenDeerUI()
     {
-        Open(deerUI);
+        Open(TeaUI);
+        WindowHelper.Show(DeerUI, 0.5f);
+        deerUIText.text = deerTalks[_random.Next(0, deerTalks.Count)];
         teaMaker.UpdateCounters();
     }
     
     private void OpenShopUI()
     {
-        Open(shopUI);
+        WindowHelper.ShowWithSlide(shopUI, 1f, new Vector2(1000f, 0f));
     }
 
+    private void CloseShopUI()
+    {
+        WindowHelper.HideWithSlide(shopUI, 1f, new Vector2(1000f, 0f));
+    }
     private void CloseUI()
     {
         _fadeTween?.Kill();
-        deerUI.gameObject.SetActive(false);
+        TeaUI.gameObject.SetActive(false);
         frogUI.gameObject.SetActive(false);
         shopUI.gameObject.SetActive(false);
     }

@@ -6,6 +6,7 @@ public class SpiritCollection : ScriptableObject
 {
   public List<SpiritData> allSpirits = new List<SpiritData>();
   public List<SpiritData> unlockedSpirits = new List<SpiritData>();
+  public List<SpiritData> availableSpirits = new List<SpiritData>();
   
   public bool UnlockSpirit(SpiritData spirit)
   {
@@ -13,6 +14,7 @@ public class SpiritCollection : ScriptableObject
       return false;
             
     unlockedSpirits.Add(spirit);
+    availableSpirits.Add(spirit);
     spirit.isUnlocked = true;
     return true;
   }

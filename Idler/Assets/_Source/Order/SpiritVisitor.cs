@@ -10,6 +10,7 @@ public class SpiritVisitor : MonoBehaviour
     [SerializeField] private SpiritCollection spiritCollection;
     [SerializeField] private Credits credits;
     [SerializeField] private TeaMaker teaMaker;
+    [SerializeField] private CanvasGroup orderUI;
     
     [Header("UI Elements")]
     [SerializeField] private GameObject visitorPanel;
@@ -37,23 +38,28 @@ public class SpiritVisitor : MonoBehaviour
     [SerializeField] private RectTransform endPoint;
     [SerializeField] private float moveDuration = 1.5f;
     [SerializeField] private Ease moveEase = Ease.OutBack;
-    
+
     [Header("Timing")]
     [SerializeField] private float minTimeBetweenVisits = 30f;
     [SerializeField] private float maxTimeBetweenVisits = 60f;
-    [SerializeField] private float requestTimeout = 30f; // Сколько ждать приготовления
+    [SerializeField] private float requestTimeout = 30f;
     
     [Header("Rewards")]
     [SerializeField] private int baseReward = 50;
     [SerializeField] private float rewardMultiplier = 2f;
     
     private SpiritData _currentVisitor;
-    public List<TeaMaker> RequestedTeas;
-    public TeaData RequestedTea;
+    //public TeaData RequestedTea;
     public bool IsWaitingForTea;
     private float _timeUntilNextVisit;
     private Coroutine _visitorCoroutine;
     private Coroutine _timeoutCoroutine;
+    [SerializeField] private int minTeasInOrder = 1;
+    [SerializeField] private int maxTeasInOrder = 3;
+
+    public List<TeaData> RequestedTeas;
+    private int _completedTeasCount;
+    private List<bool> _completedTeas;
     
     private void Start()
     {
@@ -79,7 +85,7 @@ public class SpiritVisitor : MonoBehaviour
             }
         }
         
-        if (IsWaitingForTea && RequestedTea != null)
+        if (IsWaitingForTea && RequestedTeas != null)
         {
             CheckIfTeaWasBrewed();
         }
@@ -94,17 +100,31 @@ public class SpiritVisitor : MonoBehaviour
     private void StartVisitor()
     {
         circleImage.gameObject.SetActive(true);
-        
         _currentVisitor = spiritCollection.allSpirits[Random.Range(0, spiritCollection.allSpirits.Count)];
-        RequestedTea = teaMaker.allTeas[Random.Range(0, teaMaker.allTeas.Count)];
         
-        if (_currentVisitor == null || RequestedTea == null) return;
+        int teasCount = Random.Range(minTeasInOrder, maxTeasInOrder + 1);
+        RequestedTeas = new List<TeaData>();
+        for (int i = 0; i < teasCount; i++)
+        {
+            TeaData tea = teaMaker.allTeas[Random.Range(0, teaMaker.allTeas.Count)];
+            RequestedTeas.Add(tea);
+        }
+        
+        _completedTeas = new List<bool>();
+        for (int i = 0; i < teasCount; i++)
+        {
+            _completedTeas.Add(false);
+        }
+        _completedTeasCount = 0;
+    
+        if (_currentVisitor == null || RequestedTeas == null || RequestedTeas.Count == 0) return;
+    
         if (_visitorCoroutine != null)
         {
             StopCoroutine(_visitorCoroutine);
             _visitorCoroutine = null;
         }
-        
+    
         _visitorCoroutine = StartCoroutine(VisitorRoutine());
     }
     
@@ -120,6 +140,7 @@ public class SpiritVisitor : MonoBehaviour
         bool playerResponded = false;
         float responseTimer = 15f; 
         SetSlider(responseTimer, waitResponseImage);
+        
         acceptButton.onClick.AddListener(() => { 
             playerResponded = true; 
             IsWaitingForTea = true;
@@ -128,6 +149,7 @@ public class SpiritVisitor : MonoBehaviour
             if (_timeoutCoroutine != null)
                 StopCoroutine(_timeoutCoroutine);
             _timeoutCoroutine = StartCoroutine(RequestTimeoutRoutine());
+            acceptButton.interactable = false;
         });
         
         rejectButton.onClick.AddListener(() => { 
@@ -160,18 +182,15 @@ public class SpiritVisitor : MonoBehaviour
     private IEnumerator RequestTimeoutRoutine()
     {
         float timeout = requestTimeout;
-        SetSlider(requestTimeout, waitImage);
+        //SetSlider(requestTimeout, waitImage);
+        slider.gameObject.SetActive(false);
         subSlider.gameObject.SetActive(true);
         subSlider.maxValue = timeout;
         while (timeout > 0 && IsWaitingForTea)
         {
             timeout -= Time.deltaTime;
-            UpdateSlider(timeout);
+            //UpdateSlider(timeout);
             subSlider.value = subSlider.maxValue - timeout;
-            if (requestText != null)
-            {
-                requestText.text = $"Жду чай: {Mathf.CeilToInt(timeout)}с";
-            }
             
             yield return null;
         }
@@ -185,14 +204,13 @@ public class SpiritVisitor : MonoBehaviour
     
     private void SetupVisitorUI()
     {
-        if (_currentVisitor == null || RequestedTea == null) return;
-        
-        
+        if (_currentVisitor == null || RequestedTeas == null || RequestedTeas.Count == 0) return;
+    
         if (spiritIcon != null && _currentVisitor.icon != null)
         {
             spiritIcon.sprite = _currentVisitor.icon;
         }
-        
+    
         if (spiritNameText != null)
         {
             spiritNameText.text = _currentVisitor.spiritName;
@@ -200,13 +218,24 @@ public class SpiritVisitor : MonoBehaviour
         
         if (requestText != null)
         {
-            requestText.text = $"Приготовь для меня:\n{RequestedTea.teaName}";
+            string orderText = $"Приготовь для меня:\n";
+            for (int i = 0; i < RequestedTeas.Count; i++)
+            {
+                orderText += $"- {RequestedTeas[i].teaName}\n";
+            }
+            requestText.text = orderText;
         }
         
-        if (requestedTeaIcon != null && RequestedTea.icon != null)
+        if (requestedTeaIcon != null && RequestedTeas[0].icon != null)
         {
-            requestedTeaIcon.sprite = RequestedTea.icon;
+            requestedTeaIcon.sprite = RequestedTeas[0].icon;
             requestedTeaIcon.gameObject.SetActive(true);
+        }
+        
+        if (requestedTeaName != null)
+        {
+            requestedTeaName.text = RequestedTeas[0].teaName;
+            requestedTeaName.gameObject.SetActive(true);
         }
 
         TextMeshProUGUI acceptButtonText = acceptButton.GetComponentInChildren<TextMeshProUGUI>();
@@ -218,59 +247,116 @@ public class SpiritVisitor : MonoBehaviour
     
     private void CheckIfTeaWasBrewed()
     {
-        if (teaMaker == null || RequestedTea == null) return;
-        
+        if (teaMaker == null || RequestedTeas == null || RequestedTeas.Count == 0) return;
+    
         TeaData lastBrewed = teaMaker.GetLastBrewedTea();
+        teaMaker.ResetLastBrewedTea();
+    
+        if (lastBrewed == null) return;
         
-        if (lastBrewed == RequestedTea)
+        for (int i = 0; i < RequestedTeas.Count; i++)
         {
-            CompleteOrder();
+            if (RequestedTeas[i] == lastBrewed && !_completedTeas[i])
+            {
+                _completedTeas[i] = true;
+                _completedTeasCount++;
+            
+                ShowMessage($"Чай {lastBrewed.teaName} принят! Осталось: {RequestedTeas.Count - _completedTeasCount}");
+                
+                UpdateCurrentRequestDisplay();
+                
+                if (_completedTeasCount >= RequestedTeas.Count)
+                {
+                    CompleteOrder();
+                }
+                break;
+            }
         }
+    }
+    
+    private void UpdateCurrentRequestDisplay()
+    {
+        if (_completedTeasCount < RequestedTeas.Count)
+        {
+            for (int i = 0; i < RequestedTeas.Count; i++)
+            {
+                if (!_completedTeas[i])
+                {
+                    if (requestedTeaIcon != null && RequestedTeas[i].icon != null)
+                    {
+                        requestedTeaIcon.sprite = RequestedTeas[i].icon;
+                    }
+                    break;
+                }
+            }
+            if (requestText != null)
+            {
+                string orderText = $"Приготовь для меня:\n";
+                for (int j = 0; j < RequestedTeas.Count; j++)
+                {
+                    if (!_completedTeas[j])
+                        orderText += $"- {RequestedTeas[j].teaName}\n";
+                }
+                requestText.text = orderText;
+            }
+        }
+    }
+
+    public string SetOrderText()
+    {
+        string orderText = $"Заказ:\n";
+        for (int j = 0; j < RequestedTeas.Count; j++)
+        {
+            if (!_completedTeas[j])
+                orderText += $"- {RequestedTeas[j].teaName}\n";
+        }
+        return orderText;
     }
     
     private void CompleteOrder()
     {
-        int reward = Mathf.RoundToInt(baseReward * rewardMultiplier);
-        credits.droplets += reward;
-        
-        if (!_currentVisitor.isUnlocked && spiritCollection != null)
-        {
-            spiritCollection.UnlockSpirit(_currentVisitor);
-        }
-        
-        ShowMessage($"Дух доволен! +{reward} капель");
-        
-        EndVisit(true);
-    }
+        int reward = Mathf.RoundToInt(baseReward * rewardMultiplier * RequestedTeas.Count);
+        credits.droplets += reward * _completedTeasCount;
     
-    public void RejectRequest()
+        ShowMessage($"Дух доволен! +{reward} капель");
+        orderUI.gameObject.SetActive(true);
+        EndVisit();
+    }
+
+    private void RejectRequest()
     {
         ShowMessage("Дух ушел...");
-        EndVisit(false);
+        EndVisit();
     }
     
-    private void EndVisit(bool success)
+    private void EndVisit()
     {
+        acceptButton.interactable = true;
         IsWaitingForTea = false;
         subSlider.gameObject.SetActive(false);
+        slider.gameObject.SetActive(true);
         visitorTalking.DOFade(0, 1);
         circleImage.gameObject.SetActive(false);
-        
+    
         if (_timeoutCoroutine != null)
         {
             StopCoroutine(_timeoutCoroutine);
             _timeoutCoroutine = null;
         }
-        
+    
         visitorPanel.transform.DOMove(startPoint.position, moveDuration)
             .SetEase(Ease.InBack)
             .OnComplete(() => {
-                visitorPanel.SetActive(false);
                 ScheduleNextVisit();
                 requestedTeaIcon.gameObject.SetActive(false);
-                requestedTeaName.gameObject.SetActive(false);
-                });
-        
+                //requestedTeaName.gameObject.SetActive(false);
+                visitorPanel.SetActive(false);
+                
+                RequestedTeas = null;
+                _completedTeas = null;
+                _completedTeasCount = 0;
+            });
+    
         TextMeshProUGUI acceptButtonText = acceptButton.GetComponentInChildren<TextMeshProUGUI>();
         if (acceptButtonText != null)
         {

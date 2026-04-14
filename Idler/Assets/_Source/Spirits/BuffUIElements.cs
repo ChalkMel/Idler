@@ -20,16 +20,21 @@ public class BuffUIElement : MonoBehaviour
       buffIcon.sprite = buff.spirit.icon;
     }
     buffNameText.text = buff.buffName;
-    
+  }
+  
+  public SpiritBuff GetBuff()
+  {
+    return _currentBuff;
   }
     
   private void Update()
   {
     if (_currentBuff != null)
     {
-      buffTimerText.text = Mathf.CeilToInt(_currentBuff.TimeLeft) + "with";
-      timeSlider.value = _currentBuff.TimeLeft / _currentBuff.duration;
-      
+      float timeLeft = _currentBuff.TimeLeft;
+      buffTimerText.text = Mathf.CeilToInt(timeLeft) + "s"; 
+      timeSlider.value = timeLeft / _currentBuff.duration;
+            
       if (!_currentBuff.IsActive)
       {
         Destroy(gameObject);

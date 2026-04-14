@@ -9,13 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 048e8cf3c9205b949b8273e096df3b37, type: 3}
-  m_Name: Upgrade
+  m_Script: {fileID: 11500000, guid: a71b044ce10da9244bc93fe4ff987683, type: 3}
+  m_Name: Chair
   m_EditorClassIdentifier: 
-  itemName: Cloud +
-  icon: {fileID: 5595344114889094419, guid: 1fcd0a5f192820944b3fb041cdb70ab5, type: 3}
-  description: Gives you more droplets
-  cost: 100
+  itemName: Chair
+  icon: {fileID: -6866517479907749189, guid: 1b7325142d02dcb448bc483834cf5fa2, type: 3}
+  description: Adds a chair
+  cost: 1000
   isPurchased: 0
-  itemType: 2
-  effectValue: 1

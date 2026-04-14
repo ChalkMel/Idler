@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "NewTea", menuName = "Tea/Tea Data")]
 public class TeaData : ScriptableObject
@@ -10,7 +12,8 @@ public class TeaData : ScriptableObject
     [TextArea(2, 4)] public string description;
     
     [Header("Brewing")]
-    public float brewingTime = 5f; 
+    public float brewingTime;
+    public float baseBrewingTime; 
     
     [Header("Recipe")]
     public List<IngredientData> ingredients = new List<IngredientData>();
@@ -18,6 +21,7 @@ public class TeaData : ScriptableObject
     [Header("Spirits who like this tea")]
     public List<SpiritData> likedBySpirits = new List<SpiritData>();
     
+
     public bool Matches(List<IngredientData> inputIngredients)
     {
         if (inputIngredients.Count != ingredients.Count)
@@ -60,7 +64,7 @@ public class TeaData : ScriptableObject
             
         foreach (var spirit in likedBySpirits)
         {
-            if (spirit != null && playerSpirits.unlockedSpirits.Contains(spirit))
+            if (spirit != null && playerSpirits.availableSpirits.Contains(spirit))
             {
                 result.Add(spirit);
             }

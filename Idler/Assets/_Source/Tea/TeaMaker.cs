@@ -58,6 +58,11 @@ public class TeaMaker : MonoBehaviour
     {
         return _lastBrewedTea;
     }
+
+    public void ResetLastBrewedTea()
+    {
+        _lastBrewedTea = null;
+    }
     private void Start()
     {
         brewButton.onClick.AddListener(StartBrewing);
@@ -67,8 +72,6 @@ public class TeaMaker : MonoBehaviour
         
         if (brewingPanel != null) brewingPanel.SetActive(false);
         if (teaResultPanel != null) teaResultPanel.SetActive(false);
-        
-        UpdateBrewButtonState();
     }
     
     private void Update()
@@ -80,15 +83,10 @@ public class TeaMaker : MonoBehaviour
     {
         if (brewButton == null) return;
         
-        if (buffManager != null && buffManager.HasActiveBuff())
+        if (buffManager.HasActiveBuff() && !spiritVisitor.IsWaitingForTea && buffManager.GetActiveSpiritsCount() == buffManager.MaxSpiritSlots)
         {
             brewButton.interactable = false;
-            
-            TextMeshProUGUI buttonText = brewButton.GetComponentInChildren<TextMeshProUGUI>();
-            if (buttonText != null)
-            {
-                buttonText.text = "Boost is Active";
-            }
+            ShowMessage("Boost is Active and you have no orders");
         }
         else
         {
@@ -109,10 +107,15 @@ public class TeaMaker : MonoBehaviour
             return;
         }
         
-        if (buffManager != null && buffManager.HasActiveBuff())
+        if (buffManager != null && buffManager.GetActiveSpiritsCount() == buffManager.MaxSpiritSlots && !spiritVisitor.IsWaitingForTea)
         {
             ShowMessage("Wait until boost end!");
             return;
+        }
+
+        if (spiritVisitor.IsWaitingForTea)
+        {
+            ShowMessage(spiritVisitor.SetOrderText());
         }
         
         if (!HasIngredient(ingredient))
@@ -188,7 +191,7 @@ public class TeaMaker : MonoBehaviour
             return;
         }
         
-        if (buffManager != null && buffManager.HasActiveBuff())
+        if (buffManager != null && buffManager.GetActiveSpiritsCount() == buffManager.MaxSpiritSlots && !spiritVisitor.IsWaitingForTea)
         {
             ShowMessage("You can't brew while boost on!");
             return;
@@ -254,7 +257,13 @@ public class TeaMaker : MonoBehaviour
             brewingTimerIcon.sprite = _currentBrewingTea.icon;
             yield return null;
         }
-        _lastBrewedTea = tea;
+
+        if (spiritVisitor.IsWaitingForTea)
+        {
+            _lastBrewedTea = tea;
+            _lastBrewedTea = tea;
+        }
+
         CompleteBrewing(tea);
     }
     
@@ -268,29 +277,26 @@ public class TeaMaker : MonoBehaviour
         }
         brewingTimer.gameObject.SetActive(false);
         brewingTimerIcon.gameObject.SetActive(false);
+    
         List<SpiritData> likedSpirits = tea.GetLikedSpiritsForPlayer(playerSpirits);
         if (likedSpirits.Count > 0 && !spiritVisitor.IsWaitingForTea)
         {
             SpiritData chosenSpirit = likedSpirits[Random.Range(0, likedSpirits.Count)];
             
             ShowTeaAndSpiritResult(tea, chosenSpirit);
-            
+        
             ApplySpiritBuff(chosenSpirit);
-            
+        
             GiveReward(chosenSpirit);
-            
+        
             ShowMessage($"Hooray! Brewed {tea.teaName} and {chosenSpirit.spiritName} came");
-
-            _lastBrewedTea = null;
         }
         else if (spiritVisitor.IsWaitingForTea)
         {
-            if (spiritVisitor.RequestedTea == _lastBrewedTea)
+            if (spiritVisitor.RequestedTeas != null && spiritVisitor.RequestedTeas.Contains(_lastBrewedTea))
             {
-               ShowMessage("You completed order");
-               orderUI.SetActive(true); 
+                ShowMessage(spiritVisitor.SetOrderText());
             }
-            
         }
         else
         {
@@ -298,11 +304,10 @@ public class TeaMaker : MonoBehaviour
             wrongPanel.SetActive(true);
             ReturnIngredients();
         }
-        
+    
         _isBrewing = false;
         clearButton.interactable = true;
         SetIngredientButtonsInteractable(true);
-        
         ClearVisuals();
     }
     
@@ -350,7 +355,6 @@ public class TeaMaker : MonoBehaviour
     private void ApplySpiritBuff(SpiritData spirit)
     {
         if (buffManager == null || spirit == null) return;
-        
         buffManager.AddBuff(spirit);
         ApplyInstantSpiritEffect(spirit);
     }

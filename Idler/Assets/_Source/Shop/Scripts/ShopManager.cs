@@ -7,6 +7,7 @@ public class ShopManager : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Credits credits;
+    [SerializeField] private SpiritBuffManager spiritBuffManager;
     
     [Header("UI Elements")]
     [SerializeField] private TextMeshProUGUI dropletsText;
@@ -27,12 +28,6 @@ public class ShopManager : MonoBehaviour
         InitializeShopItems();
         
         messageText.gameObject.SetActive(false);
-        foreach (var item in shopItems)
-        {
-            item.isPurchased = false;
-            if(item.itemType == ShopItemType.Helper)
-                item.cost = 200;
-        }
         
     }
     
@@ -81,7 +76,7 @@ public class ShopManager : MonoBehaviour
         }
         item.isPurchased = true;
         credits.droplets -= item.cost;
-        item.ApplyEffect(item, credits);
+        item.ApplyEffect(item, credits, spiritBuffManager);
 
         UpdateDropletsDisplay();
         UpdateAllItemButtons();

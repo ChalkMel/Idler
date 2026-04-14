@@ -11,10 +11,10 @@ public class BushGenerator : MonoBehaviour
     [SerializeField] private Credits credits;
     
     [Header("Spawn Area")]
-    [SerializeField] private Vector2 spawnAreaMin = new Vector2(-5, -2);
-    [SerializeField] private Vector2 spawnAreaMax = new Vector2(5, 2);
+    [SerializeField] private Vector2 spawnAreaMin = new Vector2();
+    [SerializeField] private Vector2 spawnAreaMax = new Vector2();
     [SerializeField] private float minDistance;
-    
+    [SerializeField] private float radius;
     private List<Bush> _bushes = new List<Bush>();
     private System.Random _random;
     

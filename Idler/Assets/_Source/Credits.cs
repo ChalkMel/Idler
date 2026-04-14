@@ -21,10 +21,10 @@ public class Credits : MonoBehaviour
   [SerializeField] private TextMeshProUGUI _leavesText;
   [SerializeField] private TextMeshProUGUI _berriesText;
   [SerializeField] private TextMeshProUGUI _flowersText;
-  public int dropletsMulti = 1;
-  public int leavesMulti = 1;
-  public int berriesMulti = 1;
-  public int flowersMulti = 1;
+  public float dropletsMulti = 1;
+  public float leavesMulti = 1;
+  public float berriesMulti = 1;
+  public float flowersMulti = 1;
 
   private Random _random;
   private float _timer;
@@ -41,7 +41,7 @@ public class Credits : MonoBehaviour
     _timer += Time.deltaTime;
     if (_timer >= _helperTimer)
     {
-      droplets += HelperCount * dropletsMulti;
+      droplets += (int)Mathf.Round(HelperCount * dropletsMulti);
       leaves += HelperCount;
       berries += HelperCount;
       flowers += HelperCount;
@@ -52,15 +52,15 @@ public class Credits : MonoBehaviour
 
   public void BushDrop()
   {
-    leaves += _random.Next(_leavesChance[0] * leavesMulti, (_leavesChance[1] + 1) * leavesMulti);
+    leaves += _random.Next((int) (_leavesChance[0] * leavesMulti), (int) ((_leavesChance[1] + 1) * leavesMulti));
     int random = _random.Next(1, 3);
     switch (random)
     {
       case 1:
-        berries += _random.Next(_berriesChance[0] * berriesMulti, (_berriesChance[1] + 1) * berriesMulti);
+        berries += _random.Next((int) (_berriesChance[0] * berriesMulti), (int) ((_berriesChance[1] + 1) * berriesMulti));
         break;
       case 2:
-        flowers += _random.Next(_flowersChance[0] * flowersMulti, (_flowersChance[1] + 1) * flowersMulti);
+        flowers += _random.Next((int) (_flowersChance[0] * flowersMulti), (int) ((_flowersChance[1] + 1) * flowersMulti));
         break;
     }
     UpdateUI();
@@ -68,7 +68,7 @@ public class Credits : MonoBehaviour
 
   public void DropletsDrop()
   {
-    droplets += _random.Next(_dropletsChance[0] * dropletsMulti, (_dropletsChance[1] + 1) * dropletsMulti);
+    droplets += _random.Next((int) (_dropletsChance[0] * dropletsMulti), (int) ((_dropletsChance[1] + 1) * dropletsMulti));
     UpdateUI();
   }
     
