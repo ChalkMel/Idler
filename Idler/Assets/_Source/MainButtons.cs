@@ -60,7 +60,7 @@ public class MainButtons : MonoBehaviour
         Open(TeaUI);
         WindowHelper.Show(DeerUI, 0.5f);
         deerUIText.text = deerTalks[_random.Next(0, deerTalks.Count)];
-        teaMaker.UpdateCounters();
+        //teaMaker.UpdateCounters();
     }
     
     private void OpenShopUI()

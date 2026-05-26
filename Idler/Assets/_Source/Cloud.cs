@@ -7,6 +7,8 @@ public class Cloud : MonoBehaviour
     [SerializeField] private GameObject dropletPrefab;
     [SerializeField] private Vector2 punchScale;
     [SerializeField] private float duration;
+    [SerializeField] private float rangeY = 2f;
+    [SerializeField] private float rangeX = -0.7f;
     private void OnMouseDown()
     {
         if(EventSystem.current.IsPointerOverGameObject()) return;
@@ -14,7 +16,7 @@ public class Cloud : MonoBehaviour
         transform.DOPunchScale(punchScale, duration);
         
         Vector2 randomPoint = (Vector2)transform.position + 
-                              new Vector2(Random.Range(-2f, 2f), -0.7f);
+                              new Vector2(Random.Range(rangeY, -rangeY), rangeX);
         
         GameObject droplet = Instantiate(dropletPrefab, randomPoint, Quaternion.identity);
 

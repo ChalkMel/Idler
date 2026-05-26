@@ -20,6 +20,8 @@ public class SpiritMenu : MonoBehaviour
     
     [Header("Settings")]
     [SerializeField] private bool startHidden = true;
+
+    [SerializeField] private Color butColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
     
     private List<GameObject> _spiritButtons = new List<GameObject>();
     
@@ -97,7 +99,7 @@ public class SpiritMenu : MonoBehaviour
                     Image buttonImage = buttonObj.GetComponent<Image>();
                     if (buttonImage != null)
                     {
-                        buttonImage.color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+                        buttonImage.color = butColor;
                     }
                 }
             }
@@ -119,7 +121,7 @@ public class SpiritMenu : MonoBehaviour
                     
                     if (!spirit.isUnlocked)
                     {
-                        image.color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+                        image.color = butColor;
                     }
                 }
                 break;
@@ -133,7 +135,7 @@ public class SpiritMenu : MonoBehaviour
             
             if (!spirit.isUnlocked)
             {
-                buttonObj.GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+                buttonObj.GetComponent<Image>().color = butColor;
             }
         }
         
@@ -155,7 +157,7 @@ public class SpiritMenu : MonoBehaviour
                 selectedSpiritIcon.sprite = spirit.icon;
                 selectedSpiritIcon.preserveAspect = true;
 
-                selectedSpiritIcon.color = spirit.isUnlocked ? Color.white : new Color(0.5f, 0.5f, 0.5f, 0.5f);
+                selectedSpiritIcon.color = spirit.isUnlocked ? Color.white : butColor;
             }
         }
         

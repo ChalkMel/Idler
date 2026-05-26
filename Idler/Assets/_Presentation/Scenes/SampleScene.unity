@@ -1797,7 +1797,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &103959007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2581,6 +2581,143 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 145124763}
   m_CullTransparentMesh: 1
+--- !u!1 &149023128
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 149023131}
+  - component: {fileID: 149023136}
+  - component: {fileID: 149023135}
+  - component: {fileID: 149023134}
+  - component: {fileID: 149023133}
+  - component: {fileID: 149023132}
+  m_Layer: 0
+  m_Name: TeaMaker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &149023131
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149023128}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 263.68152, y: 240.86084, z: -0.10528367}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &149023132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149023128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef786068b03449ed8dbe0e136e2e280a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _resultPanel: {fileID: 1733985290}
+  _resultTeaIcon: {fileID: 826784134}
+  _resultTeaName: {fileID: 805375550}
+  _resultTeaDescription: {fileID: 786214028}
+  _resultSpiritIcon: {fileID: 998992296}
+  _resultSpiritName: {fileID: 970986349}
+  _resultBuffInfo: {fileID: 570327605}
+  _displayDuration: 5
+--- !u!114 &149023133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149023128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9194f1599a9f43acb6416f44d3f52009, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _credits: {fileID: 1007498499}
+  _buffManager: {fileID: 1872723483}
+  _spiritVisitor: {fileID: 684441090}
+  _playerSpirits: {fileID: 11400000, guid: 790a382cb0dfdd2499a1b4dbeec78992, type: 2}
+  allTeas:
+  - {fileID: 11400000, guid: e164f1450fba186459b7a75a04cdbceb, type: 2}
+  - {fileID: 11400000, guid: fdb9ca0c220d95547ad3bcaf76376175, type: 2}
+  _cauldronUI: {fileID: 149023135}
+  _resultPresenter: {fileID: 149023132}
+  _inventory: {fileID: 149023134}
+  _brewingProcess: {fileID: 149023136}
+--- !u!114 &149023134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149023128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3d079dd10ed40e3b8c72c8192ea1a8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _credits: {fileID: 1007498499}
+--- !u!114 &149023135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149023128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4cc6ab8d90f43f6992ff8c2e2176ade, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ingredientsPanel: {fileID: 525193353}
+  _ingredientUIPrefab: {fileID: 9195183364521216959, guid: 6d5a7a3a28118b7449c5a2ff18d395a1, type: 3}
+  _berryCountText: {fileID: 1260447008}
+  _flowerCountText: {fileID: 1943794076}
+  _leafCountText: {fileID: 1305164565}
+  _brewButton: {fileID: 43350169}
+  _clearButton: {fileID: 1024689979}
+  _messageText: {fileID: 1240714236}
+--- !u!114 &149023136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149023128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35ee5d41d37e4ff7b2857aedb793be2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _brewingPanel: {fileID: 1755169137}
+  _brewingSlider: {fileID: 106416512}
+  _brewingTimeText: {fileID: 129679101}
+  _brewingTeaNameText: {fileID: 564371546}
+  _brewingTeaIcon: {fileID: 581960217}
+  _brewingTimer: {fileID: 0}
+  _brewingTimerIcon: {fileID: 0}
+  OnBrewingStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBrewingCompleted:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &159478479
 GameObject:
   m_ObjectHideFlags: 0
@@ -6648,6 +6785,142 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 562242143}
   m_CullTransparentMesh: 1
+--- !u!1 &564371544
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 564371545}
+  - component: {fileID: 564371547}
+  - component: {fileID: 564371546}
+  m_Layer: 5
+  m_Name: TeaName
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &564371545
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 564371544}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1755169140}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 181.01, y: 68.8}
+  m_SizeDelta: {x: 466.26, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &564371546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 564371544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: New Text
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &564371547
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 564371544}
+  m_CullTransparentMesh: 1
 --- !u!1 &570327603
 GameObject:
   m_ObjectHideFlags: 0
@@ -6920,6 +7193,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 571023174}
   m_CullTransparentMesh: 1
+--- !u!1 &581960215
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 581960216}
+  - component: {fileID: 581960218}
+  - component: {fileID: 581960217}
+  m_Layer: 5
+  m_Name: TeaIcon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &581960216
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581960215}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1755169140}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &581960217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581960215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &581960218
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581960215}
+  m_CullTransparentMesh: 1
 --- !u!1 &600285996
 GameObject:
   m_ObjectHideFlags: 0
@@ -7150,7 +7498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8783a101aa3f88c4d9f5c4db2cd44e23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teaMaker: {fileID: 811048910}
+  teaMaker: {fileID: 0}
   teaListParent: {fileID: 1446825213}
   teaButtonPrefab: {fileID: 1697529090688273577, guid: 1e7a98009fe2d944b813c8dddce8a8ed, type: 3}
   selectedTeaIcon: {fileID: 819883636}
@@ -8188,6 +8536,11 @@ GameObject:
   m_Component:
   - component: {fileID: 684441091}
   - component: {fileID: 684441090}
+  - component: {fileID: 684441096}
+  - component: {fileID: 684441092}
+  - component: {fileID: 684441095}
+  - component: {fileID: 684441093}
+  - component: {fileID: 684441094}
   m_Layer: 0
   m_Name: OrderManager
   m_TagString: Untagged
@@ -8207,40 +8560,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fc05673ae3e5d444a899e1cc6b23d86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spiritCollection: {fileID: 11400000, guid: 790a382cb0dfdd2499a1b4dbeec78992, type: 2}
-  credits: {fileID: 1007498499}
-  teaMaker: {fileID: 811048910}
-  orderUI: {fileID: 744106358}
-  visitorPanel: {fileID: 954491543}
-  visitorTalking: {fileID: 1690748420}
-  spiritIcon: {fileID: 954491545}
-  spiritNameText: {fileID: 1248251267}
-  requestText: {fileID: 1633595035}
-  requestedTeaIcon: {fileID: 1993634580}
-  requestedTeaName: {fileID: 0}
-  acceptButton: {fileID: 1652468846}
-  rejectButton: {fileID: 1394870299}
-  timerText: {fileID: 604749994}
-  circleImage: {fileID: 103959007}
-  slider: {fileID: 1442897916}
-  sliderHandle: {fileID: 343951261}
-  onWayImage: {fileID: -3164809056393425246, guid: 6f3bd8d0f35a317468226416510c8437, type: 3}
-  waitResponseImage: {fileID: -6866517479907749189, guid: 1b7325142d02dcb448bc483834cf5fa2, type: 3}
-  waitImage: {fileID: 8438372123229881108, guid: c94c3c16ebf0e75498fd8befec2ed192, type: 3}
-  subSlider: {fileID: 659357058}
-  startPoint: {fileID: 1847412196}
-  endPoint: {fileID: 347063235}
-  moveDuration: 1.5
-  moveEase: 17
-  minTimeBetweenVisits: 5
-  maxTimeBetweenVisits: 8
-  requestTimeout: 60
-  baseReward: 50
-  rewardMultiplier: 2
-  IsWaitingForTea: 0
-  minTeasInOrder: 3
-  maxTeasInOrder: 3
-  RequestedTeas: []
+  _spawner: {fileID: 684441093}
+  _matcher: {fileID: 684441092}
 --- !u!4 &684441091
 Transform:
   m_ObjectHideFlags: 0
@@ -8256,6 +8577,103 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &684441092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684441089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af3910f8fbca4fd387a651da6dc99f90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &684441093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684441089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 886ed6bcb35e43778a51ca395edcbd33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _orderGenerator: {fileID: 684441096}
+  _orderMatcher: {fileID: 684441092}
+  _rewardDistributor: {fileID: 684441095}
+  _visitorUI: {fileID: 684441094}
+  _teaMaker: {fileID: 149023133}
+  _minTimeBetweenVisits: 1
+  _maxTimeBetweenVisits: 10
+  _responseTimeout: 15
+  _requestTimeout: 60
+--- !u!114 &684441094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684441089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca9425858b2d467c93c632a028ba8203, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _visitorPanel: {fileID: 954491543}
+  _visitorTalking: {fileID: 1690748420}
+  _orderUI: {fileID: 1690748416}
+  _spiritIcon: {fileID: 954491545}
+  _spiritNameText: {fileID: 1248251267}
+  _requestText: {fileID: 1633595035}
+  _requestedTeaIcon: {fileID: 1993634580}
+  _requestedTeaName: {fileID: 1633595035}
+  _acceptButton: {fileID: 1652468846}
+  _rejectButton: {fileID: 1394870299}
+  _timerText: {fileID: 604749994}
+  _slider: {fileID: 1442897916}
+  _sliderHandle: {fileID: 343951261}
+  _subSlider: {fileID: 659357058}
+  _startPoint: {fileID: 1847412196}
+  _endPoint: {fileID: 347063235}
+  _moveDuration: 1.5
+  _moveEase: 27
+  _onWayImage: {fileID: -3164809056393425246, guid: 6f3bd8d0f35a317468226416510c8437, type: 3}
+  _waitResponseImage: {fileID: -6866517479907749189, guid: 1b7325142d02dcb448bc483834cf5fa2, type: 3}
+  _waitImage: {fileID: 8438372123229881108, guid: c94c3c16ebf0e75498fd8befec2ed192, type: 3}
+--- !u!114 &684441095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684441089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 467471bb465b455f8034844dea8665a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _credits: {fileID: 1007498499}
+  _baseReward: 50
+  _rewardMultiplier: 2
+--- !u!114 &684441096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684441089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4891e2684e14ffebe9000ab4d258f39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _teaMaker: {fileID: 149023133}
+  _spiritCollection: {fileID: 11400000, guid: 790a382cb0dfdd2499a1b4dbeec78992, type: 2}
+  _minTeasInOrder: 1
+  _maxTeasInOrder: 3
 --- !u!1 &688143247
 GameObject:
   m_ObjectHideFlags: 0
@@ -9757,7 +10175,7 @@ MonoBehaviour:
   - You may earn droplets by doing orders
   DeerUI: {fileID: 451999220}
   deerUIText: {fileID: 1240714236}
-  teaMaker: {fileID: 811048910}
+  teaMaker: {fileID: 0}
   shopUI: {fileID: 1380788318}
 --- !u!114 &811048909
 MonoBehaviour:
@@ -9766,33 +10184,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 811048903}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f4c42152df25294ebbdd681d6a895a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  availableZones:
-  - {fileID: 11400000, guid: 4629a11e4efc50642bf66b063baa4b63, type: 2}
-  - {fileID: 11400000, guid: a317ee68024e3fe43ba0351a0b814803, type: 2}
-  spiritCollection: {fileID: 11400000, guid: 790a382cb0dfdd2499a1b4dbeec78992, type: 2}
-  frogSprite: {fileID: 983620454}
-  frogMover: {fileID: 133325906}
-  explorationPanel: {fileID: 478579171}
-  zoneNameText: {fileID: 20183871}
-  zoneDescriptionText: {fileID: 374775057}
-  zoneIconImage: {fileID: 562242145}
-  timeText: {fileID: 97483872}
-  timerText: {fileID: 943113594}
-  timerMainScreenText: {fileID: 1078087748}
-  confirmButton: {fileID: 1747603562}
-  cancelButton: {fileID: 1413670641}
-  timerSlider: {fileID: 926593046}
-  frogTalks: {fileID: 1173658848}
-  spiritFoundPanel: {fileID: 536735159}
-  foundSpiritIcon: {fileID: 986241866}
-  foundSpiritName: {fileID: 1964810114}
-  foundSpiritDescription: {fileID: 1809681150}
-  closeSpiritPanelButton: {fileID: 235705195}
+  _executor: {fileID: 0}
+  _zoneSelectionUI: {fileID: 0}
 --- !u!114 &811048910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9800,7 +10198,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 811048903}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 69aeb376eb89eac41aac61440e9b48c0, type: 3}
   m_Name: 
@@ -10840,9 +11238,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01ebf492784d6134f83e0a12e17def14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredientData: {fileID: 11400000, guid: 31a24069da1d82f4ab5f32bd7371100a, type: 2}
-  parent: {fileID: 525193353}
-  teaMaker: {fileID: 811048910}
+  _ingredientData: {fileID: 11400000, guid: 31a24069da1d82f4ab5f32bd7371100a, type: 2}
+  _teaController: {fileID: 149023133}
   _dropZoneTag: DropZone
 --- !u!1 &926593045
 GameObject:
@@ -11636,11 +12033,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2091988837}
+  m_Father: {fileID: 1679134353}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -956.00006, y: -245.78}
+  m_AnchoredPosition: {x: -706, y: -245.78}
   m_SizeDelta: {x: 550, y: 488.432}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &983620456
@@ -12000,9 +12397,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   droplets: 0
-  leaves: 0
-  berries: 0
-  flowers: 0
+  leaves: 10
+  berries: 10
+  flowers: 10
   _helperTimer: 5
   _dropletsChance: 0100000003000000
   _leavesChance: 0100000002000000
@@ -12302,6 +12699,174 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1008906322}
   m_CullTransparentMesh: 1
+--- !u!1 &1012733062
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1012733071}
+  - component: {fileID: 1012733070}
+  - component: {fileID: 1012733069}
+  - component: {fileID: 1012733068}
+  - component: {fileID: 1012733067}
+  - component: {fileID: 1012733066}
+  - component: {fileID: 1012733065}
+  - component: {fileID: 1012733064}
+  - component: {fileID: 1012733063}
+  m_Layer: 0
+  m_Name: Explore
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1012733063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1012733062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c40aea244937435a965947654a2913c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spiritCollection: {fileID: 11400000, guid: 790a382cb0dfdd2499a1b4dbeec78992, type: 2}
+--- !u!114 &1012733064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1012733062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e26d52eddab64b999dbdc7b117ae975c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _zoneButtons:
+  - {fileID: 1424948251}
+  - {fileID: 1164733104}
+  _explorationPanel: {fileID: 478579171}
+  _zoneNameText: {fileID: 20183871}
+  _zoneDescriptionText: {fileID: 374775057}
+  _zoneIconImage: {fileID: 562242145}
+  _zoneInfoText: {fileID: 97483872}
+  _confirmButton: {fileID: 1747603562}
+  _cancelButton: {fileID: 1413670641}
+  _messageText: {fileID: 1173658848}
+--- !u!114 &1012733065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1012733062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c01eb7b553054dce8fc94bda4a546ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spiritCollection: {fileID: 11400000, guid: 790a382cb0dfdd2499a1b4dbeec78992, type: 2}
+--- !u!114 &1012733066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1012733062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60369fb126374ef6be7e9b55dfe4f1ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _popupPanel: {fileID: 536735159}
+  _spiritIcon: {fileID: 986241866}
+  _spiritNameText: {fileID: 1964810114}
+  _spiritDescriptionText: {fileID: 1809681150}
+  _closeButton: {fileID: 235705195}
+  _autoCloseDelay: 5
+--- !u!114 &1012733067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1012733062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dba099cb55b40f0bf208c27ad5f86d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _frogSprite: {fileID: 983620454}
+  _frogMover: {fileID: 133325906}
+  _originalPosition: {x: 0, y: 0, z: 0}
+--- !u!114 &1012733068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1012733062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a76fc4cfca5f49f29aeb7e191fc8da3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _timerSlider: {fileID: 926593046}
+  _timerText: {fileID: 943113594}
+  _timerMainScreenText: {fileID: 1078087748}
+--- !u!114 &1012733069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1012733062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 879ecff1052e48e1b8f4d2daee439f03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _zoneUnlockService: {fileID: 1012733063}
+  _spiritUnlockService: {fileID: 1012733065}
+  _frogMover: {fileID: 1012733067}
+  _zoneSelectionUI: {fileID: 1012733064}
+  _timerUI: {fileID: 1012733068}
+  _popupUI: {fileID: 1012733066}
+--- !u!114 &1012733070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1012733062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f4c42152df25294ebbdd681d6a895a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _executor: {fileID: 1012733069}
+  _zoneSelectionUI: {fileID: 1012733064}
+--- !u!4 &1012733071
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1012733062}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 352.3861, y: 218.4289, z: -0.013502534}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1024689977
 GameObject:
   m_ObjectHideFlags: 0
@@ -14100,11 +14665,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 756f1ad7ee6d0f640a93eaf61c21be49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zoneIndex: 1
-  explorationManager: {fileID: 811048909}
-  zoneIcon: {fileID: 0}
-  zoneNameText: {fileID: 0}
-  progressText: {fileID: 0}
+  _zoneData: {fileID: 11400000, guid: a317ee68024e3fe43ba0351a0b814803, type: 2}
+  _buttonImage: {fileID: 1164733102}
+  _buttonText: {fileID: 887247101}
+  _explorationExecutor: {fileID: 1012733069}
 --- !u!1 &1167966476
 GameObject:
   m_ObjectHideFlags: 0
@@ -14643,6 +15207,7 @@ MonoBehaviour:
   spawnAreaMax: {x: 7, y: -3}
   minDistance: 1.8
   radius: 0
+  waitfor: 0.2
 --- !u!4 &1179888184
 Transform:
   m_ObjectHideFlags: 0
@@ -16543,9 +17108,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01ebf492784d6134f83e0a12e17def14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredientData: {fileID: 11400000, guid: 08e1e322de420e141ac7836b8c9beead, type: 2}
-  parent: {fileID: 525193353}
-  teaMaker: {fileID: 811048910}
+  _ingredientData: {fileID: 11400000, guid: 08e1e322de420e141ac7836b8c9beead, type: 2}
+  _teaController: {fileID: 149023133}
   _dropZoneTag: DropZone
 --- !u!1 &1394870297
 GameObject:
@@ -17044,11 +17608,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 756f1ad7ee6d0f640a93eaf61c21be49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zoneIndex: 0
-  explorationManager: {fileID: 811048909}
-  zoneIcon: {fileID: 0}
-  zoneNameText: {fileID: 0}
-  progressText: {fileID: 0}
+  _zoneData: {fileID: 11400000, guid: 4629a11e4efc50642bf66b063baa4b63, type: 2}
+  _buttonImage: {fileID: 1424948249}
+  _buttonText: {fileID: 1928460755}
+  _explorationExecutor: {fileID: 1012733069}
 --- !u!1 &1442897914
 GameObject:
   m_ObjectHideFlags: 0
@@ -19626,6 +20189,7 @@ RectTransform:
   - {fileID: 1173658847}
   - {fileID: 943113593}
   - {fileID: 2091988837}
+  - {fileID: 983620455}
   - {fileID: 478579172}
   m_Father: {fileID: 811048904}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -20605,6 +21169,8 @@ RectTransform:
   m_Children:
   - {fileID: 106416513}
   - {fileID: 129679103}
+  - {fileID: 564371545}
+  - {fileID: 581960216}
   m_Father: {fileID: 1941225221}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
@@ -20877,6 +21443,7 @@ MonoBehaviour:
   likedTeasPanel: {fileID: 1274893455}
   teaIconPrefab: {fileID: 1083590305664904205, guid: 79bddd2dd6a1adc44a3a15484b75e946, type: 3}
   startHidden: 0
+  butColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
 --- !u!114 &1784075723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22263,9 +22830,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01ebf492784d6134f83e0a12e17def14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredientData: {fileID: 11400000, guid: 183f08c2c94038d419a2688a82c143ca, type: 2}
-  parent: {fileID: 525193353}
-  teaMaker: {fileID: 811048910}
+  _ingredientData: {fileID: 11400000, guid: 183f08c2c94038d419a2688a82c143ca, type: 2}
+  _teaController: {fileID: 149023133}
   _dropZoneTag: DropZone
 --- !u!1 &1918725059
 GameObject:
@@ -22366,6 +22932,8 @@ MonoBehaviour:
   dropletPrefab: {fileID: 2514663798817962392, guid: 5b1bab1d54e9ca141895b0ae0e418a9d, type: 3}
   punchScale: {x: 0.1, y: 0.1}
   duration: 0.05
+  rangeY: 2
+  rangeX: -0.7
 --- !u!212 &1918725062
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -23592,7 +24160,6 @@ RectTransform:
   - {fileID: 1420959285}
   - {fileID: 1164733100}
   - {fileID: 133325907}
-  - {fileID: 983620455}
   m_Father: {fileID: 1679134353}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -23654,3 +24221,5 @@ SceneRoots:
   - {fileID: 968849911}
   - {fileID: 684441091}
   - {fileID: 1904393646}
+  - {fileID: 149023131}
+  - {fileID: 1012733071}

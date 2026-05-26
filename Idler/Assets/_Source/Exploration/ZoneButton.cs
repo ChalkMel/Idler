@@ -4,27 +4,66 @@ using TMPro;
 
 public class ZoneButton : MonoBehaviour
 {
-  [SerializeField] public int zoneIndex;
-  [SerializeField] private Exploration explorationManager;
+  [SerializeField] private ZoneData _zoneData;
+  [SerializeField] private Image _buttonImage;
+  [SerializeField] private TextMeshProUGUI _buttonText;
     
-  [Header("UI Elements")]
-  [SerializeField] private Image zoneIcon;
-  [SerializeField] private TextMeshProUGUI zoneNameText;
-  [SerializeField] private TextMeshProUGUI progressText;
+  // Добавляем ссылку на ExplorationExecutor
+  [SerializeField] private ExplorationExecutor _explorationExecutor;
     
   private Button _button;
+    
+  public ZoneData ZoneData => _zoneData;
     
   private void Start()
   {
     _button = GetComponent<Button>();
-    _button.onClick.AddListener(OnClick);
+        
+    // Если ссылка не назначена в инспекторе - ищем автоматически
+    if (_explorationExecutor == null)
+    {
+      _explorationExecutor = FindFirstObjectByType<ExplorationExecutor>();
+    }
+        
+    if (_button != null)
+    {
+      _button.onClick.AddListener(OnButtonClick);
+    }
   }
     
-  private void OnClick()
+  private void OnButtonClick()
   {
-    if (explorationManager != null)
+    if (_explorationExecutor != null && _zoneData != null)
     {
-      explorationManager.SelectZone(zoneIndex);
+      _explorationExecutor.SelectZone(_zoneData);
+    }
+    else
+    {
+      Debug.LogError($"Cannot select zone! Executor: {_explorationExecutor}, ZoneData: {_zoneData}");
+    }
+  }
+    
+  public void UpdateVisual(bool isComplete, bool isUnlocked, bool isExploring)
+  {
+    if (_buttonImage != null)
+    {
+      if (isComplete)
+        _buttonImage.color = Color.green;
+      else if (isExploring)
+        _buttonImage.color = Color.yellow;
+      else
+        _buttonImage.color = Color.white;
+    }
+        
+    if (_buttonText != null)
+    {
+      string text = _zoneData != null ? _zoneData.zoneName : "Unknown";
+      _buttonText.text = isComplete ? $"{text} ✓" : text;
+    }
+        
+    if (_button != null)
+    {
+      _button.interactable = isUnlocked && !isComplete && !isExploring;
     }
   }
 }
