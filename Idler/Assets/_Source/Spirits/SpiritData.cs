@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Effects;
 
 [CreateAssetMenu(fileName = "NewSpirit", menuName = "Spirit")]
 public class SpiritData : ScriptableObject
@@ -16,6 +17,7 @@ public class SpiritData : ScriptableObject
   [Header("Buff")]
   public string buffName;
   [TextArea(1, 2)] public string buffDescription;
+  public SpiritEffect effect;
   public float buffMultiplier = 1.0f;
   public float buffDuration = 30f;
     

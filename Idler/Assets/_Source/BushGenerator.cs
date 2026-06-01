@@ -21,6 +21,7 @@ public class BushGenerator : MonoBehaviour
     
     private void Awake()
     {
+        //_audioSource = GetComponent<AudioSource>();
         _random = new System.Random();
         
         for (int i = 0; i < bushCount; i++)
@@ -84,6 +85,7 @@ public class BushGenerator : MonoBehaviour
     public void OnBushClicked(Bush bush)
     {
         credits.BushDrop();
+        //_audioSource.Play();
         StartCoroutine(RespawnBush(bush));
     }
     

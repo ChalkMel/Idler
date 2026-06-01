@@ -10,19 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f19cce6d2ddddeb418cf736998b629d8, type: 3}
-  m_Name: Spider
+  m_Name: Fox
   m_EditorClassIdentifier: 
   spiritId: 3
-  spiritName: Spider
+  spiritName: "\u0410\u0436\u0443\u0440"
   icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   description: Spidy
   likedTeas:
   - {fileID: 11400000, guid: fdb9ca0c220d95547ad3bcaf76376175, type: 2}
   buffName: Less brew
   buffDescription: 
-  buffMultiplier: 1
-  buffDuration: 5
-  isUnlocked: 1
+  effect: {fileID: 11400000, guid: 9a0fc29ee8c1bb440864b691bf4686a3, type: 2}
+  buffMultiplier: 1.3
+  buffDuration: 120
+  isUnlocked: 0
   relationships:
-  - otherSpirit: {fileID: 11400000, guid: e7255aba9c5f502469a85f74a664d3b6, type: 2}
+  - otherSpirit: {fileID: 11400000, guid: 4ba4dd6c77b6ef0418cac612dadab6b3, type: 2}
     relationshipType: 2
+  - otherSpirit: {fileID: 11400000, guid: 74ec35319b4cc894ca41b2555a8a56e8, type: 2}
+    relationshipType: 1

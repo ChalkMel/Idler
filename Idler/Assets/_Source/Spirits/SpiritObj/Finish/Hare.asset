@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19cce6d2ddddeb418cf736998b629d8, type: 3}
+  m_Name: Hare
+  m_EditorClassIdentifier: 
+  spiritId: 3
+  spiritName: "\u041B\u0435\u043F\u0442\u043E\u2019\u043D"
+  icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  description: Spidy
+  likedTeas:
+  - {fileID: 11400000, guid: fdb9ca0c220d95547ad3bcaf76376175, type: 2}
+  buffName: Less brew
+  buffDescription: 
+  effect: {fileID: 11400000, guid: 9a0fc29ee8c1bb440864b691bf4686a3, type: 2}
+  buffMultiplier: 2
+  buffDuration: 90
+  isUnlocked: 0
+  relationships:
+  - otherSpirit: {fileID: 11400000, guid: 14102cb532978da488172977c3f5f5de, type: 2}
+    relationshipType: 2
+  - otherSpirit: {fileID: 11400000, guid: 74ec35319b4cc894ca41b2555a8a56e8, type: 2}
+    relationshipType: 1

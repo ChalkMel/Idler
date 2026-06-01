@@ -4,7 +4,6 @@ using UnityEngine.EventSystems;
 public class Bush : MonoBehaviour
 {
     [SerializeField] private BushGenerator generator;
-    
     public void Initialize(BushGenerator gen)
     {
         generator = gen;

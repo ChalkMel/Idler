@@ -6,6 +6,7 @@ public class HelperItem : ShopItem
   [Header("Helper Settings")]
   public int baseCost = 50;
   public int costMultiplier = 2;
+  private int bought = 0;
 
   public override void ApplyEffect(ShopItem item, Credits credits, SpiritBuffManager spiritBuffManager)
   {
@@ -13,6 +14,5 @@ public class HelperItem : ShopItem
     isPurchased = false;
     cost *= costMultiplier;
     credits.HelperCount++;
-    
   }
 }

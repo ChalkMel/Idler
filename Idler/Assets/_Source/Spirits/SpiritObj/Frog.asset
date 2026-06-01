@@ -20,6 +20,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e164f1450fba186459b7a75a04cdbceb, type: 2}
   buffName: More droplets
   buffDescription: Give you x2 droplets
+  effect: {fileID: 11400000, guid: 980f57cf908458a4b94df2b16f6a673e, type: 2}
   buffMultiplier: 2
   buffDuration: 30
   isUnlocked: 1

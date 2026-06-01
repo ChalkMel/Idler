@@ -20,6 +20,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fdb9ca0c220d95547ad3bcaf76376175, type: 2}
   buffName: Nature's fav
   buffDescription: Gives you x2 flowers or berries
+  effect: {fileID: 11400000, guid: 92cb93eb2f7405b408750f730ff7cfed, type: 2}
   buffMultiplier: 2
   buffDuration: 5
   isUnlocked: 1

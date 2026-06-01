@@ -5,14 +5,14 @@ public class CauldronUpgradeItem : ShopItem
 {
   [Header("Cauldron Settings")]
   public float brewingTimeReduction = 2f;
+  public TeaCollection teaCollection;
 
   public override void ApplyEffect(ShopItem item, Credits credits, SpiritBuffManager spiritBuffManager)
   {
     base.ApplyEffect(item, credits, spiritBuffManager);
     isPurchased = true;
-        
-    TeaMaker teaMaker = FindFirstObjectByType<TeaMaker>();
-    foreach (TeaData tea in teaMaker.allTeas)
+    
+    foreach (TeaData tea in teaCollection.allTeas)
     {
       tea.brewingTime /= brewingTimeReduction;
     }

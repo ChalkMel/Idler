@@ -10,7 +10,7 @@ public class ExplorationExecutor : MonoBehaviour
     [SerializeField] private ZoneSelectionUI _zoneSelectionUI;
     [SerializeField] private ExplorationTimerUI _timerUI;
     [SerializeField] private SpiritFoundPopupUI _popupUI;
-    
+    [SerializeField] private Credits _credits;
     private ExplorationData _currentExploration;
     private bool _isExploring;
     private Transform _selectedZoneButtonTransform;
@@ -43,6 +43,25 @@ public class ExplorationExecutor : MonoBehaviour
             if (_currentExploration.IsComplete)
             {
                 CompleteExploration();
+            }
+        }
+    }
+
+    private void GiveInstantReward(ZoneData zone)
+    {
+        foreach (var ingredient in zone.ingredients)
+        {
+            switch (ingredient.type)
+            {
+                case IngredientType.Berry:
+                    _credits.berries++;
+                    break;
+                case IngredientType.Flower:
+                    _credits.flowers++;
+                    break;
+                case IngredientType.Leaf:
+                    _credits.leaves++;
+                    break;
             }
         }
     }

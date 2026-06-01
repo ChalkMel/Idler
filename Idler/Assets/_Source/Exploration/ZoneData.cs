@@ -9,6 +9,7 @@ public class ZoneData : ScriptableObject
   public string zoneDescription;
   public Sprite zoneIcon;
   public float explorationTime = 10f;
+  public List<IngredientData> ingredients;
 
   [Header("Spirits in this zone")] public List<SpiritData> availableSpirits = new List<SpiritData>();
 

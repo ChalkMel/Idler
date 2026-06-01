@@ -25,7 +25,7 @@ public class VisitorUI : MonoBehaviour
     [SerializeField] private Button _rejectButton;
     
     [Header("Timers")]
-    [SerializeField] private TextMeshProUGUI _timerText;
+    //[SerializeField] private TextMeshProUGUI _timerText;
     [SerializeField] private Slider _slider;
     [SerializeField] private Image _sliderHandle;
     [SerializeField] private Slider _subSlider;
@@ -102,8 +102,8 @@ public class VisitorUI : MonoBehaviour
                 _sliderHandle.sprite = _waitResponseImage;
         }
         
-        if (_timerText != null)
-            _timerText.text = $"{Mathf.CeilToInt(currentTime)}s";
+        //if (_timerText != null)
+            //_timerText.text = $"{Mathf.CeilToInt(currentTime)}s";
     }
     
     public void SetWaitTimer(float maxTime, float currentTime)
@@ -116,8 +116,8 @@ public class VisitorUI : MonoBehaviour
     
     public void SetNextVisitTimer(float timeLeft)
     {
-        if (_timerText != null)
-            _timerText.text = $"Next guest: {Mathf.CeilToInt(timeLeft)}s";
+        //if (_timerText != null)
+           // _timerText.text = $"Next guest: {Mathf.CeilToInt(timeLeft)}s";
         
         if (_slider != null)
         {

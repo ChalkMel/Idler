@@ -5,9 +5,7 @@ using TMPro;
 
 public class TeaMenu : MonoBehaviour
 {
-    [Header("References")]
-    [SerializeField] private TeaMaker teaMaker;
-    
+    [SerializeField] private TeaCollection teaCollection;
     [Header("UI Elements")]
     [SerializeField] private Transform teaListParent;
     [SerializeField] private GameObject teaButtonPrefab;
@@ -48,15 +46,15 @@ public class TeaMenu : MonoBehaviour
         
         CreateTeaButtons();
 
-        if (teaMaker.allTeas.Count > 0)
+        if (teaCollection.allTeas.Count > 0)
         {
-            ShowTeaDetails(teaMaker.allTeas[0]);
+            ShowTeaDetails(teaCollection.allTeas[0]);
         }
     }
     
     private void CreateTeaButtons()
     {
-        foreach (var tea in teaMaker.allTeas)
+        foreach (var tea in teaCollection.allTeas)
         {
             if (tea == null) continue;
 

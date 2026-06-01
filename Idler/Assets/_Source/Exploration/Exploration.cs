@@ -7,8 +7,6 @@ public class Exploration : MonoBehaviour
     
   public void SelectZone(int zoneIndex)
   {
-    // Получаем ZoneData по индексу
-    // Этот метод нужен для совместимости со старым кодом
     Debug.Log($"Select zone index: {zoneIndex}");
   }
 }

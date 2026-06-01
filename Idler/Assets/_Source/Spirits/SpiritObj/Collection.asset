@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Collection
   m_EditorClassIdentifier: 
   allSpirits:
-  - {fileID: 11400000, guid: e7255aba9c5f502469a85f74a664d3b6, type: 2}
-  - {fileID: 11400000, guid: 02738390d45f4f249bff74d2d422efba, type: 2}
+  - {fileID: 11400000, guid: 14102cb532978da488172977c3f5f5de, type: 2}
+  - {fileID: 11400000, guid: 4ba4dd6c77b6ef0418cac612dadab6b3, type: 2}
+  - {fileID: 11400000, guid: 59a01d99722020542b89bd1fbe02b72b, type: 2}
+  - {fileID: 11400000, guid: 1999fc74e23dfcb4b9f8fddcdf426c94, type: 2}
   - {fileID: 11400000, guid: 74ec35319b4cc894ca41b2555a8a56e8, type: 2}
-  unlockedSpirits:
-  - {fileID: 11400000, guid: e7255aba9c5f502469a85f74a664d3b6, type: 2}
-  availableSpirits:
-  - {fileID: 11400000, guid: e7255aba9c5f502469a85f74a664d3b6, type: 2}
+  unlockedSpirits: []
+  availableSpirits: []

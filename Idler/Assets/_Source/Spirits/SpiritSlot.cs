@@ -39,6 +39,7 @@ public class SpiritSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         _spiritName = "";
         _buffName = "";
+        tooltipPanel.SetActive(false);
     }
     
     private Coroutine _tooltipUpdateCoroutine;

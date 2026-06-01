@@ -222,6 +222,7 @@ public class TeaBrewingController : MonoBehaviour
     {
         _inventory.ReturnIngredients(_currentIngredients);
         _currentIngredients.Clear();
+        ClearVisuals();
         UpdateCounters();
     }
 

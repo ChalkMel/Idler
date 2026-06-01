@@ -23,7 +23,6 @@ public class MainButtons : MonoBehaviour
     [SerializeField] private List<string> deerTalks;
     [SerializeField] private CanvasGroup DeerUI;
     [SerializeField] private TextMeshProUGUI deerUIText;
-    [SerializeField] private TeaMaker teaMaker;
     [Header("Shop")]
     [SerializeField] private CanvasGroup shopUI;
     

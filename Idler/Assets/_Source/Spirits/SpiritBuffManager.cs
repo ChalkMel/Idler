@@ -6,10 +6,10 @@ using System.Collections.Generic;
 public class SpiritBuffManager : MonoBehaviour
 {
     [Header("UI")]
-    //[SerializeField] private GameObject BuffPanel;
     [SerializeField] private TextMeshProUGUI buffTimerText;
     [SerializeField] private Credits credits;
     [SerializeField] private SpiritCollection spiritCollection;
+    [SerializeField] private GameObject heartImage;
     
     [Header("Spirit Slots")]
     [SerializeField] private Image[] spiritSlots;
@@ -17,6 +17,12 @@ public class SpiritBuffManager : MonoBehaviour
     [SerializeField] public int MaxSpiritSlots;
 
     public List<ActiveSpirit> ActiveSpirits = new List<ActiveSpirit>(); 
+    
+    private void Start()
+    {
+        if (heartImage != null)
+            heartImage.SetActive(false);
+    }
     
     public void SetUpChair()
     {
@@ -48,7 +54,6 @@ public class SpiritBuffManager : MonoBehaviour
             return;
         }
         
-       
         foreach (var activeSpirit in ActiveSpirits)
         {
             RelationshipType relationship = spirit.GetRelationshipWith(activeSpirit.SpiritData);
@@ -59,7 +64,6 @@ public class SpiritBuffManager : MonoBehaviour
                 return;
             }
         }
-        
         
         List<ActiveSpirit> spiritsToRemove = new List<ActiveSpirit>();
         foreach (var activeSpirit in ActiveSpirits)
@@ -91,6 +95,7 @@ public class SpiritBuffManager : MonoBehaviour
         }
 
         float finalMultiplier = spirit.buffMultiplier;
+        bool hasPositive = false;
         
         foreach (var activeSpirit in ActiveSpirits)
         {
@@ -98,6 +103,7 @@ public class SpiritBuffManager : MonoBehaviour
             if (relationship == RelationshipType.Positive)
             {
                 finalMultiplier *= 2;
+                hasPositive = true;
                 Debug.Log($"Positive relationship! {spirit.spiritName} buff doubled!");
             }
             
@@ -136,6 +142,27 @@ public class SpiritBuffManager : MonoBehaviour
                 slotComponent.SetSpiritData(spirit.spiritName, spirit.buffName);
             }
         }
+        
+        if (hasPositive || CheckAnyPositiveRelationship())
+        {
+            if (heartImage != null)
+                heartImage.SetActive(true);
+        }
+    }
+    
+    private bool CheckAnyPositiveRelationship()
+    {
+        for (int i = 0; i < ActiveSpirits.Count; i++)
+        {
+            for (int j = i + 1; j < ActiveSpirits.Count; j++)
+            {
+                if (ActiveSpirits[i].SpiritData.GetRelationshipWith(ActiveSpirits[j].SpiritData) == RelationshipType.Positive)
+                    return true;
+                if (ActiveSpirits[j].SpiritData.GetRelationshipWith(ActiveSpirits[i].SpiritData) == RelationshipType.Positive)
+                    return true;
+            }
+        }
+        return false;
     }
     
     private void RemoveSpirit(ActiveSpirit spirit)
@@ -157,6 +184,12 @@ public class SpiritBuffManager : MonoBehaviour
         }
     
         ActiveSpirits.Remove(spirit);
+        
+        if (!CheckAnyPositiveRelationship())
+        {
+            if (heartImage != null)
+                heartImage.SetActive(false);
+        }
     }
     
     private int GetFreeSlotIndex()
@@ -182,25 +215,17 @@ public class SpiritBuffManager : MonoBehaviour
     
     private void ApplySpiritEffect(SpiritData spirit, bool apply, float multiplier)
     {
-        int multiplierValue = apply ? 1 : -1;
         spiritCollection.availableSpirits.Remove(spirit);
-        switch (spirit.spiritId)
+        if (spirit.effect == null)
         {
-            case 0:
-                credits.dropletsMulti += multiplierValue * multiplier;
-                break;
-            case 1:
-                credits.flowersMulti += multiplierValue * multiplier;
-                credits.berriesMulti += multiplierValue * multiplier;
-                break;
-            case 3:
-                var maker = FindFirstObjectByType<TeaMaker>();
-                foreach (var tea in maker.allTeas)
-                {
-                    tea.brewingTime /= multiplier * multiplierValue;
-                }
-                break;
+            Debug.LogWarning($"Spirit {spirit.spiritName} has no effect assigned!");
+            return;
         }
+        
+        if (apply)
+            spirit.effect.Apply(credits, this, multiplier);
+        else
+            spirit.effect.Remove(credits, this, multiplier);
     }
     
     private void UpdateBuffs()
@@ -238,7 +263,6 @@ public class SpiritBuffManager : MonoBehaviour
     {
         foreach (var spirit in ActiveSpirits)
         {
-        
             if (spirit.SlotIndex == slotID)
             {
                 return spirit.TimeLeft;

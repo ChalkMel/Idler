@@ -27,8 +27,19 @@ public class VisitorSpawner : MonoBehaviour
     
     public bool IsWaitingForTea => _isWaitingForTea;
     
+    private float _currentResponseTimeout;
+    private float _currentRequestTimeout;
+    
+    private float _baseResponseTimeout;
+    private float _baseRequestTimeout;
+    
     private void Start()
     {
+        _baseResponseTimeout = _responseTimeout;
+        _baseRequestTimeout = _requestTimeout;
+        
+        ResetTimeouts();
+        
         _audioSource = GetComponent<AudioSource>();
         ScheduleNextVisit();
         
@@ -42,6 +53,29 @@ public class VisitorSpawner : MonoBehaviour
         {
             _orderMatcher.OnOrderCompleted += OnOrderCompleted;
         }
+    }
+    
+    private void ResetTimeouts()
+    {
+        _currentResponseTimeout = _baseResponseTimeout;
+        _currentRequestTimeout = _baseRequestTimeout;
+    }
+    
+    public void ExtendOrderTime(bool affectResponse, bool affectRequest, float multiplier, float addSeconds)
+    {
+        if (affectResponse)
+        {
+            _currentResponseTimeout = (_baseResponseTimeout + addSeconds) * multiplier;
+            _currentResponseTimeout = Mathf.Max(1f, _currentResponseTimeout); // минимум 1 секунда
+        }
+        
+        if (affectRequest)
+        {
+            _currentRequestTimeout = (_baseRequestTimeout + addSeconds) * multiplier;
+            _currentRequestTimeout = Mathf.Max(1f, _currentRequestTimeout);
+        }
+        
+        Debug.Log($"Order time updated: Response={_currentResponseTimeout:F1}s, Request={_currentRequestTimeout:F1}s");
     }
     
     private void Update()
@@ -91,12 +125,12 @@ public class VisitorSpawner : MonoBehaviour
     
     private IEnumerator ResponseTimerRoutine()
     {
-        float timer = _responseTimeout;
+        float timer = _currentResponseTimeout; // Используем динамическое значение
         
         while (timer > 0 && _isWaitingForResponse)
         {
             timer -= Time.deltaTime;
-            _visitorUI?.SetResponseTimer(_responseTimeout, timer);
+            _visitorUI?.SetResponseTimer(_currentResponseTimeout, timer);
             
             if (_visitorUI?.AcceptButton != null)
             {
@@ -110,6 +144,31 @@ public class VisitorSpawner : MonoBehaviour
         
         if (_isWaitingForResponse)
         {
+            RejectOrder();
+        }
+    }
+    
+    private void StartRequestTimer()
+    {
+        if (_requestCoroutine != null)
+            StopCoroutine(_requestCoroutine);
+        _requestCoroutine = StartCoroutine(RequestTimerRoutine());
+    }
+    
+    private IEnumerator RequestTimerRoutine()
+    {
+        float timer = _currentRequestTimeout; // Используем динамическое значение
+        
+        while (timer > 0 && _isWaitingForTea)
+        {
+            timer -= Time.deltaTime;
+            _visitorUI?.SetWaitTimer(_currentRequestTimeout, timer);
+            yield return null;
+        }
+        
+        if (_isWaitingForTea)
+        {
+            _visitorUI?.ShowMessage("The spirit got tired of waiting...");
             RejectOrder();
         }
     }
@@ -128,31 +187,6 @@ public class VisitorSpawner : MonoBehaviour
         _visitorUI?.ShowMessage("Prepare the ordered tea!");
         
         StartRequestTimer();
-    }
-    
-    private void StartRequestTimer()
-    {
-        if (_requestCoroutine != null)
-            StopCoroutine(_requestCoroutine);
-        _requestCoroutine = StartCoroutine(RequestTimerRoutine());
-    }
-    
-    private IEnumerator RequestTimerRoutine()
-    {
-        float timer = _requestTimeout;
-        
-        while (timer > 0 && _isWaitingForTea)
-        {
-            timer -= Time.deltaTime;
-            _visitorUI?.SetWaitTimer(_requestTimeout, timer);
-            yield return null;
-        }
-        
-        if (_isWaitingForTea)
-        {
-            _visitorUI?.ShowMessage("The spirit got tired of waiting...");
-            RejectOrder();
-        }
     }
     
     private void CheckBrewedTea()
@@ -198,6 +232,7 @@ public class VisitorSpawner : MonoBehaviour
         _visitorUI?.ResetUI();
         
         ScheduleNextVisit();
+        ResetTimeouts();
     }
     
     public void ForceVisit()

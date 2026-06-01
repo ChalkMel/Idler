@@ -10,7 +10,19 @@ public class Credits : MonoBehaviour
   [SerializeField] public int leaves;
   [SerializeField] public int berries;
   [SerializeField] public int flowers;
-  [SerializeField] private float _helperTimer;
+  
+  [Header("Helpers")]
+  public int HelperCount = 0;
+  public int DropletHelperCount = 0;
+  
+  public float helperCollectionInterval = 5f;
+  public float DropletHelperCollectionInterval = 5f;
+  
+  private float _helperTimer;
+  private float _baseHelperInterval;
+  private float _DropletHelperTimer;
+  private float _DropletBaseHelperInterval;
+  
   [Header("Chances")]
   [SerializeField] private List<int> _dropletsChance  = new List<int>(2);
   [SerializeField] private List<int> _leavesChance  = new List<int>(2);
@@ -28,28 +40,45 @@ public class Credits : MonoBehaviour
 
   private Random _random;
   private float _timer;
-  public int HelperCount = 0;
   private void Awake()
   {
+    _baseHelperInterval = helperCollectionInterval;
     UpdateUI();
     _random = new Random();
   }
 
   private void Update()
   {
-    if (HelperCount == 0) return;
-    _timer += Time.deltaTime;
-    if (_timer >= _helperTimer)
+    if (HelperCount == 0 || DropletHelperCount == 0) return;
+        
+    _helperTimer += Time.deltaTime;
+    if (_helperTimer >= helperCollectionInterval)
     {
-      droplets += (int)Mathf.Round(HelperCount * dropletsMulti);
-      leaves += HelperCount;
-      berries += HelperCount;
-      flowers += HelperCount;
-      _timer = 0;
+      int random = _random.Next(0, 3);
+      switch (random)
+      {
+        case 0:
+          flowers += (int)Mathf.Round(HelperCount * flowersMulti);
+          break;
+        case 1:
+          leaves += (int)Mathf.Round(HelperCount * leavesMulti);
+          break;
+        case 2:
+          berries += (int)Mathf.Round(HelperCount * berriesMulti);
+          break;
+      }
+      _helperTimer = 0;
+      UpdateUI();
+    }
+    
+    _DropletHelperTimer += Time.deltaTime;
+    if (_DropletHelperTimer >= helperCollectionInterval)
+    {
+      droplets += (int)Mathf.Round(DropletHelperCount * dropletsMulti);
+      _DropletHelperTimer = 0;
       UpdateUI();
     }
   }
-
   public void BushDrop()
   {
     leaves += _random.Next((int) (_leavesChance[0] * leavesMulti), (int) ((_leavesChance[1] + 1) * leavesMulti));
