@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class VisitorSpawner : MonoBehaviour
 {
@@ -15,17 +16,20 @@ public class VisitorSpawner : MonoBehaviour
     [SerializeField] private float _maxTimeBetweenVisits = 60f;
     [SerializeField] private float _responseTimeout = 15f;
     [SerializeField] private float _requestTimeout = 30f;
+    [SerializeField] private Image hint;
     
     private bool _isWaitingForResponse;
     private bool _isWaitingForTea;
     private float _timeUntilNextVisit;
     private Coroutine _responseCoroutine;
     private Coroutine _requestCoroutine;
+    private AudioSource _audioSource;
     
     public bool IsWaitingForTea => _isWaitingForTea;
     
     private void Start()
     {
+        _audioSource = GetComponent<AudioSource>();
         ScheduleNextVisit();
         
         if (_visitorUI != null)
@@ -66,6 +70,8 @@ public class VisitorSpawner : MonoBehaviour
     
     private void SpawnVisitor()
     {
+        hint.gameObject.SetActive(true);
+        _audioSource.Play();
         OrderData order = _orderGenerator.GenerateOrder();
         if (order == null) return;
         
@@ -178,6 +184,7 @@ public class VisitorSpawner : MonoBehaviour
     
     private void EndVisit()
     {
+        hint.gameObject.SetActive(false);
         _isWaitingForResponse = false;
         _isWaitingForTea = false;
         

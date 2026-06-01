@@ -7,7 +7,7 @@ public class DraggableIng : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
     [SerializeField] private IngredientData _ingredientData;
     [SerializeField] private TeaBrewingController _teaController;
     [SerializeField] private string _dropZoneTag = "DropZone";
-    
+    [SerializeField] private AudioSource _audioSource;
     private Vector2 _originalPosition;
     private RectTransform _rectTransform;
     private Canvas _canvas;
@@ -30,6 +30,7 @@ public class DraggableIng : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
         _canvasGroup.alpha = 0.6f;
         _canvasGroup.blocksRaycasts = false;
         transform.localScale = Vector3.one * 1.1f;
+        _audioSource.Play();
     }
     
     public void OnDrag(PointerEventData eventData)
@@ -42,6 +43,7 @@ public class DraggableIng : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
         transform.localScale = Vector3.one;
         _canvasGroup.alpha = 1f;
         _canvasGroup.blocksRaycasts = true;
+        _audioSource.Stop();
         
         bool droppedOnCauldron = IsDroppedOnCauldron(eventData);
         
