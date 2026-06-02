@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spiritId: 3
   spiritName: "\u041B\u0435\u043F\u0442\u043E\u2019\u043D"
-  icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  icon: {fileID: 7102577523675558947, guid: c514a9efe60c5ff44a56bd7509575e89, type: 3}
   description: Spidy
   likedTeas:
   - {fileID: 11400000, guid: fdb9ca0c220d95547ad3bcaf76376175, type: 2}
@@ -23,7 +23,7 @@ MonoBehaviour:
   effect: {fileID: 11400000, guid: 9a0fc29ee8c1bb440864b691bf4686a3, type: 2}
   buffMultiplier: 2
   buffDuration: 90
-  isUnlocked: 0
+  isUnlocked: 1
   relationships:
   - otherSpirit: {fileID: 11400000, guid: 14102cb532978da488172977c3f5f5de, type: 2}
     relationshipType: 2

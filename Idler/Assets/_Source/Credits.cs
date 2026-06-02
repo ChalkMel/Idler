@@ -103,9 +103,9 @@ public class Credits : MonoBehaviour
     
   public void UpdateUI()
   {
-    _dropletsText.text = $"{droplets} of droplets";
-    _leavesText.text = $"{leaves} of leaves";
-    _berriesText.text = $"{berries} of berries";
-    _flowersText.text = $"{flowers} of flowers";
+    _dropletsText.text = $"{droplets}";
+    _leavesText.text = $"{leaves}";
+    _berriesText.text = $"{berries}";
+    _flowersText.text = $"{flowers}";
   }
 }

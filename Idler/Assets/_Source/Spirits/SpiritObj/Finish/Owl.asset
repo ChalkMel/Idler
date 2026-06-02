@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spiritId: 3
   spiritName: "\u0410\u0430\u043F\u043E"
-  icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  icon: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   description: 
   likedTeas:
   - {fileID: 11400000, guid: fdb9ca0c220d95547ad3bcaf76376175, type: 2}

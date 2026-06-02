@@ -16,4 +16,4 @@ MonoBehaviour:
   icon: {fileID: -6866517479907749189, guid: 1b7325142d02dcb448bc483834cf5fa2, type: 3}
   description: Adds a chair
   cost: 1000
-  isPurchased: 0
+  isPurchased: 1

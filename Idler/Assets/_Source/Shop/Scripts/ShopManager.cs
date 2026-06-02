@@ -113,7 +113,7 @@ public class ShopManager : MonoBehaviour
     
     private void UpdateDropletsDisplay()
     {
-        dropletsText.text = $"{credits.droplets} of droplets";
+        dropletsText.text = $"{credits.droplets}";
     }
     
     private void ShowMessage(string message)
@@ -135,4 +135,13 @@ public class ShopManager : MonoBehaviour
         UpdateDropletsDisplay();
         UpdateAllItemButtons();
     }
+
+    #region Save
+
+    public List<ShopItem> GetAllShopItems()
+    {
+        return shopItems;
+    }
+
+    #endregion
 }

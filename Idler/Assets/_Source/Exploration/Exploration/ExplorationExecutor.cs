@@ -222,4 +222,23 @@ public class ExplorationExecutor : MonoBehaviour
     }
     
     public bool IsExploring => _isExploring;
+
+    #region Save
+
+    public ExplorationData GetCurrentExploration()
+    {
+        return _currentExploration;
+    }
+
+    public void LoadExploration(ZoneData zone, float remainingTime)
+    {
+        _currentExploration = new ExplorationData(zone);
+        _currentExploration.timeRemaining = remainingTime;
+        _currentExploration.isExploring = true;
+        _isExploring = true;
+    
+        _timerUI?.ShowTimer(remainingTime, zone.explorationTime);
+    }
+
+    #endregion
 }

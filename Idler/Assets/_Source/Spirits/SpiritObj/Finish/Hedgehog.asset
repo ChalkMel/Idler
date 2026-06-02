@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spiritId: 3
   spiritName: "\u0411\u0440\u0438\u043D"
-  icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  icon: {fileID: -6866517479907749189, guid: 1b7325142d02dcb448bc483834cf5fa2, type: 3}
   description: Spidy
   likedTeas:
   - {fileID: 11400000, guid: fdb9ca0c220d95547ad3bcaf76376175, type: 2}

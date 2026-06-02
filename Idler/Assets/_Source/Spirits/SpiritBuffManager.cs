@@ -253,7 +253,9 @@ public class SpiritBuffManager : MonoBehaviour
     {
         return ActiveSpirits.Count > 0;
     }
-    
+
+    #region Gets
+
     public int GetActiveSpiritsCount()
     {
         return ActiveSpirits.Count;
@@ -291,4 +293,37 @@ public class SpiritBuffManager : MonoBehaviour
         }
         return "";
     }
+
+    #endregion
+
+    #region Save
+
+    public void LoadBuff(SpiritData spirit, float remainingTime, int slotIndex, float multiplier)
+    {
+        ActiveSpirit activeSpirit = new ActiveSpirit
+        {
+            SpiritData = spirit,
+            EndTime = Time.time + remainingTime,
+            SlotIndex = slotIndex,
+            Multiplier = multiplier
+        };
+    
+        ActiveSpirits.Add(activeSpirit);
+    
+        if (slotIndex < spiritSlots.Length)
+        {
+            spiritSlots[slotIndex].sprite = spirit.icon;
+            spiritSlots[slotIndex].gameObject.SetActive(true);
+        
+            SpiritSlot slotComponent = spiritSlots[slotIndex].GetComponent<SpiritSlot>();
+            if (slotComponent != null)
+            {
+                slotComponent.SetSpiritData(spirit.spiritName, spirit.buffName);
+            }
+        }
+    
+        ApplySpiritEffect(spirit, true, multiplier);
+    }
+
+    #endregion
 }
