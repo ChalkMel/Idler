@@ -75,7 +75,7 @@ public class VisitorSpawner : MonoBehaviour
             _currentRequestTimeout = Mathf.Max(1f, _currentRequestTimeout);
         }
         
-        Debug.Log($"Order time updated: Response={_currentResponseTimeout:F1}s, Request={_currentRequestTimeout:F1}s");
+        StartRequestTimer();
     }
     
     private void Update()
@@ -83,14 +83,14 @@ public class VisitorSpawner : MonoBehaviour
         if (!_isWaitingForResponse && !_isWaitingForTea && _timeUntilNextVisit > 0)
         {
             _timeUntilNextVisit -= Time.deltaTime;
-            _visitorUI?.SetNextVisitTimer(_timeUntilNextVisit);
-            
+            _visitorUI?.SetNextVisitTimer(_timeUntilNextVisit, _maxTimeBetweenVisits);
+        
             if (_timeUntilNextVisit <= 0)
             {
                 SpawnVisitor();
             }
         }
-        
+    
         if (_isWaitingForTea && _teaMaker != null)
         {
             CheckBrewedTea();
@@ -131,14 +131,6 @@ public class VisitorSpawner : MonoBehaviour
         {
             timer -= Time.deltaTime;
             _visitorUI?.SetResponseTimer(_currentResponseTimeout, timer);
-            
-            if (_visitorUI?.AcceptButton != null)
-            {
-                TextMeshProUGUI buttonText = _visitorUI.AcceptButton.GetComponentInChildren<TMPro.TextMeshProUGUI>();
-                if (buttonText != null)
-                    buttonText.text = $"Accept ({Mathf.CeilToInt(timer)}s)";
-            }
-            
             yield return null;
         }
         
@@ -184,8 +176,8 @@ public class VisitorSpawner : MonoBehaviour
         _isWaitingForTea = true;
         
         _visitorUI?.ShowOrderUI(true);
-        _visitorUI?.ShowMessage("Prepare the ordered tea!");
-        
+        _visitorUI?.ShowMessage("Приготовь заказ!");
+        _visitorUI?.HideButton();
         StartRequestTimer();
     }
     
@@ -213,6 +205,7 @@ public class VisitorSpawner : MonoBehaviour
     private void RejectOrder()
     {
         _visitorUI?.ShowMessage("The spirit left...");
+        _visitorUI?.ShowOrderUI(false);
         EndVisit();
     }
     

@@ -12,13 +12,11 @@ public class SpiritUnlockService : MonoBehaviour
         
     if (_spiritCollection.unlockedSpirits.Contains(spirit))
     {
-      Debug.Log($"Spirit {spirit.spiritName} already unlocked!");
       return false;
     }
         
     if (_spiritCollection.UnlockSpirit(spirit))
     {
-      Debug.Log($"Unlocked new spirit: {spirit.spiritName}");
       OnSpiritUnlocked?.Invoke(spirit);
       return true;
     }
@@ -41,7 +39,6 @@ public class SpiritUnlockService : MonoBehaviour
         
     if (lockedSpirits.Count == 0)
     {
-      Debug.Log($"No locked spirits in zone: {zone.zoneName}");
       return false;
     }
         

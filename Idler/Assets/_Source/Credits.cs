@@ -49,36 +49,43 @@ public class Credits : MonoBehaviour
 
   private void Update()
   {
-    if (HelperCount == 0 || DropletHelperCount == 0) return;
-        
-    _helperTimer += Time.deltaTime;
-    if (_helperTimer >= helperCollectionInterval)
+    if (HelperCount == 0 && DropletHelperCount == 0) return;
+    if (HelperCount != 0)
     {
-      int random = _random.Next(0, 3);
-      switch (random)
+      _helperTimer += Time.deltaTime;
+      if (_helperTimer >= helperCollectionInterval)
       {
-        case 0:
-          flowers += (int)Mathf.Round(HelperCount * flowersMulti);
-          break;
-        case 1:
-          leaves += (int)Mathf.Round(HelperCount * leavesMulti);
-          break;
-        case 2:
-          berries += (int)Mathf.Round(HelperCount * berriesMulti);
-          break;
+        int random = _random.Next(0, 3);
+        switch (random)
+        {
+          case 0:
+            flowers += (int) Mathf.Round(HelperCount * flowersMulti);
+            break;
+          case 1:
+            leaves += (int) Mathf.Round(HelperCount * leavesMulti);
+            break;
+          case 2:
+            berries += (int) Mathf.Round(HelperCount * berriesMulti);
+            break;
+        }
+
+        _helperTimer = 0;
+        UpdateUI();
       }
-      _helperTimer = 0;
-      UpdateUI();
     }
-    
-    _DropletHelperTimer += Time.deltaTime;
-    if (_DropletHelperTimer >= helperCollectionInterval)
+
+    if (DropletHelperCount != 0)
     {
-      droplets += (int)Mathf.Round(DropletHelperCount * dropletsMulti);
-      _DropletHelperTimer = 0;
-      UpdateUI();
+      _DropletHelperTimer += Time.deltaTime;
+      if (_DropletHelperTimer >= DropletHelperCollectionInterval)
+      {
+        droplets += (int) Mathf.Round(DropletHelperCount * dropletsMulti);
+        _DropletHelperTimer = 0;
+        UpdateUI();
+      }
     }
   }
+
   public void BushDrop()
   {
     leaves += _random.Next((int) (_leavesChance[0] * leavesMulti), (int) ((_leavesChance[1] + 1) * leavesMulti));

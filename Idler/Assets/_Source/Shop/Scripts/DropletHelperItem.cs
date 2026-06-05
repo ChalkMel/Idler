@@ -1,19 +1,17 @@
 using UnityEngine;
+using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewHelper", menuName = "Shop/Shop Item/DropletHelper")]
+[CreateAssetMenu(fileName = "NewDropletHelper", menuName = "Shop/Shop Item/Droplet Helper")]
 public class HelperDropletItem : ShopItem
 {
-  [Header("Helper Settings")]
-  public int baseCost = 50;
-  public int costMultiplier = 2;
-  private int bought = 0;
-
   public override void ApplyEffect(ShopItem item, Credits credits, SpiritBuffManager spiritBuffManager)
   {
     base.ApplyEffect(item, credits, spiritBuffManager);
-    bought++;
+        
+    boughtCount++;
     isPurchased = false;
-    cost *= costMultiplier;
+    UpdateCost();
+        
     credits.DropletHelperCount++;
   }
 }

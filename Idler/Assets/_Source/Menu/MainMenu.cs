@@ -19,7 +19,7 @@ public class MainMenu : MonoBehaviour
 
     private void Play()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 
     private void Settings()

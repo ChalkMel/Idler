@@ -131,7 +131,6 @@ public class SpiritMenu : MonoBehaviour
         
         if (buttonObj.GetComponent<Image>() != null && spirit.icon != null)
         {
-            buttonObj.GetComponent<Image>().sprite = spirit.icon;
             
             if (!spirit.isUnlocked)
             {
@@ -166,7 +165,7 @@ public class SpiritMenu : MonoBehaviour
             selectedSpiritName.text = spirit.spiritName;
             if (!spirit.isUnlocked)
             {
-                selectedSpiritName.text += " (Locked)";
+                selectedSpiritName.text += " закрыт";
             }
         }
         
@@ -183,7 +182,7 @@ public class SpiritMenu : MonoBehaviour
             }
             else
             {
-                selectedSpiritBuff.text = "This spirit not found yet";
+                selectedSpiritBuff.text = "Ещё не нашли";
             }
         }
 

@@ -4,12 +4,14 @@ using TMPro;
 
 public class ExplorationTimerUI : MonoBehaviour
 {
+  [SerializeField] private GameObject panel;
   [SerializeField] private Slider _timerSlider;
   [SerializeField] private TextMeshProUGUI _timerText;
   [SerializeField] private TextMeshProUGUI _timerMainScreenText;
     
   public void ShowTimer(float currentTime, float maxTime)
   {
+    panel.SetActive(true);
     if (_timerSlider != null)
     {
       _timerSlider.gameObject.SetActive(true);
@@ -19,19 +21,20 @@ public class ExplorationTimerUI : MonoBehaviour
         
     if (_timerText != null)
     {
-      _timerText.text = $"Time Left: {Mathf.Round(currentTime)} sec";
+      _timerText.text = $"{Mathf.Round(currentTime)} сек";
       _timerText.gameObject.SetActive(true);
     }
         
     if (_timerMainScreenText != null)
     {
       _timerMainScreenText.gameObject.SetActive(true);
-      _timerMainScreenText.text = $"Exploration: {Mathf.Round(currentTime)} sec";
+      _timerMainScreenText.text = $"{Mathf.Round(currentTime)} сек";
     }
   }
     
   public void HideTimer()
   {
+    panel.SetActive(false);
     if (_timerSlider != null)
       _timerSlider.gameObject.SetActive(false);
         
@@ -48,9 +51,9 @@ public class ExplorationTimerUI : MonoBehaviour
       _timerSlider.value = maxTime - currentTime;
         
     if (_timerText != null)
-      _timerText.text = $"Time Left: {Mathf.Round(currentTime)} sec";
+      _timerText.text = $"{Mathf.Round(currentTime)} сек";
         
     if (_timerMainScreenText != null)
-      _timerMainScreenText.text = $"Exploration: {Mathf.Round(currentTime)} sec";
+      _timerMainScreenText.text = $"{Mathf.Round(currentTime)} сек";
   }
 }

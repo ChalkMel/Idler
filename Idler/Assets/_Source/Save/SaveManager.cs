@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class SaveManager : MonoBehaviour
 {
@@ -11,17 +12,20 @@ public class SaveManager : MonoBehaviour
     [SerializeField] private ShopManager shopManager;
     [SerializeField] private ExplorationExecutor explorationExecutor;
     [SerializeField] private TeaBrewingController teaMaker;
+    [SerializeField] private TutorialManager tutorialManager;
+    
+    [Header("Shop Items for Save")]
+    [SerializeField] private HelperItem helperItem;
+    [SerializeField] private HelperDropletItem dropletHelperItem;
+    [SerializeField] private DropletMultiplierItem dropletMultiplierItem;
     
     private const string SAVE_KEY = "GameSave";
-    private const string FIRST_LAUNCH_KEY = "FirstLaunch";
     
     private void Start()
     {
-        if (IsFirstLaunch())
+        if (!PlayerPrefs.HasKey(SAVE_KEY))
         {
-            Debug.Log("First launch - creating new save");
-            PlayerPrefs.SetInt(FIRST_LAUNCH_KEY, 1);
-            PlayerPrefs.Save();
+            Debug.Log("No save - starting fresh");
         }
         else
         {
@@ -29,7 +33,7 @@ public class SaveManager : MonoBehaviour
         }
     }
     
-    private void OnApplicationPause(bool pauseStatus)
+    /*private void OnApplicationPause(bool pauseStatus)
     {
         if (pauseStatus)
             SaveGame();
@@ -38,14 +42,9 @@ public class SaveManager : MonoBehaviour
     private void OnApplicationQuit()
     {
         SaveGame();
-    }
+    }*/
     
-    private bool IsFirstLaunch()
-    {
-        return !PlayerPrefs.HasKey(FIRST_LAUNCH_KEY);
-    }
-    
-    public void SaveGame()
+   public void SaveGame()
     {
         SaveData data = new SaveData();
         
@@ -54,7 +53,7 @@ public class SaveManager : MonoBehaviour
         SaveShopItems(data);
         SaveChairUpgrade(data);
         SaveActiveBuffs(data);
-        SaveExplorations(data);
+        SaveHelpers(data);
         
         string json = JsonUtility.ToJson(data);
         PlayerPrefs.SetString(SAVE_KEY, json);
@@ -79,7 +78,7 @@ public class SaveManager : MonoBehaviour
         LoadShopItems(data);
         LoadChairUpgrade(data);
         LoadActiveBuffs(data);
-        LoadExplorations(data);
+        LoadHelpers(data);
         
         Debug.Log("Game loaded!");
     }
@@ -95,6 +94,7 @@ public class SaveManager : MonoBehaviour
         data.berriesMulti = credits.berriesMulti;
         data.flowersMulti = credits.flowersMulti;
         data.helperCount = credits.HelperCount;
+        data.dropletHelperCount = credits.DropletHelperCount;
     }
     
     private void LoadCredits(SaveData data)
@@ -108,7 +108,76 @@ public class SaveManager : MonoBehaviour
         credits.berriesMulti = data.berriesMulti;
         credits.flowersMulti = data.flowersMulti;
         credits.HelperCount = data.helperCount;
+        credits.DropletHelperCount = data.dropletHelperCount;
         credits.UpdateUI();
+    }
+    
+     private void SaveHelpers(SaveData data)
+    {
+        if (helperItem != null)
+        {
+            data.helperCurrentCost = helperItem.cost;
+            data.helperBaseCost = helperItem.baseCost;
+            data.helperCostMultiplier = helperItem.costMultiplier;
+            data.helperBoughtCount = helperItem.boughtCount;
+        }
+        
+        if (dropletHelperItem != null)
+        {
+            data.dropletHelperCurrentCost = dropletHelperItem.cost;
+            data.dropletHelperBaseCost = dropletHelperItem.baseCost;
+            data.dropletHelperCostMultiplier = dropletHelperItem.costMultiplier;
+            data.dropletHelperBoughtCount = dropletHelperItem.boughtCount;
+        }
+        
+        if (dropletMultiplierItem != null)
+        {
+            data.dropletMultiplierCurrentCost = dropletMultiplierItem.cost;
+            data.dropletMultiplierBaseCost = dropletMultiplierItem.baseCost;
+            data.dropletMultiplierCostMultiplier = dropletMultiplierItem.costMultiplier;
+            data.dropletMultiplierBoughtCount = dropletMultiplierItem.boughtCount;
+            data.dropletMultiplierTotalValue = dropletMultiplierItem.totalMultiplierValue;
+        }
+    }
+    
+    private void LoadHelpers(SaveData data)
+    {
+        if (helperItem != null)
+        {
+            helperItem.baseCost = data.helperBaseCost > 0 ? data.helperBaseCost : 50;
+            helperItem.costMultiplier = data.helperCostMultiplier > 0 ? data.helperCostMultiplier : 2;
+            helperItem.boughtCount = data.helperBoughtCount;
+            helperItem.UpdateCost();
+        }
+        
+        if (dropletHelperItem != null)
+        {
+            dropletHelperItem.baseCost = data.dropletHelperBaseCost > 0 ? data.dropletHelperBaseCost : 50;
+            dropletHelperItem.costMultiplier = data.dropletHelperCostMultiplier > 0 ? data.dropletHelperCostMultiplier : 2;
+            dropletHelperItem.boughtCount = data.dropletHelperBoughtCount;
+            dropletHelperItem.UpdateCost();
+        }
+        
+        if (dropletMultiplierItem != null)
+        {
+            dropletMultiplierItem.baseCost = data.dropletMultiplierBaseCost > 0 ? data.dropletMultiplierBaseCost : 50;
+            dropletMultiplierItem.costMultiplier = data.dropletMultiplierCostMultiplier > 0 ? data.dropletMultiplierCostMultiplier : 2;
+            dropletMultiplierItem.boughtCount = data.dropletMultiplierBoughtCount;
+            dropletMultiplierItem.totalMultiplierValue = data.dropletMultiplierTotalValue;
+            dropletMultiplierItem.UpdateCost();
+        }
+    }
+    
+    private void SaveTutorial(SaveData data)
+    {
+        if (tutorialManager != null)
+            data.tutorialCompleted = tutorialManager.IsTutorialCompleted();
+    }
+    
+    private void LoadTutorial(SaveData data)
+    {
+        if (tutorialManager != null && data.tutorialCompleted)
+            tutorialManager.SetTutorialCompleted();
     }
     
     private void SaveSpiritCollection(SaveData data)
@@ -191,57 +260,22 @@ public class SaveManager : MonoBehaviour
         foreach (var saved in data.activeSpiritBuffs)
         {
             SpiritData spirit = spiritCollection.allSpirits.Find(s => s.spiritName == saved.spiritName);
-            if (spirit != null)
+            if (spirit != null && saved.endTime > 0)
             {
-                float remainingTime = saved.endTime;
-                if (remainingTime > 0)
-                {
-                    buffManager.LoadBuff(spirit, remainingTime, saved.slotIndex, saved.multiplier);
-                }
+                buffManager.LoadBuff(spirit, saved.endTime, saved.slotIndex, saved.multiplier);
             }
         }
     }
     
-    private void SaveExplorations(SaveData data)
-    {
-        if (explorationExecutor == null) return;
-        
-        var currentExploration = explorationExecutor.GetCurrentExploration();
-        if (currentExploration != null)
-        {
-            SavedExploration saved = new SavedExploration
-            {
-                zoneName = currentExploration.zone.zoneName,
-                timeRemaining = currentExploration.timeRemaining,
-                isExploring = currentExploration.isExploring
-            };
-            data.explorations.Add(saved);
-        }
-    }
-    
-    private void LoadExplorations(SaveData data)
-    {
-        if (explorationExecutor == null || data.explorations.Count == 0) return;
-        
-        var saved = data.explorations[0];
-        ZoneData zone = FindZoneByName(saved.zoneName);
-        if (zone != null && saved.isExploring)
-        {
-            explorationExecutor.LoadExploration(zone, saved.timeRemaining);
-        }
-    }
-    
-    private ZoneData FindZoneByName(string zoneName)
-    {
-        return Resources.LoadAll<ZoneData>("").FirstOrDefault(z => z.zoneName == zoneName);
-    }
-    
     public void DeleteSave()
     {
+        Time.timeScale = 1;
         PlayerPrefs.DeleteKey(SAVE_KEY);
-        PlayerPrefs.DeleteKey(FIRST_LAUNCH_KEY);
         PlayerPrefs.Save();
+        tutorialManager.ResetTutorial();
         Debug.Log("Save deleted");
+        SceneManager.LoadScene(1);
+        Application.Quit();
     }
     
     public bool HasSave()

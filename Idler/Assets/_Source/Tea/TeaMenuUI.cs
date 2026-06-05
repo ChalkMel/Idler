@@ -88,11 +88,6 @@ public class TeaMenu : MonoBehaviour
             }
         }
 
-        if (buttonObj.GetComponent<Image>() != null && tea.icon != null)
-        {
-            buttonObj.GetComponent<Image>().sprite = tea.icon;
-        }
-
         TextMeshProUGUI buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
         buttonText.text = tea.teaName;
         

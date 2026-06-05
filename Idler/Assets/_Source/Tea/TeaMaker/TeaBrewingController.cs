@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class TeaBrewingController : MonoBehaviour
 {
+    
     [Header("References")]
     [SerializeField] private Credits _credits;
     [SerializeField] private SpiritBuffManager _buffManager;
@@ -41,6 +42,12 @@ public class TeaBrewingController : MonoBehaviour
 
     private void Start()
     {
+        foreach (var tea in allTeas)
+        {
+            if (tea.baseBrewingTime == 0)
+                tea.baseBrewingTime = tea.brewingTime;
+        }
+        
         UpdateCounters();
         _cauldronUI?.SetClearButtonInteractable(true);
     }
@@ -52,15 +59,16 @@ public class TeaBrewingController : MonoBehaviour
 
     public void AddIngredient(IngredientData ingredient)
     {
+        
         if (_brewingProcess.IsBrewing)
         {
-            ShowMessage("Wait until brew end!");
+            ShowMessage("Дождитесь!");
             return;
         }
 
         if (_buffManager != null && _buffManager.GetActiveSpiritsCount() == _buffManager.MaxSpiritSlots && !_spiritVisitor.IsWaitingForTea)
         {
-            ShowMessage("Wait until boost end!");
+            ShowMessage("Дождитесь!");
             return;
         }
 
@@ -71,13 +79,13 @@ public class TeaBrewingController : MonoBehaviour
 
         if (!_inventory.HasIngredient(ingredient))
         {
-            ShowMessage($"You don't have {ingredient.ingredientName}!");
+            ShowMessage($"У вас нет {ingredient.ingredientName}!");
             return;
         }
 
         if (_currentIngredients.Count >= 6)
         {
-            ShowMessage("Max is 6!");
+            ShowMessage("Максимум 6!");
             return;
         }
 
@@ -98,26 +106,26 @@ public class TeaBrewingController : MonoBehaviour
     {
         if (_brewingProcess.IsBrewing)
         {
-            ShowMessage("Already making!");
+            ShowMessage("Уже в работе!");
             return;
         }
 
         if (_buffManager != null && _buffManager.GetActiveSpiritsCount() == _buffManager.MaxSpiritSlots && !_spiritVisitor.IsWaitingForTea)
         {
-            ShowMessage("You can't brew while boost on!");
+            ShowMessage("Нельзя варить пока нет мест!");
             return;
         }
 
         if (_currentIngredients.Count == 0)
         {
-            ShowMessage("Add something in!");
+            ShowMessage("Добавь что-то!");
             return;
         }
 
         TeaData matchedTea = _recipeMatcher.FindMatchingTea(_currentIngredients, allTeas);
         if (matchedTea == null)
         {
-            ShowMessage("Something went wrong!");
+            ShowMessage("Что-то пошло не так!");
             ReturnIngredientsAndClear();
             return;
         }
@@ -144,14 +152,15 @@ public class TeaBrewingController : MonoBehaviour
             if (likedSpirits.Count > 0)
             {
                 SpiritData chosenSpirit = likedSpirits[Random.Range(0, likedSpirits.Count)];
+                Debug.Log("Here is result");
                 _resultPresenter?.ShowResult(tea, chosenSpirit);
                 ApplySpiritBuff(chosenSpirit);
                 GiveReward(chosenSpirit);
-                ShowMessage($"Hooray! Brewed {tea.teaName} and {chosenSpirit.spiritName} came");
+                ShowMessage($"Ура! сварили {tea.teaName} и пришел дух {chosenSpirit.spiritName}");
             }
             else
             {
-                ShowMessage("This tea not liked by any spirit!");
+                ShowMessage("Пока этот чай никому не понравился!");
                 ReturnIngredientsAndClear();
                 _cauldronUI?.SetBrewButtonInteractable(true);
                 _cauldronUI?.SetClearButtonInteractable(true);
@@ -208,7 +217,6 @@ public class TeaBrewingController : MonoBehaviour
     {
         if (_brewingProcess.IsBrewing)
         {
-            ShowMessage("Can't clear while brewing!");
             return;
         }
         

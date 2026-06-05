@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eb6deeb3f5464942b3bd32414f2adfa, type: 3}
   m_Name: CaveZone
   m_EditorClassIdentifier: 
-  zoneName: Cave
+  zoneName: "\u041F\u0435\u0449\u0435\u0440\u0430"
   zoneDescription: 
-  zoneIcon: {fileID: -7094705925289595810, guid: 32531e72485d7cb4e9a2e6363edb38a8, type: 3}
+  zoneIcon: {fileID: -2084972011661835810, guid: 6dbaae3fad1754c499ac08044574c3fd, type: 3}
   explorationTime: 90
+  ingredients:
+  - {fileID: 11400000, guid: 31a24069da1d82f4ab5f32bd7371100a, type: 2}
+  - {fileID: 11400000, guid: 08e1e322de420e141ac7836b8c9beead, type: 2}
   availableSpirits:
   - {fileID: 11400000, guid: 74ec35319b4cc894ca41b2555a8a56e8, type: 2}
   isUnlocked: 1

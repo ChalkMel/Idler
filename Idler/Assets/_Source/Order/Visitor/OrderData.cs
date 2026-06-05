@@ -49,9 +49,9 @@ public class OrderData
   public string GetOrderText()
   {
     if (IsComplete)
-      return "Thank you! All teas were delicious!";
+      return "Все было вкусно!";
             
-    string text = "Prepare for me:\n";
+    string text = "Приготовь мне:\n";
     for (int i = 0; i < requestedTeas.Count; i++)
     {
       if (!completedTeas[i])

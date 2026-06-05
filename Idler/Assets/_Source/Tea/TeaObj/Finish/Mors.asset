@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa81a0a61dcddf44b8c5857fbf575cf7, type: 3}
+  m_Name: Mors
+  m_EditorClassIdentifier: 
+  teaName: "\u041C\u043E\u0440\u0441"
+  icon: {fileID: -655010511101894926, guid: eb4632bb8af6cef47aff265d0be33eee, type: 3}
+  description: "\u041A\u0438\u0441\u043B\u043E-\u0441\u043B\u0430\u0434\u043A\u0438\u0439
+    \u043D\u0430\u043F\u0438\u0442\u043E\u043A \u0438\u0437 \u044F\u0433\u043E\u0434.
+    \u0414\u043B\u044F \u0442\u0435\u0445, \u043A\u043E\u043C\u0443 \u043D\u0443\u0436\u043D\u043E
+    \u043C\u0435\u043D\u044C\u0448\u0435 \u043A\u043E\u0440\u0442\u0438\u0437\u043E\u043B\u0430."
+  brewingTime: 60
+  baseBrewingTime: 60
+  ingredients:
+  - {fileID: 11400000, guid: 31a24069da1d82f4ab5f32bd7371100a, type: 2}
+  - {fileID: 11400000, guid: 31a24069da1d82f4ab5f32bd7371100a, type: 2}
+  - {fileID: 11400000, guid: 31a24069da1d82f4ab5f32bd7371100a, type: 2}
+  likedBySpirits:
+  - {fileID: 11400000, guid: 1999fc74e23dfcb4b9f8fddcdf426c94, type: 2}

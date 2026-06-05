@@ -1,6 +1,9 @@
+// ExplorationExecutor.cs
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class ExplorationExecutor : MonoBehaviour
 {
     [Header("Services")]
@@ -11,6 +14,10 @@ public class ExplorationExecutor : MonoBehaviour
     [SerializeField] private ExplorationTimerUI _timerUI;
     [SerializeField] private SpiritFoundPopupUI _popupUI;
     [SerializeField] private Credits _credits;
+    [SerializeField] private List<ZoneButton> _allZones;
+    [Header("Exploration Cost")]
+    [SerializeField] private int _baseExplorationCost = 20;
+    
     private ExplorationData _currentExploration;
     private bool _isExploring;
     private Transform _selectedZoneButtonTransform;
@@ -46,110 +53,122 @@ public class ExplorationExecutor : MonoBehaviour
             }
         }
     }
-
-    private void GiveInstantReward(ZoneData zone)
-    {
-        foreach (var ingredient in zone.ingredients)
-        {
-            switch (ingredient.type)
-            {
-                case IngredientType.Berry:
-                    _credits.berries++;
-                    break;
-                case IngredientType.Flower:
-                    _credits.flowers++;
-                    break;
-                case IngredientType.Leaf:
-                    _credits.leaves++;
-                    break;
-            }
-        }
-    }
-    
-    public void StartExploration()
-    {
-        if (_isExploring)
-        {
-            _zoneSelectionUI?.ShowMessage("Already exploring!");
-            return;
-        }
-        
-        ZoneData selectedZone = _zoneSelectionUI?.GetSelectedZone();
-        if (selectedZone == null)
-        {
-            _zoneSelectionUI?.ShowMessage("No zone selected!");
-            return;
-        }
-        
-        if (_zoneUnlockService != null && _zoneUnlockService.IsZoneComplete(selectedZone))
-        {
-            _zoneSelectionUI?.ShowMessage($"All spirits in {selectedZone.zoneName} already found!");
-            _zoneSelectionUI?.ClosePanel();
-            return;
-        }
-        
-        _selectedZoneButtonTransform = FindZoneButtonTransform(selectedZone);
-        if (_selectedZoneButtonTransform == null)
-        {
-            _zoneSelectionUI?.ShowMessage($"Could not find button for zone {selectedZone.zoneName}");
-            _zoneSelectionUI?.ClosePanel();
-            return;
-        }
-        
-        _zoneSelectionUI?.ClosePanel();
-        
-        SetAllZonesInteractable(false);
-        
-        _currentExploration = new ExplorationData(selectedZone);
-        _timerUI?.ShowTimer(_currentExploration.timeRemaining, selectedZone.explorationTime);
-        
-        StartCoroutine(_frogMover.MoveToTargetAndBack(_selectedZoneButtonTransform));
-        
-        OnExplorationStarted?.Invoke(selectedZone);
-    }
     
     private void OnMovementCompleted()
     {
-        
     }
     
-    private void CompleteExploration()
-    {
-        ZoneData exploredZone = _currentExploration.zone;
-        
-        SpiritData foundSpirit = null;
-        if (_spiritUnlockService != null)
-        {
-            foundSpirit = _zoneUnlockService?.GetRandomUnfoundSpirit(exploredZone);
-            if (foundSpirit != null)
-            {
-                _spiritUnlockService.TryUnlockSpirit(foundSpirit);
-                _popupUI?.ShowSpiritFound(foundSpirit);
-            }
-        }
-        
-        string message = foundSpirit != null 
-            ? $"You explored: {exploredZone.zoneName}\nFound new spirit: {foundSpirit.spiritName}"
-            : $"You explored: {exploredZone.zoneName}\nAll spirits already found!";
-        
-        _zoneSelectionUI?.ShowMessage(message);
-        
-        _currentExploration = null;
-        _isExploring = false;
-        
-        _timerUI?.HideTimer();
-        
-        SetAllZonesInteractable(true);
+    public int GetExplorationCost(ZoneData zone)
+{
+    return Mathf.RoundToInt(_baseExplorationCost * zone.explorationTime / 10f);
+}
 
-        UpdateAllZoneButtons();
-        
-        OnExplorationCompleted?.Invoke(exploredZone, foundSpirit);
+// И исправить StartExploration - добавить сброс состояния
+public void StartExploration()
+{
+    Debug.Log("StartExploration called");
+    
+    if (_isExploring)
+    {
+        _zoneSelectionUI?.ShowMessage("Уже изучаем!");
+        return;
     }
+    
+    ZoneData selectedZone = _zoneSelectionUI?.GetSelectedZone();
+    if (selectedZone == null)
+    {
+        _zoneSelectionUI?.ShowMessage("Не выбрана зона!");
+        return;
+    }
+    
+    int cost = GetExplorationCost(selectedZone);
+    if (_credits.droplets < cost)
+    {
+        _zoneSelectionUI?.ShowMessage($"Недостаточно капель! Нужно {cost}");
+        return;
+    }
+    
+    if (_zoneUnlockService != null && _zoneUnlockService.IsZoneComplete(selectedZone))
+    {
+        _zoneSelectionUI?.ShowMessage($"Все духи в {selectedZone.zoneName} уже найдены!");
+        _zoneSelectionUI?.ClosePanel();
+        return;
+    }
+    
+    _credits.droplets -= cost;
+    _credits.UpdateUI();
+    
+    _selectedZoneButtonTransform = FindZoneButtonTransform(selectedZone);
+    if (_selectedZoneButtonTransform == null)
+    {
+        _zoneSelectionUI?.ShowMessage("Не найдена кнопка зоны!");
+        _zoneSelectionUI?.ClosePanel();
+        return;
+    }
+    
+    _zoneSelectionUI?.ClosePanel();
+    
+    SetAllZonesInteractable(false);
+    
+    _currentExploration = new ExplorationData(selectedZone);
+    _timerUI?.ShowTimer(_currentExploration.timeRemaining, selectedZone.explorationTime);
+    
+    StartCoroutine(_frogMover.MoveToTargetAndBack(_selectedZoneButtonTransform));
+    
+    OnExplorationStarted?.Invoke(selectedZone);
+}
+
+// Исправить CancelExploration
+private void CancelExploration()
+{
+    Debug.Log("CancelExploration called");
+    
+    _currentExploration = null;
+    _isExploring = false;
+    _timerUI?.HideTimer();
+    _zoneSelectionUI?.ClosePanel();
+    SetAllZonesInteractable(true);
+    _zoneSelectionUI?.RefreshAllButtonsState();
+}
+
+// Исправить CompleteExploration
+private void CompleteExploration()
+{
+    Debug.Log("CompleteExploration called");
+    
+    ZoneData exploredZone = _currentExploration.zone;
+    
+    SpiritData foundSpirit = null;
+    if (_spiritUnlockService != null)
+    {
+        foundSpirit = _zoneUnlockService?.GetRandomUnfoundSpirit(exploredZone);
+        if (foundSpirit != null)
+        {
+            _spiritUnlockService.TryUnlockSpirit(foundSpirit);
+            _popupUI?.ShowSpiritFound(foundSpirit);
+        }
+    }
+    
+    string message = foundSpirit != null 
+        ? $"Ты изучил: {exploredZone.zoneName}\nНашел: {foundSpirit.spiritName}"
+        : $"Ты изучил: {exploredZone.zoneName}\nВсе духи найдены!";
+    
+    _zoneSelectionUI?.ShowMessage(message);
+    
+    _currentExploration = null;
+    _isExploring = false;
+    
+    _timerUI?.HideTimer();
+    
+    SetAllZonesInteractable(true);
+    
+    _zoneSelectionUI?.RefreshAllButtonsState();
+    
+    OnExplorationCompleted?.Invoke(exploredZone, foundSpirit);
+}
     
     public void SelectZone(ZoneData zone)
     {
-        Debug.Log($"Zone selected: {zone.zoneName}");
-    
         if (_isExploring)
         {
             _zoneSelectionUI?.ShowMessage("Already exploring!");
@@ -158,20 +177,14 @@ public class ExplorationExecutor : MonoBehaviour
     
         if (_zoneUnlockService != null && _zoneUnlockService.IsZoneComplete(zone))
         {
-            _zoneSelectionUI?.ShowMessage($"All spirits in {zone.zoneName} already found!");
+            _zoneSelectionUI?.ShowMessage($"Все духи в {zone.zoneName} найдены!");
             return;
         }
+        
+        int cost = GetExplorationCost(zone);
+        _zoneSelectionUI?.UpdateCostDisplay(cost);
     
         _zoneSelectionUI?.SelectZone(zone);
-    }
-    
-    private void CancelExploration()
-    {
-        _currentExploration = null;
-        _isExploring = false;
-        _timerUI?.HideTimer();
-        _zoneSelectionUI?.ClosePanel();
-        SetAllZonesInteractable(true);
     }
     
     private Transform FindZoneButtonTransform(ZoneData zone)
@@ -187,58 +200,25 @@ public class ExplorationExecutor : MonoBehaviour
     
     private void SetAllZonesInteractable(bool interactable)
     {
-        ZoneButton[] buttons = FindObjectsByType<ZoneButton>(FindObjectsSortMode.None);
-        foreach (var button in buttons)
+        foreach (var button in _allZones)
         {
             Button btn = button.GetComponent<Button>();
             if (btn != null)
             {
-                if (interactable && button.ZoneData != null && _zoneUnlockService != null)
-                {
-                    bool isComplete = _zoneUnlockService.IsZoneComplete(button.ZoneData);
-                    btn.interactable = button.ZoneData.isUnlocked && !isComplete;
-                }
-                else
-                {
-                    btn.interactable = interactable;
-                }
-            }
-        }
-    }
-    
-    private void UpdateAllZoneButtons()
-    {
-        if (_zoneUnlockService == null) return;
-        
-        ZoneButton[] buttons = FindObjectsByType<ZoneButton>(FindObjectsSortMode.None);
-        foreach (var button in buttons)
-        {
-            if (button.ZoneData != null)
-            {
-                bool isComplete = _zoneUnlockService.IsZoneComplete(button.ZoneData);
-                button.UpdateVisual(isComplete, button.ZoneData.isUnlocked, _isExploring);
+                btn.interactable = interactable;
             }
         }
     }
     
     public bool IsExploring => _isExploring;
-
-    #region Save
-
-    public ExplorationData GetCurrentExploration()
-    {
-        return _currentExploration;
-    }
-
+    public ExplorationData GetCurrentExploration() => _currentExploration;
+    
     public void LoadExploration(ZoneData zone, float remainingTime)
     {
         _currentExploration = new ExplorationData(zone);
         _currentExploration.timeRemaining = remainingTime;
         _currentExploration.isExploring = true;
         _isExploring = true;
-    
         _timerUI?.ShowTimer(remainingTime, zone.explorationTime);
     }
-
-    #endregion
 }

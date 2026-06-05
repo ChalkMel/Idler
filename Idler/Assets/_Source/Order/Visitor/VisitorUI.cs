@@ -1,3 +1,4 @@
+// VisitorUI.cs
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,11 +25,15 @@ public class VisitorUI : MonoBehaviour
     [SerializeField] private Button _acceptButton;
     [SerializeField] private Button _rejectButton;
     
-    [Header("Timers")]
-    //[SerializeField] private TextMeshProUGUI _timerText;
-    [SerializeField] private Slider _slider;
-    [SerializeField] private Image _sliderHandle;
-    [SerializeField] private Slider _subSlider;
+    [Header("Timer")]
+    [SerializeField] private Slider _timerSlider;
+    [SerializeField] private TextMeshProUGUI _timerText;
+    [SerializeField] private Image _timerHandle;
+    
+    [Header("Sprites")]
+    [SerializeField] private Sprite _onWayImage;
+    [SerializeField] private Sprite _waitResponseImage;
+    [SerializeField] private Sprite _waitImage;
     
     [Header("Movement")]
     [SerializeField] private RectTransform _startPoint;
@@ -36,15 +41,12 @@ public class VisitorUI : MonoBehaviour
     [SerializeField] private float _moveDuration = 1.5f;
     [SerializeField] private Ease _moveEase = Ease.OutBack;
     
-    [Header("Sprites")]
-    [SerializeField] private Sprite _onWayImage;
-    [SerializeField] private Sprite _waitResponseImage;
-    [SerializeField] private Sprite _waitImage;
-    
     public Button AcceptButton => _acceptButton;
     public Button RejectButton => _rejectButton;
     
     private Coroutine _moveCoroutine;
+    private bool _isWaitingForResponse;
+    private bool _isWaitingForTea;
     
     public void ShowVisitor(SpiritData spirit, string requestText)
     {
@@ -92,40 +94,62 @@ public class VisitorUI : MonoBehaviour
             _requestText.text = order.GetOrderText();
     }
     
-    public void SetResponseTimer(float maxTime, float currentTime)
+    public void SetNextVisitTimer(float timeLeft, float maxTime)
     {
-        if (_slider != null)
+        if (_timerSlider != null)
         {
-            _slider.maxValue = maxTime;
-            _slider.value = maxTime - currentTime;
-            if (_sliderHandle != null && _waitResponseImage != null)
-                _sliderHandle.sprite = _waitResponseImage;
+            _timerSlider.gameObject.SetActive(true);
+            _timerSlider.maxValue = maxTime;
+            _timerSlider.value = maxTime - timeLeft;
+            
+            if (_timerHandle != null && _onWayImage != null)
+                _timerHandle.sprite = _onWayImage;
         }
         
-        //if (_timerText != null)
-            //_timerText.text = $"{Mathf.CeilToInt(currentTime)}s";
+        if (_timerText != null)
+            _timerText.text = $"Next guest: {Mathf.CeilToInt(timeLeft)}s";
+    }
+    
+    public void SetResponseTimer(float maxTime, float currentTime)
+    {
+        _isWaitingForResponse = true;
+        
+        if (_timerSlider != null)
+        {
+            _timerSlider.gameObject.SetActive(true);
+            _timerSlider.maxValue = maxTime;
+            _timerSlider.value = maxTime - currentTime;
+            
+            if (_timerHandle != null && _waitResponseImage != null)
+                _timerHandle.sprite = _waitResponseImage;
+        }
+        
+        if (_timerText != null)
+            _timerText.text = $"Decide: {Mathf.CeilToInt(currentTime)}s";
     }
     
     public void SetWaitTimer(float maxTime, float currentTime)
     {
-        _slider.gameObject.SetActive(false);
-        _subSlider.gameObject.SetActive(true);
-        _subSlider.maxValue = maxTime;
-        _subSlider.value = maxTime - currentTime;
+        _isWaitingForTea = true;
+        
+        if (_timerSlider != null)
+        {
+            _timerSlider.gameObject.SetActive(true);
+            _timerSlider.maxValue = maxTime;
+            _timerSlider.value = maxTime - currentTime;
+            
+            if (_timerHandle != null && _waitImage != null)
+                _timerHandle.sprite = _waitImage;
+        }
+        
+        if (_timerText != null)
+            _timerText.text = $"Time left: {Mathf.CeilToInt(currentTime)}s";
     }
     
-    public void SetNextVisitTimer(float timeLeft)
+    public void ResetTimerToWaiting()
     {
-        //if (_timerText != null)
-           // _timerText.text = $"Next guest: {Mathf.CeilToInt(timeLeft)}s";
-        
-        if (_slider != null)
-        {
-            _slider.maxValue = timeLeft;
-            _slider.value = _slider.maxValue - timeLeft;
-            if (_sliderHandle != null && _onWayImage != null)
-                _sliderHandle.sprite = _onWayImage;
-        }
+        _isWaitingForResponse = false;
+        _isWaitingForTea = false;
     }
     
     public void ShowOrderUI(bool show)
@@ -150,28 +174,30 @@ public class VisitorUI : MonoBehaviour
                     _visitorTalking.DOFade(0, 0);
             });
         
-        _slider.gameObject.SetActive(true);
-        _subSlider.gameObject.SetActive(false);
-        
         if (_requestedTeaIcon != null)
             _requestedTeaIcon.gameObject.SetActive(false);
     }
     
     public void ResetUI()
     {
-        _slider.gameObject.SetActive(true);
-        _subSlider.gameObject.SetActive(false);
-        
         TextMeshProUGUI acceptText = _acceptButton?.GetComponentInChildren<TextMeshProUGUI>();
         if (acceptText != null)
             acceptText.text = "Accept";
         
         _acceptButton.interactable = true;
+        _acceptButton.gameObject.SetActive(true);
+        _isWaitingForResponse = false;
+        _isWaitingForTea = false;
+        ShowOrderUI(true);
+    }
+
+    public void HideButton()
+    {
+        _acceptButton.gameObject.SetActive(false);
     }
     
     public void ShowMessage(string message)
     {
         Debug.Log($"[VisitorUI] {message}");
-        // TODO: всплывающее сообщение
     }
 }

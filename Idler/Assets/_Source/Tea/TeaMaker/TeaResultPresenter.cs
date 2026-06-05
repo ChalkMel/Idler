@@ -25,7 +25,7 @@ public class TeaResultPresenter : MonoBehaviour
         }
         if (_resultTeaName != null)
         {
-            _resultTeaName.text = $"You made:\n{tea.teaName}";
+            _resultTeaName.text = $"Вы сварили:\n{tea.teaName}";
             _resultTeaName.gameObject.SetActive(true);
         }
         if (_resultTeaDescription != null)
@@ -40,12 +40,12 @@ public class TeaResultPresenter : MonoBehaviour
         }
         if (_resultSpiritName != null)
         {
-            _resultSpiritName.text = $"Spirit that came:\n{spirit.spiritName}";
+            _resultSpiritName.text = $"Пришел:\n{spirit.spiritName}";
             _resultSpiritName.gameObject.SetActive(true);
         }
         if (_resultBuffInfo != null)
         {
-            _resultBuffInfo.text = $"Boost: {spirit.buffName}\nStrength: x{spirit.buffMultiplier:F1}\nDuration: {spirit.buffDuration}s";
+            _resultBuffInfo.text = $"Буст: {spirit.buffName}\nСила: x{spirit.buffMultiplier:F1}\nВремя: {spirit.buffDuration}с";
             _resultBuffInfo.gameObject.SetActive(true);
         }
 

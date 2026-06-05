@@ -9,6 +9,7 @@ public class BushGenerator : MonoBehaviour
     [SerializeField] private int bushCount;
     [SerializeField] private float bushDuration;
     [SerializeField] private Credits credits;
+    [SerializeField] AudioSource audioPrefab;
     
     [Header("Spawn Area")]
     [SerializeField] private Vector2 spawnAreaMin = new Vector2();
@@ -21,7 +22,6 @@ public class BushGenerator : MonoBehaviour
     
     private void Awake()
     {
-        //_audioSource = GetComponent<AudioSource>();
         _random = new System.Random();
         
         for (int i = 0; i < bushCount; i++)
@@ -84,8 +84,10 @@ public class BushGenerator : MonoBehaviour
     
     public void OnBushClicked(Bush bush)
     {
+         var au = Instantiate(audioPrefab, transform.position, transform.rotation);
+         au.Play();
         credits.BushDrop();
-        //_audioSource.Play();
+        Destroy(au.gameObject, 2f);
         StartCoroutine(RespawnBush(bush));
     }
     

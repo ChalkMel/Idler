@@ -1,0 +1,1300 @@
+fileFormatVersion: 2
+guid: 21211e0cf2239ce49a16824ba5bfc53a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4518815311546319845
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_0
+  - first:
+      213: -360437980519386092
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_1
+  - first:
+      213: -7004040577441299153
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_2
+  - first:
+      213: -7214049384176215754
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_3
+  - first:
+      213: -8491892028318862721
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_4
+  - first:
+      213: -8526519258075580775
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_5
+  - first:
+      213: 9201386828943620830
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_6
+  - first:
+      213: -6825334687430239680
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_7
+  - first:
+      213: -8054304873865300324
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_8
+  - first:
+      213: -1874278947964371901
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_9
+  - first:
+      213: 4383475763589072010
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_10
+  - first:
+      213: -7275186448234321814
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_11
+  - first:
+      213: 1813792179843305486
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_12
+  - first:
+      213: -3618412256524094122
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_13
+  - first:
+      213: 7586182200787751732
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_14
+  - first:
+      213: -3887832900046678724
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_15
+  - first:
+      213: -6106443991065196500
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_16
+  - first:
+      213: -4279200126519907410
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_17
+  - first:
+      213: 6479383347869715587
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_18
+  - first:
+      213: 3774951159610165511
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_19
+  - first:
+      213: -9137994042226571250
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_20
+  - first:
+      213: -7979320441154578092
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_21
+  - first:
+      213: 1018937137164390642
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_22
+  - first:
+      213: -6453259992318700773
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_23
+  - first:
+      213: -3482296307661269585
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_24
+  - first:
+      213: 2053432871316242782
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_25
+  - first:
+      213: -7471011975455027585
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_26
+  - first:
+      213: -4608846753905615304
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_27
+  - first:
+      213: -5913268851991198269
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_28
+  - first:
+      213: 233044136340441880
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_29
+  - first:
+      213: -4622043488538180475
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_30
+  - first:
+      213: -5946675016499952697
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_31
+  - first:
+      213: -1570383740818671292
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_32
+  - first:
+      213: 3018382457127835948
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_33
+  - first:
+      213: 3378941878774133783
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_34
+  - first:
+      213: 1304059333651336863
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_35
+  - first:
+      213: -6055762489169207389
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_36
+  - first:
+      213: 2258484484042838834
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_37
+  - first:
+      213: 2982817930523673007
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_38
+  - first:
+      213: -5054407537848172392
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_39
+  - first:
+      213: 947145968552838254
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_40
+  - first:
+      213: 5970149114268325054
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_41
+  - first:
+      213: -325456989343581327
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_42
+  - first:
+      213: -3633256391798393512
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_43
+  - first:
+      213: -4015186176520106218
+    second: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_44
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_0
+      rect:
+        serializedVersion: 2
+        x: 513
+        y: 1048
+        width: 21
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1c7fa57a61f941c0800000000000000
+      internalID: -4518815311546319845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_1
+      rect:
+        serializedVersion: 2
+        x: 535
+        y: 1063
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 414359ff0977ffaf0800000000000000
+      internalID: -360437980519386092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_2
+      rect:
+        serializedVersion: 2
+        x: 493
+        y: 1028
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f25803d2436acce90800000000000000
+      internalID: -7004040577441299153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_3
+      rect:
+        serializedVersion: 2
+        x: 559
+        y: 1044
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6391d088e4c82eb90800000000000000
+      internalID: -7214049384176215754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_4
+      rect:
+        serializedVersion: 2
+        x: 470
+        y: 1002
+        width: 31
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f723515313db62a80800000000000000
+      internalID: -8491892028318862721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_5
+      rect:
+        serializedVersion: 2
+        x: 587
+        y: 1018
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 996b0e309e7bba980800000000000000
+      internalID: -8526519258075580775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_6
+      rect:
+        serializedVersion: 2
+        x: 492
+        y: 82
+        width: 72
+        height: 925
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eda7424e194e1bf70800000000000000
+      internalID: 9201386828943620830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_7
+      rect:
+        serializedVersion: 2
+        x: 597
+        y: 1007
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04a9192934a8741a0800000000000000
+      internalID: -6825334687430239680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_8
+      rect:
+        serializedVersion: 2
+        x: 455
+        y: 990
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c96bf88046c593090800000000000000
+      internalID: -8054304873865300324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_9
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 986
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34c37982a393df5e0800000000000000
+      internalID: -1874278947964371901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_10
+      rect:
+        serializedVersion: 2
+        x: 419
+        y: 955
+        width: 29
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a84c24a7bfb35dc30800000000000000
+      internalID: 4383475763589072010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_11
+      rect:
+        serializedVersion: 2
+        x: 628
+        y: 879
+        width: 105
+        height: 105
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a68e14e8878590b90800000000000000
+      internalID: -7275186448234321814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_12
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 935
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0011ffa062eb2910800000000000000
+      internalID: 1813792179843305486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_13
+      rect:
+        serializedVersion: 2
+        x: 379
+        y: 915
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65536fe4931d8cdc0800000000000000
+      internalID: -3618412256524094122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_14
+      rect:
+        serializedVersion: 2
+        x: 359
+        y: 895
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 433585fa488874960800000000000000
+      internalID: 7586182200787751732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_15
+      rect:
+        serializedVersion: 2
+        x: 305
+        y: 842
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3514a67394ab0ac0800000000000000
+      internalID: -3887832900046678724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_16
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 857
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c288dbf1b8d814ba0800000000000000
+      internalID: -6106443991065196500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_17
+      rect:
+        serializedVersion: 2
+        x: 735
+        y: 850
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eab69f7382a3d94c0800000000000000
+      internalID: -4279200126519907410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_18
+      rect:
+        serializedVersion: 2
+        x: 285
+        y: 822
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38c0b5d53d46be950800000000000000
+      internalID: 6479383347869715587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_19
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 802
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70943014412536430800000000000000
+      internalID: 3774951159610165511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_20
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 749
+        width: 34
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e08037175d25f2180800000000000000
+      internalID: -9137994042226571250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_21
+      rect:
+        serializedVersion: 2
+        x: 245
+        y: 782
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 459d7f3c552c34190800000000000000
+      internalID: -7979320441154578092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_22
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 729
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f0132d7dedf32e00800000000000000
+      internalID: 1018937137164390642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_23
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 709
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b139a925a3a6176a0800000000000000
+      internalID: -6453259992318700773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_24
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 689
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa5123b45f56cafc0800000000000000
+      internalID: -3482296307661269585
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_25
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 651
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e514ae021524f7c10800000000000000
+      internalID: 2053432871316242782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_26
+      rect:
+        serializedVersion: 2
+        x: 118
+        y: 657
+        width: 25
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7e40520132a15890800000000000000
+      internalID: -7471011975455027585
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_27
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 636
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83e5e39cb461a00c0800000000000000
+      internalID: -4608846753905615304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_28
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 616
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c5cea71f49dfeda0800000000000000
+      internalID: -5913268851991198269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_29
+      rect:
+        serializedVersion: 2
+        x: 976
+        y: 624
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 81b4f834860fb3300800000000000000
+      internalID: 233044136340441880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_30
+      rect:
+        serializedVersion: 2
+        x: 983
+        y: 596
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 58446419fe33bdfb0800000000000000
+      internalID: -4622043488538180475
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_31
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 596
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7c384de449a297da0800000000000000
+      internalID: -5946675016499952697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_32
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 555
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4493477de40e43ae0800000000000000
+      internalID: -1570383740818671292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_33
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 577
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c2910694ad273e920800000000000000
+      internalID: 3018382457127835948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_34
+      rect:
+        serializedVersion: 2
+        x: 1013
+        y: 563
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 714f5018cb964ee20800000000000000
+      internalID: 3378941878774133783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_35
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 550
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f9e02540e03f81210800000000000000
+      internalID: 1304059333651336863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_36
+      rect:
+        serializedVersion: 2
+        x: 1057
+        y: 541
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3af1fe4d91c95fba0800000000000000
+      internalID: -6055762489169207389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_37
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 526
+        width: 18
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 233da1a1cafb75f10800000000000000
+      internalID: 2258484484042838834
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_38
+      rect:
+        serializedVersion: 2
+        x: 1066
+        y: 530
+        width: 10
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa1878aaa19156920800000000000000
+      internalID: 2982817930523673007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_39
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 496
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 890c08caf132bd9b0800000000000000
+      internalID: -5054407537848172392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_40
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 194
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e64090e7d30f42d00800000000000000
+      internalID: 947145968552838254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_41
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 174
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb4931cfcfa3ad250800000000000000
+      internalID: 5970149114268325054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_42
+      rect:
+        serializedVersion: 2
+        x: 365
+        y: 162
+        width: 13
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17bf180b79ebb7bf0800000000000000
+      internalID: -325456989343581327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_43
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 9
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85570fcbf84149dc0800000000000000
+      internalID: -3633256391798393512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_44
+      rect:
+        serializedVersion: 2
+        x: 529
+        y: 0
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61fc57122713748c0800000000000000
+      internalID: -4015186176520106218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_0: -4518815311546319845
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_1: -360437980519386092
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_10: 4383475763589072010
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_11: -7275186448234321814
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_12: 1813792179843305486
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_13: -3618412256524094122
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_14: 7586182200787751732
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_15: -3887832900046678724
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_16: -6106443991065196500
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_17: -4279200126519907410
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_18: 6479383347869715587
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_19: 3774951159610165511
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_2: -7004040577441299153
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_20: -9137994042226571250
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_21: -7979320441154578092
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_22: 1018937137164390642
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_23: -6453259992318700773
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_24: -3482296307661269585
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_25: 2053432871316242782
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_26: -7471011975455027585
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_27: -4608846753905615304
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_28: -5913268851991198269
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_29: 233044136340441880
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_3: -7214049384176215754
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_30: -4622043488538180475
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_31: -5946675016499952697
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_32: -1570383740818671292
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_33: 3018382457127835948
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_34: 3378941878774133783
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_35: 1304059333651336863
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_36: -6055762489169207389
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_37: 2258484484042838834
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_38: 2982817930523673007
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_39: -5054407537848172392
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_4: -8491892028318862721
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_40: 947145968552838254
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_41: 5970149114268325054
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_42: -325456989343581327
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_43: -3633256391798393512
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_44: -4015186176520106218
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_5: -8526519258075580775
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_6: 9201386828943620830
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_7: -6825334687430239680
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_8: -8054304873865300324
+      Trzonek-trzon-do-mlotka-10kg-drewniany-dl-90cm 1_9: -1874278947964371901
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

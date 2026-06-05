@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a71b044ce10da9244bc93fe4ff987683, type: 3}
   m_Name: Chair
   m_EditorClassIdentifier: 
-  itemName: Chair
-  icon: {fileID: -6866517479907749189, guid: 1b7325142d02dcb448bc483834cf5fa2, type: 3}
-  description: Adds a chair
-  cost: 1000
-  isPurchased: 1
+  itemName: "\u0421\u0442\u0443\u043B"
+  icon: {fileID: 6918706858342009571, guid: 1b42ccedd6c3f5e49b218cfb2a268eed, type: 3}
+  description: "\u0414\u043E\u0431\u0430\u0432\u043B\u044F\u0435\u0442 \u0441\u0442\u0443\u043B"
+  cost: 700
+  isPurchased: 0
+  baseCost: 700
+  costMultiplier: 2
+  boughtCount: 0

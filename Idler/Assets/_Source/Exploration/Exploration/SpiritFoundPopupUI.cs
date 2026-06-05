@@ -33,10 +33,10 @@ public class SpiritFoundPopupUI : MonoBehaviour
     }
         
     if (_spiritNameText != null)
-      _spiritNameText.text = $"Found spirit: {spirit.spiritName}";
+      _spiritNameText.text = $"Найден дух: {spirit.spiritName}";
         
     if (_spiritDescriptionText != null)
-      _spiritDescriptionText.text = $"{spirit.description}\n\nBoost: {spirit.buffName}\n{spirit.buffDescription}";
+      _spiritDescriptionText.text = $"{spirit.description}\n\nБуст: {spirit.buffName}\n{spirit.buffDescription}";
         
     _popupPanel.SetActive(true);
         

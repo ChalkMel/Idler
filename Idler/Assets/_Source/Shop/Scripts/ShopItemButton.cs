@@ -34,23 +34,5 @@ public class ShopItemButton : MonoBehaviour
     itemIcon.sprite = shopItem.icon;
     itemNameText.text = shopItem.itemName;
     itemDescriptionText.text = shopItem.description;
-    if (shopItem.isPurchased)
-    {
-      itemPriceText.text = "Bought";
-      itemPriceText.color = Color.green;
-    }
-    else
-    {
-      itemPriceText.text = $"{shopItem.cost} droplets";
-      itemPriceText.color = Color.white;
-    }
-    
-    Image bgImage = GetComponent<Image>();
-    if (bgImage != null)
-    {
-      bgImage.color = shopItem.isPurchased ? 
-        new Color(0.3f, 0.6f, 0.3f) : 
-        Color.white;
-    }
   }
 }

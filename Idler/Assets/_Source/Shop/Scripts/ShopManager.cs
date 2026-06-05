@@ -59,19 +59,20 @@ public class ShopManager : MonoBehaviour
     {
         ShopItemButton button = _itemButtons[buttonIndex];
         BuyItem(button.shopItem);
+        credits.UpdateUI();
     }
 
     private void BuyItem(ShopItem item)
     {
         if (item.isPurchased)
         {
-            ShowMessage($"Already bought: {item.itemName}");
+            ShowMessage($"Уже купили: {item.itemName}");
             return;
         }
         
         if (credits.droplets < item.cost)
         {
-            ShowMessage($"Not enough! You need: {item.cost}");
+            ShowMessage($"Недостаточно: {item.cost}");
             return;
         }
         item.isPurchased = true;
@@ -93,13 +94,12 @@ public class ShopManager : MonoBehaviour
 
         if (button.shopItem.isPurchased)
         {
-            button.itemPriceText.text = "Bought";
+            button.itemPriceText.text = "куплено";
             button.itemPriceText.color = Color.green;
         }
         else
         {
-            button.itemPriceText.text = $"{button.shopItem.cost} droplets";
-            button.itemPriceText.color = Color.white;
+            button.itemPriceText.text = $"{button.shopItem.cost}";
         }
     }
     
@@ -141,6 +141,11 @@ public class ShopManager : MonoBehaviour
     public List<ShopItem> GetAllShopItems()
     {
         return shopItems;
+    }
+    
+    public void RefreshUI()
+    {
+        UpdateAllItemButtons();
     }
 
     #endregion

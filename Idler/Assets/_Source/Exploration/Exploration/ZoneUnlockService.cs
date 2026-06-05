@@ -47,6 +47,6 @@ public class ZoneUnlockService : MonoBehaviour
         
     List<SpiritData> unfound = GetUnfoundSpirits(zone);
     int foundCount = zone.availableSpirits.Count - unfound.Count;
-    return $"Spirits: {foundCount}/{zone.availableSpirits.Count} found";
+    return $"Духов: {foundCount}/{zone.availableSpirits.Count} найдено";
   }
 }

@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eb6deeb3f5464942b3bd32414f2adfa, type: 3}
   m_Name: ValleyZone
   m_EditorClassIdentifier: 
-  zoneName: Valley
+  zoneName: "\u0425\u043E\u043B\u043C"
   zoneDescription: 
-  zoneIcon: {fileID: -7094705925289595810, guid: 32531e72485d7cb4e9a2e6363edb38a8, type: 3}
+  zoneIcon: {fileID: 1813277572673724067, guid: e58424f2f875d9d419b33e08046c7030, type: 3}
   explorationTime: 60
+  ingredients:
+  - {fileID: 11400000, guid: 183f08c2c94038d419a2688a82c143ca, type: 2}
+  - {fileID: 11400000, guid: 08e1e322de420e141ac7836b8c9beead, type: 2}
   availableSpirits:
   - {fileID: 11400000, guid: 14102cb532978da488172977c3f5f5de, type: 2}
   - {fileID: 11400000, guid: 59a01d99722020542b89bd1fbe02b72b, type: 2}

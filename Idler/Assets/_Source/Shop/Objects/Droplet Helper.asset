@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2f4223887db40cdbc399156af7dfb90, type: 3}
   m_Name: Droplet Helper
   m_EditorClassIdentifier: 
-  itemName: Droplet Helper
-  icon: {fileID: -8056498781713684603, guid: 840add9f3b51dc94ba31c35c953e9ce8, type: 3}
-  description: 
-  cost: 50
+  itemName: "\u0414\u043E\u0436\u0434\u0438\u0432\u0438\u0447\u043E\u043A"
+  icon: {fileID: -6088821819071300196, guid: 6de76df2baea8e54099049035e8dd615, type: 3}
+  description: "\u0420\u0430\u0437 \u0432 \u0441\u0435\u043A\u0443\u043D\u0434\u0443
+    \u0441\u043E\u0431\u0438\u0440\u0430\u0435\u0442 \u043A\u0430\u043F\u043B\u0438"
+  cost: 200
   isPurchased: 0
-  baseCost: 50
+  baseCost: 200
   costMultiplier: 2
+  boughtCount: 0

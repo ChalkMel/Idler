@@ -15,6 +15,7 @@ public class DraggableIng : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
     
     private void Awake()
     {
+        GetComponent<Image>().sprite = _ingredientData.icon;
         _rectTransform = GetComponent<RectTransform>();
         _canvas = GetComponentInParent<Canvas>();
         _canvasGroup = GetComponent<CanvasGroup>();

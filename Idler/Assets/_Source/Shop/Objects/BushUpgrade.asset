@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c951570e31b4286a340dff12f94e669, type: 3}
   m_Name: BushUpgrade
   m_EditorClassIdentifier: 
-  itemName: Bush+
-  icon: {fileID: -7094705925289595810, guid: 32531e72485d7cb4e9a2e6363edb38a8, type: 3}
-  description: Gives you more loot from bushes
-  cost: 500
+  itemName: "\u0423\u043B\u0443\u0447\u0448\u0435\u043D\u043D\u044B\u0435 \u043A\u0443\u0441\u0442\u044B"
+  icon: {fileID: -6791497058291413588, guid: 95c449c4805665d44b1a247d623e8751, type: 3}
+  description: "\u0411\u043E\u043B\u044C\u0448\u0435 \u0438\u043D\u0433\u0440\u0435\u0434\u0438\u0435\u043D\u0442\u043E\u0432
+    \u0437\u0430 \u043A\u043B\u0438\u043A"
+  cost: 300
   isPurchased: 0
+  baseCost: 300
+  costMultiplier: 2
+  boughtCount: 0
   boostValue: 0.5

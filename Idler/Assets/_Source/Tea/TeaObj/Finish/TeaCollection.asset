@@ -13,5 +13,8 @@ MonoBehaviour:
   m_Name: TeaCollection
   m_EditorClassIdentifier: 
   allTeas:
-  - {fileID: 11400000, guid: e164f1450fba186459b7a75a04cdbceb, type: 2}
-  - {fileID: 11400000, guid: fdb9ca0c220d95547ad3bcaf76376175, type: 2}
+  - {fileID: 11400000, guid: 53e057e592a0caa479129ab7f31de3db, type: 2}
+  - {fileID: 11400000, guid: 6c9edd0c5b1e29843b881650ddeea048, type: 2}
+  - {fileID: 11400000, guid: 3fdd6088ef0310244a56e4f9875d3d3e, type: 2}
+  - {fileID: 11400000, guid: 5b0d819757615ce46bd88a9970b9f6fa, type: 2}
+  - {fileID: 11400000, guid: 634f666f5d4422948a3cad9c0a18813a, type: 2}

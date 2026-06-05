@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cd155860ab04632b09d2b64ca57c437, type: 3}
   m_Name: Cloud
   m_EditorClassIdentifier: 
-  itemName: Cloud+
-  icon: {fileID: 5595344114889094419, guid: 1fcd0a5f192820944b3fb041cdb70ab5, type: 3}
-  description: Gives you more droplets
+  itemName: "\u0422\u0443\u0447\u0430"
+  icon: {fileID: 3518347088093063407, guid: a46cd8b4781fea8489cc606f884d3771, type: 3}
+  description: "\u0414\u0430\u0435\u0442 +\u043A\u0430\u043F\u043B\u0438"
   cost: 100
   isPurchased: 0
-  multiplierValue: 2
+  baseCost: 100
+  costMultiplier: 2
+  boughtCount: 0
+  multiplierValue: 1.2
+  totalMultiplierValue: 0

@@ -1,3 +1,4 @@
+// ZoneSelectionUI.cs - исправленный
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,6 +23,7 @@ public class ZoneSelectionUI : MonoBehaviour
     
     private ZoneUnlockService _unlockService;
     private ZoneData _selectedZone;
+    private Coroutine _messageCoroutine;
     
     public event System.Action<ZoneData> OnZoneSelected;
     public event System.Action OnExplorationConfirmed;
@@ -31,12 +33,7 @@ public class ZoneSelectionUI : MonoBehaviour
     {
         _unlockService = GetComponent<ZoneUnlockService>();
         
-        if (_zoneButtons == null || _zoneButtons.Count == 0)
-        {
-            ZoneButton[] foundButtons = FindObjectsByType<ZoneButton>(FindObjectsSortMode.None);
-            _zoneButtons.AddRange(foundButtons);
-            Debug.Log($"Found {_zoneButtons.Count} zone buttons");
-        }
+        RefreshZoneButtonsList();
         
         foreach (var button in _zoneButtons)
         {
@@ -56,7 +53,14 @@ public class ZoneSelectionUI : MonoBehaviour
             _explorationPanel.SetActive(false);
     }
     
-    public void RegisterZoneButton(ZoneButton button, ZoneData zone)
+    private void RefreshZoneButtonsList()
+    {
+        ZoneButton[] foundButtons = FindObjectsByType<ZoneButton>(FindObjectsSortMode.None);
+        _zoneButtons.Clear();
+        _zoneButtons.AddRange(foundButtons);
+    }
+
+    private void RegisterZoneButton(ZoneButton button, ZoneData zone)
     {
         if (button == null) return;
         
@@ -69,14 +73,10 @@ public class ZoneSelectionUI : MonoBehaviour
             btnComponent.onClick.RemoveAllListeners();
             btnComponent.onClick.AddListener(() => SelectZone(zone));
         }
-        
-        Debug.Log($"Registered zone button: {zone.zoneName}");
     }
     
     public void SelectZone(ZoneData zone)
     {
-        Debug.Log($"ZoneSelectionUI.SelectZone called for: {zone.zoneName}");
-        
         if (zone == null)
         {
             Debug.LogError("Zone is null!");
@@ -87,7 +87,7 @@ public class ZoneSelectionUI : MonoBehaviour
         
         if (_unlockService != null && _unlockService.IsZoneComplete(zone))
         {
-            ShowMessage($"All spirits in {zone.zoneName} already found!");
+            ShowMessage($"Все духи в {zone.zoneName} уже найдены!");
             return;
         }
         
@@ -103,7 +103,8 @@ public class ZoneSelectionUI : MonoBehaviour
         if (_zoneInfoText != null && _unlockService != null)
         {
             string spiritsInfo = _unlockService.GetZoneProgressText(zone);
-            _zoneInfoText.text = $"Time: {zone.explorationTime} sec\n{spiritsInfo}";
+            int cost = GetComponent<ExplorationExecutor>()?.GetExplorationCost(zone) ?? 20;
+            _zoneInfoText.text = $"Время: {zone.explorationTime} сек\n{spiritsInfo}\nЦена: {cost} капель";
         }
         
         if (_explorationPanel != null)
@@ -111,25 +112,29 @@ public class ZoneSelectionUI : MonoBehaviour
         
         OnZoneSelected?.Invoke(zone);
     }
-    
-    public void CancelSelection()
+
+    private void CancelSelection()
     {
         _selectedZone = null;
         if (_explorationPanel != null)
             _explorationPanel.SetActive(false);
         
         OnExplorationCancelled?.Invoke();
+        
+        RefreshAllButtonsState();
     }
     
-    public void UpdateZoneButtonVisual(ZoneData zone, bool isComplete, bool isUnlocked, bool isExploring)
+    public void RefreshAllButtonsState()
     {
-        foreach (var button in _zoneButtons)
+        RefreshZoneButtonsList();
+    }
+    
+    public void UpdateCostDisplay(int cost)
+    {
+        if (_zoneInfoText != null && _selectedZone != null)
         {
-            if (button != null && button.ZoneData == zone)
-            {
-                button.UpdateVisual(isComplete, isUnlocked, isExploring);
-                break;
-            }
+            string spiritsInfo = _unlockService?.GetZoneProgressText(_selectedZone) ?? "";
+            _zoneInfoText.text = $"Время: {_selectedZone.explorationTime} сек\n{spiritsInfo}\nЦена: {cost} капель";
         }
     }
     
@@ -140,9 +145,21 @@ public class ZoneSelectionUI : MonoBehaviour
     
     public void ShowMessage(string message)
     {
-        Debug.Log($"[ZoneSelectionUI] {message}");
         if (_messageText != null)
+        {
             _messageText.text = message;
+            
+            if (_messageCoroutine != null)
+                StopCoroutine(_messageCoroutine);
+            _messageCoroutine = StartCoroutine(ClearMessageAfterDelay(3f));
+        }
+    }
+    
+    private System.Collections.IEnumerator ClearMessageAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (_messageText != null)
+            _messageText.text = "";
     }
     
     public void ClosePanel()
@@ -150,5 +167,12 @@ public class ZoneSelectionUI : MonoBehaviour
         if (_explorationPanel != null)
             _explorationPanel.SetActive(false);
         _selectedZone = null;
+        
+        RefreshAllButtonsState();
+    }
+    
+    private void OnEnable()
+    {
+        RefreshAllButtonsState();
     }
 }

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1593100916fa11e42ae685709aeecb2e, type: 3}
   m_Name: FlowerObj
   m_EditorClassIdentifier: 
-  ingredientName: Flower
-  icon: {fileID: 8384883214832213892, guid: 70d00ad3d7129234a97a96e9efc78762, type: 3}
+  ingredientName: "\u0446\u0432\u0435\u0442\u043E\u043A"
+  icon: {fileID: 3373568495408583166, guid: e24a84019f3dec24d8adf87de15e20d9, type: 3}
   type: 2

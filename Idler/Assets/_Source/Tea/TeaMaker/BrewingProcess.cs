@@ -1,3 +1,4 @@
+// BrewingProcess.cs - добавляем методы для сохранения
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -18,8 +19,13 @@ public class BrewingProcess : MonoBehaviour
     public UnityEvent<TeaData> OnBrewingCompleted;
 
     private Coroutine _brewingCoroutine;
+    private TeaData _currentTea;
+    private float _elapsedTime;
+    private float _totalTime;
 
     public bool IsBrewing { get; private set; }
+    public TeaData GetCurrentTea() => _currentTea;
+    public float GetElapsedTime() => _elapsedTime;
 
     public void StartBrewing(TeaData tea)
     {
@@ -27,35 +33,48 @@ public class BrewingProcess : MonoBehaviour
         if (_brewingCoroutine != null) StopCoroutine(_brewingCoroutine);
         _brewingCoroutine = StartCoroutine(BrewingRoutine(tea));
     }
+    
+    public void LoadBrewing(TeaData tea, float remainingTime)
+    {
+        if (IsBrewing) return;
+        if (_brewingCoroutine != null) StopCoroutine(_brewingCoroutine);
+        _brewingCoroutine = StartCoroutine(BrewingRoutine(tea, remainingTime));
+    }
 
-    private IEnumerator BrewingRoutine(TeaData tea)
+    private IEnumerator BrewingRoutine(TeaData tea, float startRemainingTime = -1)
     {
         IsBrewing = true;
+        _currentTea = tea;
+        _totalTime = tea.brewingTime;
+        
+        if (startRemainingTime > 0)
+            _elapsedTime = _totalTime - startRemainingTime;
+        else
+            _elapsedTime = 0;
+        
         OnBrewingStarted?.Invoke(tea);
 
         if (_brewingPanel != null) _brewingPanel.SetActive(true);
-        if (_brewingTeaNameText != null) _brewingTeaNameText.text = $"Brewing: {tea.teaName}";
+        if (_brewingTeaNameText != null) _brewingTeaNameText.text = $"Варим: {tea.teaName}";
         if (_brewingTeaIcon != null && tea.icon != null)
         {
             _brewingTeaIcon.sprite = tea.icon;
             _brewingTeaIcon.gameObject.SetActive(true);
         }
-        if (_brewingSlider != null) _brewingSlider.value = 0f;
+        if (_brewingSlider != null) _brewingSlider.value = _elapsedTime / _totalTime;
 
-        float brewingTime = tea.brewingTime;
-        float timer = 0f;
-
-        while (timer < brewingTime)
+        while (_elapsedTime < _totalTime)
         {
-            timer += Time.deltaTime;
-            float progress = timer / brewingTime;
+            _elapsedTime += Time.deltaTime;
+            float progress = _elapsedTime / _totalTime;
+            
             if (_brewingSlider != null) _brewingSlider.value = progress;
             if (_brewingTimeText != null)
-                _brewingTimeText.text = $"Time left: {Mathf.CeilToInt(brewingTime - timer)}s";
+                _brewingTimeText.text = $"Осталось: {Mathf.CeilToInt(_totalTime - _elapsedTime)}s";
             if (_brewingTimer != null)
             {
                 _brewingTimer.gameObject.SetActive(true);
-                _brewingTimer.text = $"Time left: {brewingTime - timer:F0}s";
+                _brewingTimer.text = $"{_totalTime - _elapsedTime:F0}s";
             }
             if (_brewingTimerIcon != null && tea.icon != null)
                 _brewingTimerIcon.sprite = tea.icon;

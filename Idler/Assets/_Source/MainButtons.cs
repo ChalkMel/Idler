@@ -23,8 +23,10 @@ public class MainButtons : MonoBehaviour
     [SerializeField] private List<string> deerTalks;
     [SerializeField] private CanvasGroup DeerUI;
     [SerializeField] private TextMeshProUGUI deerUIText;
+    [SerializeField] private CauldronUI cauldronUI;
     [Header("Shop")]
     [SerializeField] private CanvasGroup shopUI;
+    [SerializeField] private Credits credits;
     
     private Tween _fadeTween;
     private System.Random _random;
@@ -59,7 +61,7 @@ public class MainButtons : MonoBehaviour
         Open(TeaUI);
         WindowHelper.Show(DeerUI, 0.5f);
         deerUIText.text = deerTalks[_random.Next(0, deerTalks.Count)];
-        //teaMaker.UpdateCounters();
+        cauldronUI.UpdateCounters(credits);
     }
     
     private void OpenShopUI()

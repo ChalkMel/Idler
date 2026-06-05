@@ -65,21 +65,6 @@ public class SpiritBuffManager : MonoBehaviour
             }
         }
         
-        List<ActiveSpirit> spiritsToRemove = new List<ActiveSpirit>();
-        foreach (var activeSpirit in ActiveSpirits)
-        {
-            RelationshipType relationship = activeSpirit.SpiritData.GetRelationshipWith(spirit);
-            if (relationship == RelationshipType.Negative)
-            {
-                Debug.Log($"{activeSpirit.SpiritData.spiritName} leaves because of {spirit.spiritName}!");
-                spiritsToRemove.Add(activeSpirit);
-            }
-        }
-        
-        foreach (var spiritToRemove in spiritsToRemove)
-        {
-            RemoveSpirit(spiritToRemove);
-        }
         
         if (ActiveSpirits.Count >= MaxSpiritSlots)
         {
@@ -322,7 +307,9 @@ public class SpiritBuffManager : MonoBehaviour
             }
         }
     
-        ApplySpiritEffect(spirit, true, multiplier);
+        //ApplySpiritEffect(spirit, true, multiplier);
+        if(CheckAnyPositiveRelationship())
+            heartImage.SetActive(true);
     }
 
     #endregion

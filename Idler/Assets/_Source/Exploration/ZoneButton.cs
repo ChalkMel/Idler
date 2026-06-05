@@ -4,6 +4,8 @@ using TMPro;
 
 public class ZoneButton : MonoBehaviour
 {
+  public System.Action onZoneClicked;
+  
   [SerializeField] private ZoneData _zoneData;
   [SerializeField] private Image _buttonImage;
   [SerializeField] private TextMeshProUGUI _buttonText;
@@ -33,6 +35,8 @@ public class ZoneButton : MonoBehaviour
     
   private void OnButtonClick()
   {
+    onZoneClicked?.Invoke();
+    
     if (_explorationExecutor != null && _zoneData != null)
     {
       _explorationExecutor.SelectZone(_zoneData);
@@ -40,30 +44,6 @@ public class ZoneButton : MonoBehaviour
     else
     {
       Debug.LogError($"Cannot select zone! Executor: {_explorationExecutor}, ZoneData: {_zoneData}");
-    }
-  }
-    
-  public void UpdateVisual(bool isComplete, bool isUnlocked, bool isExploring)
-  {
-    if (_buttonImage != null)
-    {
-      if (isComplete)
-        _buttonImage.color = Color.green;
-      else if (isExploring)
-        _buttonImage.color = Color.yellow;
-      else
-        _buttonImage.color = Color.white;
-    }
-        
-    if (_buttonText != null)
-    {
-      string text = _zoneData != null ? _zoneData.zoneName : "Unknown";
-      _buttonText.text = isComplete ? $"{text} ✓" : text;
-    }
-        
-    if (_button != null)
-    {
-      _button.interactable = isUnlocked && !isComplete && !isExploring;
     }
   }
 }
