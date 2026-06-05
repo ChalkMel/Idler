@@ -33,17 +33,6 @@ public class SaveManager : MonoBehaviour
         }
     }
     
-    /*private void OnApplicationPause(bool pauseStatus)
-    {
-        if (pauseStatus)
-            SaveGame();
-    }
-    
-    private void OnApplicationQuit()
-    {
-        SaveGame();
-    }*/
-    
    public void SaveGame()
     {
         SaveData data = new SaveData();
@@ -58,15 +47,12 @@ public class SaveManager : MonoBehaviour
         string json = JsonUtility.ToJson(data);
         PlayerPrefs.SetString(SAVE_KEY, json);
         PlayerPrefs.Save();
-        
-        Debug.Log("Game saved!");
     }
     
     public void LoadGame()
     {
         if (!PlayerPrefs.HasKey(SAVE_KEY))
         {
-            Debug.Log("No save found");
             return;
         }
         
@@ -79,8 +65,6 @@ public class SaveManager : MonoBehaviour
         LoadChairUpgrade(data);
         LoadActiveBuffs(data);
         LoadHelpers(data);
-        
-        Debug.Log("Game loaded!");
     }
     
     private void SaveCredits(SaveData data)
@@ -276,10 +260,5 @@ public class SaveManager : MonoBehaviour
         Debug.Log("Save deleted");
         SceneManager.LoadScene(1);
         Application.Quit();
-    }
-    
-    public bool HasSave()
-    {
-        return PlayerPrefs.HasKey(SAVE_KEY);
     }
 }

@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
 
 public class VisitorSpawner : MonoBehaviour
@@ -66,7 +65,7 @@ public class VisitorSpawner : MonoBehaviour
         if (affectResponse)
         {
             _currentResponseTimeout = (_baseResponseTimeout + addSeconds) * multiplier;
-            _currentResponseTimeout = Mathf.Max(1f, _currentResponseTimeout); // минимум 1 секунда
+            _currentResponseTimeout = Mathf.Max(1f, _currentResponseTimeout);
         }
         
         if (affectRequest)
@@ -74,7 +73,6 @@ public class VisitorSpawner : MonoBehaviour
             _currentRequestTimeout = (_baseRequestTimeout + addSeconds) * multiplier;
             _currentRequestTimeout = Mathf.Max(1f, _currentRequestTimeout);
         }
-        
         StartRequestTimer();
     }
     
@@ -125,7 +123,7 @@ public class VisitorSpawner : MonoBehaviour
     
     private IEnumerator ResponseTimerRoutine()
     {
-        float timer = _currentResponseTimeout; // Используем динамическое значение
+        float timer = _currentResponseTimeout;
         
         while (timer > 0 && _isWaitingForResponse)
         {
@@ -149,7 +147,7 @@ public class VisitorSpawner : MonoBehaviour
     
     private IEnumerator RequestTimerRoutine()
     {
-        float timer = _currentRequestTimeout; // Используем динамическое значение
+        float timer = _currentRequestTimeout;
         
         while (timer > 0 && _isWaitingForTea)
         {
@@ -160,7 +158,6 @@ public class VisitorSpawner : MonoBehaviour
         
         if (_isWaitingForTea)
         {
-            _visitorUI?.ShowMessage("The spirit got tired of waiting...");
             RejectOrder();
         }
     }
@@ -176,7 +173,6 @@ public class VisitorSpawner : MonoBehaviour
         _isWaitingForTea = true;
         
         _visitorUI?.ShowOrderUI(true);
-        _visitorUI?.ShowMessage("Приготовь заказ!");
         _visitorUI?.HideButton();
         StartRequestTimer();
     }
@@ -197,14 +193,12 @@ public class VisitorSpawner : MonoBehaviour
     private void OnOrderCompleted()
     {
         _rewardDistributor.GiveReward(_orderMatcher.CurrentOrder);
-        _visitorUI?.ShowMessage($"The spirit is pleased! + droplets");
         _visitorUI?.ShowOrderUI(true);
         EndVisit();
     }
     
     private void RejectOrder()
     {
-        _visitorUI?.ShowMessage("The spirit left...");
         _visitorUI?.ShowOrderUI(false);
         EndVisit();
     }
@@ -226,13 +220,5 @@ public class VisitorSpawner : MonoBehaviour
         
         ScheduleNextVisit();
         ResetTimeouts();
-    }
-    
-    public void ForceVisit()
-    {
-        if (!_isWaitingForResponse && !_isWaitingForTea)
-        {
-            _timeUntilNextVisit = 0;
-        }
     }
 }

@@ -14,7 +14,6 @@ public class OrderGenerator : MonoBehaviour
   {
     if (_spiritCollection == null || _spiritCollection.allSpirits == null || _spiritCollection.allSpirits.Count == 0)
     {
-      Debug.LogError("No spirits available for order!");
       return null;
     }
 

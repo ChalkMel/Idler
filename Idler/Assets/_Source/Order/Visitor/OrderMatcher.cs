@@ -19,25 +19,20 @@ public class OrderMatcher : MonoBehaviour
   {
     if (_currentOrder == null)
     {
-      Debug.Log("No active order!");
       return false;
     }
         
     if (_currentOrder.TryCompleteTea(tea))
     {
-      Debug.Log($"Tea {tea.teaName} accepted! Progress: {_currentOrder.completedCount}/{_currentOrder.requestedTeas.Count}");
       OnTeaAccepted?.Invoke(tea, _currentOrder.completedCount, _currentOrder.requestedTeas.Count);
             
       if (_currentOrder.IsComplete)
       {
-        Debug.Log("Order completed!");
         OnOrderCompleted?.Invoke();
       }
             
       return true;
     }
-        
-    Debug.Log($"Tea {tea.teaName} not in order or already served!");
     return false;
   }
     

@@ -28,8 +28,7 @@ public class SaveData
   public int dropletHelperBaseCost;
   public int dropletHelperCostMultiplier;
   public int dropletHelperBoughtCount;
-    
-  // Прогрессия цены тучки (DropletMultiplier)
+  
   public int dropletMultiplierCurrentCost;
   public int dropletMultiplierBaseCost;
   public int dropletMultiplierCostMultiplier;

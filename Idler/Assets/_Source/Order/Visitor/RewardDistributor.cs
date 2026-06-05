@@ -13,7 +13,5 @@ public class RewardDistributor : MonoBehaviour
     int reward = Mathf.RoundToInt(_baseReward * _rewardMultiplier * order.requestedTeas.Count);
     _credits.droplets += reward;
     _credits.UpdateUI();
-        
-    Debug.Log($"Reward given: {reward} droplets for {order.requestedTeas.Count} teas");
   }
 }
