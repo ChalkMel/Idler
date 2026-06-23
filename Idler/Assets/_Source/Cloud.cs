@@ -10,7 +10,6 @@ public class Cloud : MonoBehaviour
     [SerializeField] private float rangeY = 2f;
     [SerializeField] private float rangeX = -0.7f;
     
-    public System.Action onCloudClicked;
     private void OnMouseDown()
     {
         if(EventSystem.current.IsPointerOverGameObject()) return;
@@ -26,6 +25,5 @@ public class Cloud : MonoBehaviour
             .SetEase(Ease.InCubic);
         if (droplet.transform != null)
             Destroy(droplet, 0.55f);
-        onCloudClicked?.Invoke();
     }
 }

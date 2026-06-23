@@ -50,7 +50,6 @@ public class SpiritBuffManager : MonoBehaviour
     {
         if (ActiveSpirits.Count >= MaxSpiritSlots)
         {
-            Debug.Log("All spirit slots are full!");
             return;
         }
         
@@ -60,7 +59,6 @@ public class SpiritBuffManager : MonoBehaviour
             
             if (relationship == RelationshipType.Negative)
             {
-                Debug.Log($"{spirit.spiritName} doesn't get along with {activeSpirit.SpiritData.spiritName}!");
                 return;
             }
         }
@@ -68,18 +66,16 @@ public class SpiritBuffManager : MonoBehaviour
         
         if (ActiveSpirits.Count >= MaxSpiritSlots)
         {
-            Debug.Log("No space after negative reaction!");
             return;
         }
         
         int freeSlotIndex = GetFreeSlotIndex();
         if (freeSlotIndex == -1)
         {
-            Debug.Log("No free slot!");
             return;
         }
 
-        float finalMultiplier = spirit.buffMultiplier;
+        float finalMultiplier = spirit.BuffMultiplier;
         bool hasPositive = false;
         
         foreach (var activeSpirit in ActiveSpirits)
@@ -89,18 +85,16 @@ public class SpiritBuffManager : MonoBehaviour
             {
                 finalMultiplier *= 2;
                 hasPositive = true;
-                Debug.Log($"Positive relationship! {spirit.spiritName} buff doubled!");
             }
             
             relationship = activeSpirit.SpiritData.GetRelationshipWith(spirit);
             if (relationship == RelationshipType.Positive)
             {
                 float oldMultiplier = activeSpirit.Multiplier;
-                activeSpirit.Multiplier = activeSpirit.SpiritData.buffMultiplier * 2;
+                activeSpirit.Multiplier = activeSpirit.SpiritData.BuffMultiplier * 2;
                 
                 ApplySpiritEffect(activeSpirit.SpiritData, false, oldMultiplier);
                 ApplySpiritEffect(activeSpirit.SpiritData, true, activeSpirit.Multiplier);
-                Debug.Log($"Positive relationship! {activeSpirit.SpiritData.spiritName} buff doubled!");
             }
         }
         
@@ -109,7 +103,7 @@ public class SpiritBuffManager : MonoBehaviour
         ActiveSpirit activeSpiritNew = new ActiveSpirit
         {
             SpiritData = spirit,
-            EndTime = Time.time + spirit.buffDuration,
+            EndTime = Time.time + spirit.BuffDuration,
             SlotIndex = freeSlotIndex, 
             Multiplier = finalMultiplier
         };
@@ -118,13 +112,13 @@ public class SpiritBuffManager : MonoBehaviour
     
         if (freeSlotIndex < spiritSlots.Length)
         {
-            spiritSlots[freeSlotIndex].sprite = spirit.icon;
+            spiritSlots[freeSlotIndex].sprite = spirit.Icon;
             spiritSlots[freeSlotIndex].gameObject.SetActive(true);
     
             SpiritSlot slotComponent = spiritSlots[freeSlotIndex].GetComponent<SpiritSlot>();
             if (slotComponent != null)
             {
-                slotComponent.SetSpiritData(spirit.spiritName, spirit.buffName);
+                slotComponent.SetSpiritData(spirit.SpiritName, spirit.BuffName);
             }
         }
         
@@ -154,7 +148,7 @@ public class SpiritBuffManager : MonoBehaviour
     {
         ApplySpiritEffect(spirit.SpiritData, false, spirit.Multiplier);
     
-        spiritCollection.availableSpirits.Add(spirit.SpiritData);
+        spiritCollection.MakeSpiritAvailable(spirit.SpiritData, true);
         
         int slotIndex = spirit.SlotIndex;
         if (slotIndex < spiritSlots.Length && spiritSlots[slotIndex] != null)
@@ -200,17 +194,16 @@ public class SpiritBuffManager : MonoBehaviour
     
     private void ApplySpiritEffect(SpiritData spirit, bool apply, float multiplier)
     {
-        spiritCollection.availableSpirits.Remove(spirit);
-        if (spirit.effect == null)
+        spiritCollection.MakeSpiritAvailable(spirit, false);
+        if (spirit.Effect == null)
         {
-            Debug.LogWarning($"Spirit {spirit.spiritName} has no effect assigned!");
             return;
         }
         
         if (apply)
-            spirit.effect.Apply(credits, this, multiplier);
+            spirit.Effect.Apply(credits, this, multiplier);
         else
-            spirit.effect.Remove(credits, this, multiplier);
+            spirit.Effect.Remove(credits, this, multiplier);
     }
     
     private void UpdateBuffs()
@@ -264,7 +257,7 @@ public class SpiritBuffManager : MonoBehaviour
         foreach (var spirit in ActiveSpirits)
         {
             if (spirit.SlotIndex == slotID)
-                return spirit.SpiritData.spiritName;
+                return spirit.SpiritData.SpiritName;
         }
         return "";
     }
@@ -274,7 +267,7 @@ public class SpiritBuffManager : MonoBehaviour
         foreach (var spirit in ActiveSpirits)
         {
             if (spirit.SlotIndex == slotID)
-                return spirit.SpiritData.buffName;
+                return spirit.SpiritData.BuffName;
         }
         return "";
     }
@@ -297,17 +290,16 @@ public class SpiritBuffManager : MonoBehaviour
     
         if (slotIndex < spiritSlots.Length)
         {
-            spiritSlots[slotIndex].sprite = spirit.icon;
+            spiritSlots[slotIndex].sprite = spirit.Icon;
             spiritSlots[slotIndex].gameObject.SetActive(true);
         
             SpiritSlot slotComponent = spiritSlots[slotIndex].GetComponent<SpiritSlot>();
             if (slotComponent != null)
             {
-                slotComponent.SetSpiritData(spirit.spiritName, spirit.buffName);
+                slotComponent.SetSpiritData(spirit.SpiritName, spirit.BuffName);
             }
         }
-    
-        //ApplySpiritEffect(spirit, true, multiplier);
+        
         if(CheckAnyPositiveRelationship())
             heartImage.SetActive(true);
     }

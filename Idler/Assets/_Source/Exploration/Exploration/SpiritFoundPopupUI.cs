@@ -2,43 +2,44 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Serialization;
 
 public class SpiritFoundPopupUI : MonoBehaviour
 {
-  [SerializeField] private GameObject _popupPanel;
-  [SerializeField] private Image _spiritIcon;
-  [SerializeField] private TextMeshProUGUI _spiritNameText;
-  [SerializeField] private TextMeshProUGUI _spiritDescriptionText;
-  [SerializeField] private Button _closeButton;
-  [SerializeField] private float _autoCloseDelay = 5f;
+  [SerializeField] private GameObject popupPanel;
+  [SerializeField] private Image spiritIcon;
+  [SerializeField] private TextMeshProUGUI spiritNameText;
+  [SerializeField] private TextMeshProUGUI spiritDescriptionText;
+  [SerializeField] private Button closeButton;
+  [SerializeField] private float autoCloseDelay = 5f;
     
   private Coroutine _autoCloseCoroutine;
     
   private void Start()
   {
-    if (_closeButton != null)
-      _closeButton.onClick.AddListener(ClosePopup);
+    if (closeButton != null)
+      closeButton.onClick.AddListener(ClosePopup);
         
-    _popupPanel.SetActive(false);
+    popupPanel.SetActive(false);
   }
     
   public void ShowSpiritFound(SpiritData spirit)
   {
-    if (_popupPanel == null || spirit == null) return;
+    if (popupPanel == null || spirit == null) return;
         
-    if (_spiritIcon != null)
+    if (spiritIcon != null)
     {
-      _spiritIcon.sprite = spirit.icon;
-      _spiritIcon.preserveAspect = true;
+      spiritIcon.sprite = spirit.Icon;
+      spiritIcon.preserveAspect = true;
     }
         
-    if (_spiritNameText != null)
-      _spiritNameText.text = $"Найден дух: {spirit.spiritName}";
+    if (spiritNameText != null)
+      spiritNameText.text = $"Найден дух: {spirit.SpiritName}";
         
-    if (_spiritDescriptionText != null)
-      _spiritDescriptionText.text = $"{spirit.description}\n\nБуст: {spirit.buffName}\n{spirit.buffDescription}";
+    if (spiritDescriptionText != null)
+      spiritDescriptionText.text = $"{spirit.Description}\n\nБуст: {spirit.BuffName}\n{spirit.BuffDescription}";
         
-    _popupPanel.SetActive(true);
+    popupPanel.SetActive(true);
         
     if (_autoCloseCoroutine != null)
       StopCoroutine(_autoCloseCoroutine);
@@ -47,13 +48,13 @@ public class SpiritFoundPopupUI : MonoBehaviour
     
   private IEnumerator AutoCloseCoroutine()
   {
-    yield return new WaitForSeconds(_autoCloseDelay);
+    yield return new WaitForSeconds(autoCloseDelay);
     ClosePopup();
   }
     
   private void ClosePopup()
   {
-    _popupPanel.SetActive(false);
+    popupPanel.SetActive(false);
         
     if (_autoCloseCoroutine != null)
     {

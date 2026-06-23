@@ -16,7 +16,7 @@ public class BushGenerator : MonoBehaviour
     [SerializeField] private Vector2 spawnAreaMax = new Vector2();
     [SerializeField] private float minDistance;
     [SerializeField] private float radius;
-    [SerializeField] private float waitfor = 0.2f;
+    [SerializeField] private float waitFor = 0.2f;
     private List<Bush> _bushes = new List<Bush>();
     private System.Random _random;
     
@@ -96,7 +96,7 @@ public class BushGenerator : MonoBehaviour
         _bushes.Remove(bush);
         
         bush.transform.DOPunchScale(new Vector2(0.5f, 0.5f), 0.2f);
-        yield return new WaitForSeconds(waitfor);
+        yield return new WaitForSeconds(waitFor);
         Destroy(bush.gameObject);
 
         yield return new WaitForSeconds(bushDuration);

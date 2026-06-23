@@ -5,15 +5,18 @@ using Random = UnityEngine.Random;
 [CreateAssetMenu(fileName = "NewZone", menuName = "Explore/Zone Data")]
 public class ZoneData : ScriptableObject
 {
-  public string zoneName;
-  public string zoneDescription;
-  public Sprite zoneIcon;
-  public float explorationTime = 10f;
+  public string ZoneName { get; private set; }
+  public string ZoneDescription { get; private set; }
+  public Sprite ZoneIcon { get; private set; }
+  public float ExplorationTime {get ; private set;}
+  
   public List<IngredientData> ingredients;
 
-  [Header("Spirits in this zone")] public List<SpiritData> availableSpirits = new List<SpiritData>();
+  [Header("Spirits in this zone")] 
+  public List<SpiritData> availableSpirits = new List<SpiritData>();
 
-  [Header("Zone State")] public bool isUnlocked = true;
+  [Header("Zone State")] 
+  public bool isUnlocked = true;
   
 
   public bool AreAllSpiritsFound(SpiritCollection playerSpirits)
@@ -23,7 +26,7 @@ public class ZoneData : ScriptableObject
 
     foreach (var spirit in availableSpirits)
     {
-      if (spirit != null && !playerSpirits.unlockedSpirits.Contains(spirit))
+      if (spirit != null && !playerSpirits.UnlockedSpirits.Contains(spirit))
         return false;
     }
 
@@ -39,7 +42,7 @@ public class ZoneData : ScriptableObject
 
     foreach (var spirit in availableSpirits)
     {
-      if (spirit != null && !playerSpirits.unlockedSpirits.Contains(spirit))
+      if (spirit != null && !playerSpirits.UnlockedSpirits.Contains(spirit))
       {
         unfoundSpirits.Add(spirit);
       }

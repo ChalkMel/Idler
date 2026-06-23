@@ -1,21 +1,22 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class SpiritUnlockService : MonoBehaviour
 {
-  [SerializeField] private SpiritCollection _spiritCollection;
+  [SerializeField] private SpiritCollection spiritCollection;
     
   public event System.Action<SpiritData> OnSpiritUnlocked;
     
   public bool TryUnlockSpirit(SpiritData spirit)
   {
-    if (spirit == null || _spiritCollection == null) return false;
+    if (spirit == null || spiritCollection == null) return false;
         
-    if (_spiritCollection.unlockedSpirits.Contains(spirit))
+    if (spiritCollection.UnlockedSpirits.Contains(spirit))
     {
       return false;
     }
         
-    if (_spiritCollection.UnlockSpirit(spirit))
+    if (spiritCollection.UnlockSpirit(spirit))
     {
       OnSpiritUnlocked?.Invoke(spirit);
       return true;
@@ -31,7 +32,7 @@ public class SpiritUnlockService : MonoBehaviour
     System.Collections.Generic.List<SpiritData> lockedSpirits = new System.Collections.Generic.List<SpiritData>();
     foreach (var spirit in zone.availableSpirits)
     {
-      if (spirit != null && !_spiritCollection.unlockedSpirits.Contains(spirit))
+      if (spirit != null && !spiritCollection.UnlockedSpirits.Contains(spirit))
       {
         lockedSpirits.Add(spirit);
       }

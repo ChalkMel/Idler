@@ -4,8 +4,8 @@ using UnityEngine;
 public class CauldronUpgradeItem : ShopItem
 {
   [Header("Cauldron Settings")]
-  public float brewingTimeReduction = 2f;
-  public TeaCollection teaCollection;
+  [SerializeField] private float brewingTimeReduction = 2f;
+  [SerializeField] private TeaCollection teaCollection;
 
   public override void ApplyEffect(ShopItem item, Credits credits, SpiritBuffManager spiritBuffManager)
   {
@@ -14,7 +14,7 @@ public class CauldronUpgradeItem : ShopItem
     
     foreach (TeaData tea in teaCollection.allTeas)
     {
-      tea.brewingTime /= brewingTimeReduction;
+      tea.BrewingTime /= brewingTimeReduction;
     }
   }
 }

@@ -8,7 +8,7 @@ public class IngredientInventory : MonoBehaviour
   public bool HasIngredient(IngredientData ingredient)
   {
     if (_credits == null) return false;
-    return ingredient.type switch
+    return ingredient.Type switch
     {
       IngredientType.Berry => _credits.berries > 0,
       IngredientType.Flower => _credits.flowers > 0,
@@ -20,7 +20,7 @@ public class IngredientInventory : MonoBehaviour
   public void UseIngredient(IngredientData ingredient)
   {
     if (_credits == null) return;
-    switch (ingredient.type)
+    switch (ingredient.Type)
     {
       case IngredientType.Berry:
         _credits.berries--;
@@ -39,7 +39,7 @@ public class IngredientInventory : MonoBehaviour
     if (_credits == null) return;
     foreach (var ingredient in ingredients)
     {
-      switch (ingredient.type)
+      switch (ingredient.Type)
       {
         case IngredientType.Berry:
           _credits.berries++;

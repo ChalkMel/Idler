@@ -7,14 +7,14 @@ namespace Effects
   {
     public override void Apply(Credits credits, SpiritBuffManager buffManager, float multiplier)
     {
-      credits.berriesMulti += multiplier;
-      credits.flowersMulti += multiplier;
+      credits.BerriesMulti += multiplier;
+      credits.FlowersMulti += multiplier;
     }
 
     public override void Remove(Credits credits, SpiritBuffManager buffManager, float multiplier)
     {
-      credits.berriesMulti -= multiplier;
-      credits.flowersMulti -= multiplier;
+      credits.BerriesMulti -= multiplier;
+      credits.FlowersMulti -= multiplier;
     }
   }
 }

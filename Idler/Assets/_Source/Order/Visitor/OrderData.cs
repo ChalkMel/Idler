@@ -55,7 +55,7 @@ public class OrderData
     for (int i = 0; i < requestedTeas.Count; i++)
     {
       if (!completedTeas[i])
-        text += $"- {requestedTeas[i].teaName}\n";
+        text += $"- {requestedTeas[i].TeaName}\n";
     }
     return text;
   }

@@ -18,34 +18,34 @@ public class TeaResultPresenter : MonoBehaviour
     {
         if (_resultPanel == null) return;
 
-        if (_resultTeaIcon != null && tea.icon != null)
+        if (_resultTeaIcon != null && tea.Icon != null)
         {
-            _resultTeaIcon.sprite = tea.icon;
+            _resultTeaIcon.sprite = tea.Icon;
             _resultTeaIcon.gameObject.SetActive(true);
         }
         if (_resultTeaName != null)
         {
-            _resultTeaName.text = $"Вы сварили:\n{tea.teaName}";
+            _resultTeaName.text = $"Вы сварили:\n{tea.TeaName}";
             _resultTeaName.gameObject.SetActive(true);
         }
         if (_resultTeaDescription != null)
         {
-            _resultTeaDescription.text = tea.description;
+            _resultTeaDescription.text = tea.Description;
             _resultTeaDescription.gameObject.SetActive(true);
         }
-        if (_resultSpiritIcon != null && spirit.icon != null)
+        if (_resultSpiritIcon != null && spirit.Icon != null)
         {
-            _resultSpiritIcon.sprite = spirit.icon;
+            _resultSpiritIcon.sprite = spirit.Icon;
             _resultSpiritIcon.gameObject.SetActive(true);
         }
         if (_resultSpiritName != null)
         {
-            _resultSpiritName.text = $"Пришел:\n{spirit.spiritName}";
+            _resultSpiritName.text = $"Пришел:\n{spirit.SpiritName}";
             _resultSpiritName.gameObject.SetActive(true);
         }
         if (_resultBuffInfo != null)
         {
-            _resultBuffInfo.text = $"Буст: {spirit.buffName}\nСила: x{spirit.buffMultiplier:F1}\nВремя: {spirit.buffDuration}с";
+            _resultBuffInfo.text = $"Буст: {spirit.BuffName}\nСила: x{spirit.BuffMultiplier:F1}\nВремя: {spirit.BuffDuration}с";
             _resultBuffInfo.gameObject.SetActive(true);
         }
 

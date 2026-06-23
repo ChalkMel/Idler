@@ -1,16 +1,17 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
 
 public class SpiritVisitor : MonoBehaviour
 {
-  [SerializeField] private VisitorSpawner _spawner;
-  [SerializeField] private OrderMatcher _matcher;
+  [SerializeField] private VisitorSpawner spawner;
+  [SerializeField] private OrderMatcher matcher;
     
-  public bool IsWaitingForTea => _spawner != null && _spawner.IsWaitingForTea;
-  public List<TeaData> RequestedTeas => _matcher?.CurrentOrder?.requestedTeas;
+  public bool IsWaitingForTea => spawner != null && spawner.IsWaitingForTea;
+  public List<TeaData> RequestedTeas => matcher?.CurrentOrder?.requestedTeas;
     
   public string SetOrderText()
   {
-    return _matcher != null ? _matcher.GetOrderText() : "No active order";
+    return matcher != null ? matcher.GetOrderText() : "No active order";
   }
 }

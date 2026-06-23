@@ -1,17 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ZoneUnlockService : MonoBehaviour
 {
-  [SerializeField] private SpiritCollection _spiritCollection;
+  [SerializeField] private SpiritCollection spiritCollection;
     
   public bool IsZoneComplete(ZoneData zone)
   {
-    if (zone == null || _spiritCollection == null) return false;
+    if (zone == null || spiritCollection == null) return false;
         
     foreach (var spirit in zone.availableSpirits)
     {
-      if (spirit != null && !_spiritCollection.unlockedSpirits.Contains(spirit))
+      if (spirit != null && !spiritCollection.UnlockedSpirits.Contains(spirit))
         return false;
     }
     return true;
@@ -20,11 +21,11 @@ public class ZoneUnlockService : MonoBehaviour
   public List<SpiritData> GetUnfoundSpirits(ZoneData zone)
   {
     List<SpiritData> unfound = new List<SpiritData>();
-    if (zone == null || _spiritCollection == null) return unfound;
+    if (zone == null || spiritCollection == null) return unfound;
         
     foreach (var spirit in zone.availableSpirits)
     {
-      if (spirit != null && !_spiritCollection.unlockedSpirits.Contains(spirit))
+      if (spirit != null && !spiritCollection.UnlockedSpirits.Contains(spirit))
       {
         unfound.Add(spirit);
       }

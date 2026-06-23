@@ -22,11 +22,6 @@ public class SpiritSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private void Start()
     {
         _buffManager = FindFirstObjectByType<SpiritBuffManager>();
-        
-        if (slotID == -1)
-        {
-            Debug.LogError($"Slot {gameObject.name} has no slotID assigned!");
-        }
     }
     
     public void SetSpiritData(string spiritName, string buffName)

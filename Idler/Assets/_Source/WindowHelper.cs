@@ -32,12 +32,10 @@ public static class WindowHelper
     Vector2 originalPos = rect.anchoredPosition;
     
     rect.anchoredPosition = originalPos + startOffset;
-    //window.transform.localScale = Vector3.zero;
     window.alpha = 0f;
     
     float animDuration = duration == 0 ? DURATION : duration;
     rect.DOAnchorPos(originalPos, animDuration).SetEase(Ease.OutCubic);
-    //window.transform.DOScale(1f, animDuration).SetEase(Ease.OutBack);
     window.DOFade(1f, animDuration * 4).SetEase(Ease.OutBack);
   }
 
@@ -50,7 +48,6 @@ public static class WindowHelper
     float animDuration = duration == 0 ? DURATION : duration;
     
     rect.DOAnchorPos(targetPos, animDuration).SetEase(Ease.InQuad);
-   // window.transform.DOScale(0f, animDuration).SetEase(Ease.InBack);
     window.DOFade(0f, animDuration).OnComplete(() =>
     {
       window.gameObject.SetActive(false);

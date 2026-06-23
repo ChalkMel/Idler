@@ -1,59 +1,60 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Serialization;
 
 public class ExplorationTimerUI : MonoBehaviour
 {
   [SerializeField] private GameObject panel;
-  [SerializeField] private Slider _timerSlider;
-  [SerializeField] private TextMeshProUGUI _timerText;
-  [SerializeField] private TextMeshProUGUI _timerMainScreenText;
+  [SerializeField] private Slider timerSlider;
+  [SerializeField] private TextMeshProUGUI timerText;
+  [SerializeField] private TextMeshProUGUI timerMainScreenText;
     
   public void ShowTimer(float currentTime, float maxTime)
   {
     panel.SetActive(true);
-    if (_timerSlider != null)
+    if (timerSlider != null)
     {
-      _timerSlider.gameObject.SetActive(true);
-      _timerSlider.maxValue = maxTime;
-      _timerSlider.value = maxTime - currentTime;
+      timerSlider.gameObject.SetActive(true);
+      timerSlider.maxValue = maxTime;
+      timerSlider.value = maxTime - currentTime;
     }
         
-    if (_timerText != null)
+    if (timerText != null)
     {
-      _timerText.text = $"{Mathf.Round(currentTime)} сек";
-      _timerText.gameObject.SetActive(true);
+      timerText.text = $"{Mathf.Round(currentTime)} сек";
+      timerText.gameObject.SetActive(true);
     }
         
-    if (_timerMainScreenText != null)
+    if (timerMainScreenText != null)
     {
-      _timerMainScreenText.gameObject.SetActive(true);
-      _timerMainScreenText.text = $"{Mathf.Round(currentTime)} сек";
+      timerMainScreenText.gameObject.SetActive(true);
+      timerMainScreenText.text = $"{Mathf.Round(currentTime)} сек";
     }
   }
     
   public void HideTimer()
   {
     panel.SetActive(false);
-    if (_timerSlider != null)
-      _timerSlider.gameObject.SetActive(false);
+    if (timerSlider != null)
+      timerSlider.gameObject.SetActive(false);
         
-    if (_timerText != null)
-      _timerText.gameObject.SetActive(false);
+    if (timerText != null)
+      timerText.gameObject.SetActive(false);
         
-    if (_timerMainScreenText != null)
-      _timerMainScreenText.gameObject.SetActive(false);
+    if (timerMainScreenText != null)
+      timerMainScreenText.gameObject.SetActive(false);
   }
     
   public void UpdateTimer(float currentTime, float maxTime)
   {
-    if (_timerSlider != null)
-      _timerSlider.value = maxTime - currentTime;
+    if (timerSlider != null)
+      timerSlider.value = maxTime - currentTime;
         
-    if (_timerText != null)
-      _timerText.text = $"{Mathf.Round(currentTime)} сек";
+    if (timerText != null)
+      timerText.text = $"{Mathf.Round(currentTime)} сек";
         
-    if (_timerMainScreenText != null)
-      _timerMainScreenText.text = $"{Mathf.Round(currentTime)} сек";
+    if (timerMainScreenText != null)
+      timerMainScreenText.text = $"{Mathf.Round(currentTime)} сек";
   }
 }

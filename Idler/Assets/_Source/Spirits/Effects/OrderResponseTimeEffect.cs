@@ -6,15 +6,15 @@ namespace Effects
     public class OrderResponseTimeEffect : SpiritEffect
     {
         [Header("Time Settings")] [SerializeField]
-        private bool useMultiplier = true; // true: умножение, false: добавление
+        private bool useMultiplier = true;
 
-        [SerializeField] private float timeMultiplier = 1.5f; // увеличиваем на 50%
-        [SerializeField] private float timeAdd = 15f; // или добавляем 15 секунд
+        [SerializeField] private float timeMultiplier = 1.5f;
+        [SerializeField] private float timeAdd = 15f;
 
         [Header("Which Timers to Affect")] [SerializeField]
-        private bool affectResponseTimer = true; // время на принятие заказа
+        private bool affectResponseTimer = true;
 
-        [SerializeField] private bool affectRequestTimer = true; // время на приготовление
+        [SerializeField] private bool affectRequestTimer = true;
 
         public override void Apply(Credits credits, SpiritBuffManager buffManager, float multiplier)
         {

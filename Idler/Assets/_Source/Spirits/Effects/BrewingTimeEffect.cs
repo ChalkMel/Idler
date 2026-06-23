@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BrewingTimeEffect", menuName = "Spirit/Effect/Brewing Time")]
 public class BrewingTimeEffect : SpiritEffect
 {
-  [SerializeField] private bool useDivision = true; // true: деление, false: вычитание
+  [SerializeField] private bool useDivision = true;
     
   public override void Apply(Credits credits, SpiritBuffManager buffManager, float multiplier)
   {
@@ -15,9 +15,9 @@ public class BrewingTimeEffect : SpiritEffect
     foreach (var tea in teaMaker.allTeas)
     {
       if (useDivision)
-        tea.brewingTime /= multiplier;
+        tea.BrewingTime /= multiplier;
       else
-        tea.brewingTime -= multiplier;
+        tea.BrewingTime -= multiplier;
     }
   }
 
@@ -29,9 +29,9 @@ public class BrewingTimeEffect : SpiritEffect
     foreach (var tea in teaMaker.allTeas)
     {
       if (useDivision)
-        tea.brewingTime *= multiplier;
+        tea.BrewingTime *= multiplier;
       else
-        tea.brewingTime += multiplier;
+        tea.BrewingTime += multiplier;
     }
   }
 }

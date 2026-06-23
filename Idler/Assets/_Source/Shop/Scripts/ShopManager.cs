@@ -58,7 +58,7 @@ public class ShopManager : MonoBehaviour
     private void OnItemButtonClicked(int buttonIndex)
     {
         ShopItemButton button = _itemButtons[buttonIndex];
-        BuyItem(button.shopItem);
+        BuyItem(button.ShopItem);
         credits.UpdateUI();
     }
 
@@ -66,17 +66,17 @@ public class ShopManager : MonoBehaviour
     {
         if (item.isPurchased)
         {
-            ShowMessage($"Уже купили: {item.itemName}");
+            ShowMessage($"Уже купили: {item.ItemName}");
             return;
         }
         
-        if (credits.droplets < item.cost)
+        if (credits.droplets < item.Cost)
         {
-            ShowMessage($"Недостаточно: {item.cost}");
+            ShowMessage($"Недостаточно: {item.Cost}");
             return;
         }
         item.isPurchased = true;
-        credits.droplets -= item.cost;
+        credits.droplets -= item.Cost;
         item.ApplyEffect(item, credits, spiritBuffManager);
 
         UpdateDropletsDisplay();
@@ -85,21 +85,21 @@ public class ShopManager : MonoBehaviour
     
     private void UpdateItemButton(ShopItemButton button)
     {
-        if (button == null || button.shopItem == null) return;
+        if (button == null || button.ShopItem == null) return;
         
         TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
-        buttonText.text = $"{button.shopItem.itemName}";
+        buttonText.text = $"{button.ShopItem.ItemName}";
         Button btn = button.GetComponent<Button>();
-        btn.interactable = !button.shopItem.isPurchased && credits.droplets >= button.shopItem.cost;
+        btn.interactable = !button.ShopItem.isPurchased && credits.droplets >= button.ShopItem.Cost;
 
-        if (button.shopItem.isPurchased)
+        if (button.ShopItem.isPurchased)
         {
-            button.itemPriceText.text = "куплено";
-            button.itemPriceText.color = Color.green;
+            button.ItemPriceText.text = "куплено";
+            button.ItemPriceText.color = Color.green;
         }
         else
         {
-            button.itemPriceText.text = $"{button.shopItem.cost}";
+            button.ItemPriceText.text = $"{button.ShopItem.Cost}";
         }
     }
     

@@ -1,44 +1,51 @@
-// VisitorUI.cs
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using UnityEngine.Serialization;
 
 public class VisitorUI : MonoBehaviour
 {
-    [Header("Panels")] [SerializeField] private GameObject _visitorPanel;
-    [SerializeField] private CanvasGroup _visitorTalking;
-    [SerializeField] private GameObject _orderUI;
+    [Header("Panels")] 
+    [SerializeField] private GameObject visitorPanel;
+    [SerializeField] private CanvasGroup visitorTalking;
+    [SerializeField] private GameObject orderUI;
 
-    [Header("Spirit Info")] [SerializeField]
-    private Image _spiritIcon;
+    
+    [Header("Spirit Info")] 
+    [SerializeField] private Image spiritIcon;
 
-    [SerializeField] private TextMeshProUGUI _spiritNameText;
-    [SerializeField] private TextMeshProUGUI _requestText;
+    [SerializeField] private TextMeshProUGUI spiritNameText;
+    [SerializeField] private TextMeshProUGUI requestText;
+    
+    [Header("Requested Tea")] 
+    [SerializeField] private Image requestedTeaIcon;
 
-    [Header("Requested Tea")] [SerializeField]
-    private Image _requestedTeaIcon;
+    [SerializeField] private TextMeshProUGUI requestedTeaName;
+    
+    [Header("Buttons")] 
+    [SerializeField] private Button acceptButton;
+    [SerializeField] private Button rejectButton;
 
-    [SerializeField] private TextMeshProUGUI _requestedTeaName;
+   [Header("Timer")]
+    [SerializeField] private Slider timerSlider;
+    [SerializeField] private Image timerHandle;
+    
+    [Header("Sprites")] 
+    [SerializeField] private Sprite onWayImage;
+    [SerializeField] private Sprite waitResponseImage;
+    [SerializeField] private Sprite waitImage;
 
-    [Header("Buttons")] [SerializeField] private Button _acceptButton;
-    [SerializeField] private Button _rejectButton;
+    
+    [Header("Movement")] 
+    [SerializeField] private RectTransform startPoint;
+    [SerializeField] private RectTransform endPoint;
+    [SerializeField] private float moveDuration = 1.5f;
+    [SerializeField] private Ease moveEase = Ease.OutBack;
 
-    [Header("Timer")] [SerializeField] private Slider _timerSlider;
-    [SerializeField] private Image _timerHandle;
-
-    [Header("Sprites")] [SerializeField] private Sprite _onWayImage;
-    [SerializeField] private Sprite _waitResponseImage;
-    [SerializeField] private Sprite _waitImage;
-
-    [Header("Movement")] [SerializeField] private RectTransform _startPoint;
-    [SerializeField] private RectTransform _endPoint;
-    [SerializeField] private float _moveDuration = 1.5f;
-    [SerializeField] private Ease _moveEase = Ease.OutBack;
-
-    public Button AcceptButton => _acceptButton;
-    public Button RejectButton => _rejectButton;
+    public Button AcceptButton => acceptButton;
+    public Button RejectButton => rejectButton;
 
     private Coroutine _moveCoroutine;
     private bool _isWaitingForResponse;
@@ -46,30 +53,30 @@ public class VisitorUI : MonoBehaviour
 
     public void ShowVisitor(SpiritData spirit, string requestText)
     {
-        if (_visitorPanel == null) return;
+        if (visitorPanel == null) return;
 
-        _visitorPanel.SetActive(true);
-        _visitorPanel.transform.position = _startPoint.position;
+        visitorPanel.SetActive(true);
+        visitorPanel.transform.position = startPoint.position;
 
-        if (_spiritIcon != null && spirit.icon != null)
-            _spiritIcon.sprite = spirit.icon;
+        if (spiritIcon != null && spirit.Icon != null)
+            spiritIcon.sprite = spirit.Icon;
 
-        if (_spiritNameText != null)
-            _spiritNameText.text = spirit.spiritName;
+        if (spiritNameText != null)
+            spiritNameText.text = spirit.SpiritName;
 
-        if (_requestText != null)
-            _requestText.text = requestText;
+        if (this.requestText != null)
+            this.requestText.text = requestText;
 
-        if (_visitorTalking != null)
-            _visitorTalking.DOFade(1, _moveDuration);
+        if (visitorTalking != null)
+            visitorTalking.DOFade(1, moveDuration);
 
         _moveCoroutine = StartCoroutine(MoveToCenter());
     }
 
     private IEnumerator MoveToCenter()
     {
-        _visitorPanel.transform.DOMove(_endPoint.position, _moveDuration).SetEase(_moveEase);
-        yield return new WaitForSeconds(_moveDuration);
+        visitorPanel.transform.DOMove(endPoint.position, moveDuration).SetEase(moveEase);
+        yield return new WaitForSeconds(moveDuration);
     }
 
     public void UpdateRequestDisplay(OrderData order)
@@ -79,27 +86,27 @@ public class VisitorUI : MonoBehaviour
         TeaData nextTea = order.GetNextRequiredTea();
         if (nextTea != null)
         {
-            if (_requestedTeaIcon != null && nextTea.icon != null)
-                _requestedTeaIcon.sprite = nextTea.icon;
+            if (requestedTeaIcon != null && nextTea.Icon != null)
+                requestedTeaIcon.sprite = nextTea.Icon;
 
-            if (_requestedTeaName != null)
-                _requestedTeaName.text = nextTea.teaName;
+            if (requestedTeaName != null)
+                requestedTeaName.text = nextTea.TeaName;
         }
 
-        if (_requestText != null)
-            _requestText.text = order.GetOrderText();
+        if (requestText != null)
+            requestText.text = order.GetOrderText();
     }
 
     public void SetNextVisitTimer(float timeLeft, float maxTime)
     {
-        if (_timerSlider != null)
+        if (timerSlider != null)
         {
-            _timerSlider.gameObject.SetActive(true);
-            _timerSlider.maxValue = maxTime;
-            _timerSlider.value = maxTime - timeLeft;
+            timerSlider.gameObject.SetActive(true);
+            timerSlider.maxValue = maxTime;
+            timerSlider.value = maxTime - timeLeft;
 
-            if (_timerHandle != null && _onWayImage != null)
-                _timerHandle.sprite = _onWayImage;
+            if (timerHandle != null && onWayImage != null)
+                timerHandle.sprite = onWayImage;
         }
     }
 
@@ -107,14 +114,14 @@ public class VisitorUI : MonoBehaviour
     {
         _isWaitingForResponse = true;
 
-        if (_timerSlider != null)
+        if (timerSlider != null)
         {
-            _timerSlider.gameObject.SetActive(true);
-            _timerSlider.maxValue = maxTime;
-            _timerSlider.value = maxTime - currentTime;
+            timerSlider.gameObject.SetActive(true);
+            timerSlider.maxValue = maxTime;
+            timerSlider.value = maxTime - currentTime;
 
-            if (_timerHandle != null && _waitResponseImage != null)
-                _timerHandle.sprite = _waitResponseImage;
+            if (timerHandle != null && waitResponseImage != null)
+                timerHandle.sprite = waitResponseImage;
         }
     }
 
@@ -122,53 +129,53 @@ public class VisitorUI : MonoBehaviour
     {
         _isWaitingForTea = true;
 
-        if (_timerSlider != null)
+        if (timerSlider != null)
         {
-            _timerSlider.gameObject.SetActive(true);
-            _timerSlider.maxValue = maxTime;
-            _timerSlider.value = maxTime - currentTime;
+            timerSlider.gameObject.SetActive(true);
+            timerSlider.maxValue = maxTime;
+            timerSlider.value = maxTime - currentTime;
 
-            if (_timerHandle != null && _waitImage != null)
-                _timerHandle.sprite = _waitImage;
+            if (timerHandle != null && waitImage != null)
+                timerHandle.sprite = waitImage;
         }
     }
 
     public void ShowOrderUI(bool show)
     {
-        if (_orderUI != null)
-            _orderUI.SetActive(show);
+        if (orderUI != null)
+            orderUI.SetActive(show);
     }
 
     public void HideVisitor()
     {
-        if (_visitorPanel == null) return;
+        if (visitorPanel == null) return;
 
         if (_moveCoroutine != null)
             StopCoroutine(_moveCoroutine);
 
-        _visitorPanel.transform.DOMove(_startPoint.position, _moveDuration)
+        visitorPanel.transform.DOMove(startPoint.position, moveDuration)
             .SetEase(Ease.InBack)
             .OnComplete(() =>
             {
-                _visitorPanel.SetActive(false);
-                if (_visitorTalking != null)
-                    _visitorTalking.DOFade(0, 0);
+                visitorPanel.SetActive(false);
+                if (visitorTalking != null)
+                    visitorTalking.DOFade(0, 0);
             });
 
-        if (_requestedTeaIcon != null)
-            _requestedTeaIcon.gameObject.SetActive(false);
+        if (requestedTeaIcon != null)
+            requestedTeaIcon.gameObject.SetActive(false);
     }
 
     public void ResetUI()
     {
-        TextMeshProUGUI acceptText = _acceptButton?.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI acceptText = acceptButton?.GetComponentInChildren<TextMeshProUGUI>();
         if (acceptText != null)
             acceptText.text = "Accept";
 
-        if (_acceptButton != null)
+        if (acceptButton != null)
         {
-            _acceptButton.interactable = true;
-            _acceptButton.gameObject.SetActive(true);
+            acceptButton.interactable = true;
+            acceptButton.gameObject.SetActive(true);
         }
 
         _isWaitingForResponse = false;
@@ -178,6 +185,6 @@ public class VisitorUI : MonoBehaviour
 
     public void HideButton()
     {
-        _acceptButton.gameObject.SetActive(false);
+        acceptButton.gameObject.SetActive(false);
     }
 }

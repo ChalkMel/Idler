@@ -7,12 +7,12 @@ namespace Effects
     {
         public override void Apply(Credits credits, SpiritBuffManager buffManager, float multiplier)
         {
-            credits.dropletsMulti += multiplier;
+            credits.DropletsMulti += multiplier;
         }
 
         public override void Remove(Credits credits, SpiritBuffManager buffManager, float multiplier)
         {
-            credits.dropletsMulti -= multiplier;
+            credits.DropletsMulti -= multiplier;
         }
     }
 }

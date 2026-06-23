@@ -3,9 +3,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewIngredient", menuName = "Tea/Ingredient")]
 public class IngredientData : ScriptableObject
 {
-  public string ingredientName;
-  public Sprite icon;
-  public IngredientType type;
+  public string IngredientName {get; private set; }
+  public Sprite Icon {get; private set; }
+  public IngredientType Type {get; private set; }
 }
 
 public enum IngredientType

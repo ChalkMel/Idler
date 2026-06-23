@@ -1,51 +1,47 @@
-// ExplorationExecutor.cs
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class ExplorationExecutor : MonoBehaviour
 {
     [Header("Services")]
-    [SerializeField] private ZoneUnlockService _zoneUnlockService;
-    [SerializeField] private SpiritUnlockService _spiritUnlockService;
-    [SerializeField] private FrogMover _frogMover;
-    [SerializeField] private ZoneSelectionUI _zoneSelectionUI;
-    [SerializeField] private ExplorationTimerUI _timerUI;
-    [SerializeField] private SpiritFoundPopupUI _popupUI;
-    [SerializeField] private Credits _credits;
-    [SerializeField] private List<ZoneButton> _allZones;
+    [SerializeField] private ZoneUnlockService zoneUnlockService;
+    [SerializeField] private SpiritUnlockService spiritUnlockService;
+    [SerializeField] private FrogMover frogMover;
+    [SerializeField] private ZoneSelectionUI zoneSelectionUI;
+    [SerializeField] private ExplorationTimerUI timerUI;
+    [SerializeField] private SpiritFoundPopupUI popupUI;
+    [SerializeField] private Credits credits;
+    [SerializeField] private List<ZoneButton> allZones;
     [Header("Exploration Cost")]
-    [SerializeField] private int _baseExplorationCost = 20;
+    [SerializeField] private int baseExplorationCost = 20;
     
     private ExplorationData _currentExploration;
     private bool _isExploring;
     private Transform _selectedZoneButtonTransform;
     
-    public event System.Action<ZoneData> OnExplorationStarted;
-    public event System.Action<ZoneData, SpiritData> OnExplorationCompleted;
-    
     private void Start()
     {
-        if (_zoneSelectionUI != null)
+        if (zoneSelectionUI != null)
         {
-            _zoneSelectionUI.OnExplorationConfirmed += StartExploration;
-            _zoneSelectionUI.OnExplorationCancelled += CancelExploration;
+            zoneSelectionUI.OnExplorationConfirmed += StartExploration;
+            zoneSelectionUI.OnExplorationCancelled += CancelExploration;
         }
         
-        if (_frogMover != null)
+        if (frogMover != null)
         {
-            _frogMover.OnMovementStarted += () => _isExploring = true;
-            _frogMover.OnMovementCompleted += OnMovementCompleted;
+            frogMover.OnMovementStarted += () => _isExploring = true;
+            frogMover.OnMovementCompleted += OnMovementCompleted;
         }
     }
     
     private void Update()
     {
-        if (_currentExploration != null && _currentExploration.isExploring)
+        if (_currentExploration != null && _currentExploration.IsExploring)
         {
             _currentExploration.Update(Time.deltaTime);
-            _timerUI?.UpdateTimer(_currentExploration.timeRemaining, _currentExploration.zone.explorationTime);
+            timerUI?.UpdateTimer(_currentExploration.TimeRemaining, _currentExploration.Zone.ExplorationTime);
             
             if (_currentExploration.IsComplete)
             {
@@ -60,131 +56,127 @@ public class ExplorationExecutor : MonoBehaviour
     
     public int GetExplorationCost(ZoneData zone)
 {
-    return Mathf.RoundToInt(_baseExplorationCost * zone.explorationTime / 10f);
+    return Mathf.RoundToInt(baseExplorationCost * zone.ExplorationTime / 10f);
 }
-
-// И исправить StartExploration - добавить сброс состояния
+    
 public void StartExploration()
 {
     Debug.Log("StartExploration called");
     
     if (_isExploring)
     {
-        _zoneSelectionUI?.ShowMessage("Уже изучаем!");
+        zoneSelectionUI?.ShowMessage("Уже изучаем!");
         return;
     }
     
-    ZoneData selectedZone = _zoneSelectionUI?.GetSelectedZone();
+    ZoneData selectedZone = zoneSelectionUI?.GetSelectedZone();
     if (selectedZone == null)
     {
-        _zoneSelectionUI?.ShowMessage("Не выбрана зона!");
+        zoneSelectionUI?.ShowMessage("Не выбрана зона!");
         return;
     }
     
     int cost = GetExplorationCost(selectedZone);
-    if (_credits.droplets < cost)
+    if (credits.droplets < cost)
     {
-        _zoneSelectionUI?.ShowMessage($"Недостаточно капель! Нужно {cost}");
+        zoneSelectionUI?.ShowMessage($"Недостаточно капель! Нужно {cost}");
         return;
     }
     
-    if (_zoneUnlockService != null && _zoneUnlockService.IsZoneComplete(selectedZone))
+    if (zoneUnlockService != null && zoneUnlockService.IsZoneComplete(selectedZone))
     {
-        _zoneSelectionUI?.ShowMessage($"Все духи в {selectedZone.zoneName} уже найдены!");
-        _zoneSelectionUI?.ClosePanel();
+        zoneSelectionUI?.ShowMessage($"Все духи в {selectedZone.ZoneName} уже найдены!");
+        zoneSelectionUI?.ClosePanel();
         return;
     }
     
-    _credits.droplets -= cost;
-    _credits.UpdateUI();
+    credits.droplets -= cost;
+    credits.UpdateUI();
     
     _selectedZoneButtonTransform = FindZoneButtonTransform(selectedZone);
     if (_selectedZoneButtonTransform == null)
     {
-        _zoneSelectionUI?.ShowMessage("Не найдена кнопка зоны!");
-        _zoneSelectionUI?.ClosePanel();
+        zoneSelectionUI?.ShowMessage("Не найдена кнопка зоны!");
+        zoneSelectionUI?.ClosePanel();
         return;
     }
     
-    _zoneSelectionUI?.ClosePanel();
+    zoneSelectionUI?.ClosePanel();
     
     SetAllZonesInteractable(false);
     
     _currentExploration = new ExplorationData(selectedZone);
-    _timerUI?.ShowTimer(_currentExploration.timeRemaining, selectedZone.explorationTime);
+    timerUI?.ShowTimer(_currentExploration.TimeRemaining, selectedZone.ExplorationTime);
     
-    StartCoroutine(_frogMover.MoveToTargetAndBack(_selectedZoneButtonTransform));
-    
-    OnExplorationStarted?.Invoke(selectedZone);
+    StartCoroutine(frogMover.MoveToTargetAndBack(_selectedZoneButtonTransform));
 }
 
-// Исправить CancelExploration
 private void CancelExploration()
 {
     Debug.Log("CancelExploration called");
     
     _currentExploration = null;
     _isExploring = false;
-    _timerUI?.HideTimer();
-    _zoneSelectionUI?.ClosePanel();
+    timerUI?.HideTimer();
+    zoneSelectionUI?.ClosePanel();
     SetAllZonesInteractable(true);
-    _zoneSelectionUI?.RefreshAllButtonsState();
+    zoneSelectionUI?.RefreshAllButtonsState();
 }
 
-// Исправить CompleteExploration
+
 private void CompleteExploration()
 {
     Debug.Log("CompleteExploration called");
     
-    ZoneData exploredZone = _currentExploration.zone;
+    ZoneData exploredZone = _currentExploration.Zone;
     
     SpiritData foundSpirit = null;
-    if (_spiritUnlockService != null)
+    if (spiritUnlockService != null)
     {
-        foundSpirit = _zoneUnlockService?.GetRandomUnfoundSpirit(exploredZone);
+        foundSpirit = zoneUnlockService?.GetRandomUnfoundSpirit(exploredZone);
         if (foundSpirit != null)
         {
-            _spiritUnlockService.TryUnlockSpirit(foundSpirit);
-            _popupUI?.ShowSpiritFound(foundSpirit);
+            spiritUnlockService.TryUnlockSpirit(foundSpirit);
+            popupUI?.ShowSpiritFound(foundSpirit);
         }
     }
     
     string message = foundSpirit != null 
-        ? $"Ты изучил: {exploredZone.zoneName}\nНашел: {foundSpirit.spiritName}"
-        : $"Ты изучил: {exploredZone.zoneName}\nВсе духи найдены!";
+        ? $"Ты изучил: {exploredZone.ZoneName}\nНашел: {foundSpirit.SpiritName}"
+        : $"Ты изучил: {exploredZone.ZoneName}\nВсе духи найдены!";
     
-    _zoneSelectionUI?.ShowMessage(message);
+    zoneSelectionUI?.ShowMessage(message);
     
     _currentExploration = null;
     _isExploring = false;
     
-    _timerUI?.HideTimer();
+    timerUI?.HideTimer();
     
     SetAllZonesInteractable(true);
     
-    _zoneSelectionUI?.RefreshAllButtonsState();
+    zoneSelectionUI?.RefreshAllButtonsState();
     
-    OnExplorationCompleted?.Invoke(exploredZone, foundSpirit);
+    
 }
     
     public void SelectZone(ZoneData zone)
     {
         if (_isExploring)
         {
-            _zoneSelectionUI?.ShowMessage("Already exploring!");
+            zoneSelectionUI?.ShowMessage("Already exploring!");
             return;
         }
     
-        if (_zoneUnlockService != null && _zoneUnlockService.IsZoneComplete(zone))
+        if (zoneUnlockService != null && zoneUnlockService.IsZoneComplete(zone))
         {
-            _zoneSelectionUI?.ShowMessage($"Все духи в {zone.zoneName} найдены!");
+            zoneSelectionUI?.ShowMessage($"Все духи в {zone.ZoneName} найдены!");
             return;
         }
         
         int cost = GetExplorationCost(zone);
-        _zoneSelectionUI?.UpdateCostDisplay(cost);
+        zoneSelectionUI?.UpdateCostDisplay(cost);
     
-        _zoneSelectionUI?.SelectZone(zone);
+        zoneSelectionUI?.SelectZone(zone);
     }
     
     private Transform FindZoneButtonTransform(ZoneData zone)
@@ -200,7 +192,7 @@ private void CompleteExploration()
     
     private void SetAllZonesInteractable(bool interactable)
     {
-        foreach (var button in _allZones)
+        foreach (var button in allZones)
         {
             Button btn = button.GetComponent<Button>();
             if (btn != null)
@@ -216,9 +208,9 @@ private void CompleteExploration()
     public void LoadExploration(ZoneData zone, float remainingTime)
     {
         _currentExploration = new ExplorationData(zone);
-        _currentExploration.timeRemaining = remainingTime;
-        _currentExploration.isExploring = true;
+        _currentExploration.TimeRemaining = remainingTime;
+        _currentExploration.IsExploring = true;
         _isExploring = true;
-        _timerUI?.ShowTimer(remainingTime, zone.explorationTime);
+        timerUI?.ShowTimer(remainingTime, zone.ExplorationTime);
     }
 }

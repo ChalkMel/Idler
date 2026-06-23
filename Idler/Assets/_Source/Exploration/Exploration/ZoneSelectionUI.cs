@@ -1,4 +1,3 @@
-// ZoneSelectionUI.cs - исправленный
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,25 +6,25 @@ using TMPro;
 public class ZoneSelectionUI : MonoBehaviour
 {
     [Header("Zone Buttons")]
-    [SerializeField] private List<ZoneButton> _zoneButtons = new List<ZoneButton>();
+    [SerializeField] private List<ZoneButton> zoneButtons = new List<ZoneButton>();
     
+   
     [Header("Selection Panel")]
-    [SerializeField] private GameObject _explorationPanel;
-    [SerializeField] private TextMeshProUGUI _zoneNameText;
-    [SerializeField] private TextMeshProUGUI _zoneDescriptionText;
-    [SerializeField] private Image _zoneIconImage;
-    [SerializeField] private TextMeshProUGUI _zoneInfoText;
-    [SerializeField] private Button _confirmButton;
-    [SerializeField] private Button _cancelButton;
+    [SerializeField] private GameObject explorationPanel;
+    [SerializeField] private TextMeshProUGUI zoneNameText;
+    [SerializeField] private TextMeshProUGUI zoneDescriptionText;
+    [SerializeField] private Image zoneIconImage;
+    [SerializeField] private TextMeshProUGUI zoneInfoText;
+    [SerializeField] private Button confirmButton;
+    [SerializeField] private Button cancelButton;
     
     [Header("Message")]
-    [SerializeField] private TextMeshProUGUI _messageText;
+    [SerializeField] private TextMeshProUGUI messageText;
     
     private ZoneUnlockService _unlockService;
     private ZoneData _selectedZone;
     private Coroutine _messageCoroutine;
     
-    public event System.Action<ZoneData> OnZoneSelected;
     public event System.Action OnExplorationConfirmed;
     public event System.Action OnExplorationCancelled;
     
@@ -35,7 +34,7 @@ public class ZoneSelectionUI : MonoBehaviour
         
         RefreshZoneButtonsList();
         
-        foreach (var button in _zoneButtons)
+        foreach (var button in zoneButtons)
         {
             if (button != null && button.ZoneData != null)
             {
@@ -43,29 +42,29 @@ public class ZoneSelectionUI : MonoBehaviour
             }
         }
         
-        if (_confirmButton != null)
-            _confirmButton.onClick.AddListener(() => OnExplorationConfirmed?.Invoke());
+        if (confirmButton != null)
+            confirmButton.onClick.AddListener(() => OnExplorationConfirmed?.Invoke());
         
-        if (_cancelButton != null)
-            _cancelButton.onClick.AddListener(CancelSelection);
+        if (cancelButton != null)
+            cancelButton.onClick.AddListener(CancelSelection);
         
-        if (_explorationPanel != null)
-            _explorationPanel.SetActive(false);
+        if (explorationPanel != null)
+            explorationPanel.SetActive(false);
     }
     
     private void RefreshZoneButtonsList()
     {
         ZoneButton[] foundButtons = FindObjectsByType<ZoneButton>(FindObjectsSortMode.None);
-        _zoneButtons.Clear();
-        _zoneButtons.AddRange(foundButtons);
+        zoneButtons.Clear();
+        zoneButtons.AddRange(foundButtons);
     }
 
     private void RegisterZoneButton(ZoneButton button, ZoneData zone)
     {
         if (button == null) return;
         
-        if (!_zoneButtons.Contains(button))
-            _zoneButtons.Add(button);
+        if (!zoneButtons.Contains(button))
+            zoneButtons.Add(button);
         
         Button btnComponent = button.GetComponent<Button>();
         if (btnComponent != null)
@@ -87,37 +86,35 @@ public class ZoneSelectionUI : MonoBehaviour
         
         if (_unlockService != null && _unlockService.IsZoneComplete(zone))
         {
-            ShowMessage($"Все духи в {zone.zoneName} уже найдены!");
+            ShowMessage($"Все духи в {zone.ZoneName} уже найдены!");
             return;
         }
         
-        if (_zoneNameText != null)
-            _zoneNameText.text = zone.zoneName;
+        if (zoneNameText != null)
+            zoneNameText.text = zone.ZoneName;
         
-        if (_zoneDescriptionText != null)
-            _zoneDescriptionText.text = zone.zoneDescription;
+        if (zoneDescriptionText != null)
+            zoneDescriptionText.text = zone.ZoneDescription;
         
-        if (_zoneIconImage != null && zone.zoneIcon != null)
-            _zoneIconImage.sprite = zone.zoneIcon;
+        if (zoneIconImage != null && zone.ZoneIcon != null)
+            zoneIconImage.sprite = zone.ZoneIcon;
         
-        if (_zoneInfoText != null && _unlockService != null)
+        if (zoneInfoText != null && _unlockService != null)
         {
             string spiritsInfo = _unlockService.GetZoneProgressText(zone);
             int cost = GetComponent<ExplorationExecutor>()?.GetExplorationCost(zone) ?? 20;
-            _zoneInfoText.text = $"Время: {zone.explorationTime} сек\n{spiritsInfo}\nЦена: {cost} капель";
+            zoneInfoText.text = $"Время: {zone.ExplorationTime} сек\n{spiritsInfo}\nЦена: {cost} капель";
         }
         
-        if (_explorationPanel != null)
-            _explorationPanel.SetActive(true);
-        
-        OnZoneSelected?.Invoke(zone);
+        if (explorationPanel != null)
+            explorationPanel.SetActive(true);
     }
 
     private void CancelSelection()
     {
         _selectedZone = null;
-        if (_explorationPanel != null)
-            _explorationPanel.SetActive(false);
+        if (explorationPanel != null)
+            explorationPanel.SetActive(false);
         
         OnExplorationCancelled?.Invoke();
         
@@ -131,10 +128,10 @@ public class ZoneSelectionUI : MonoBehaviour
     
     public void UpdateCostDisplay(int cost)
     {
-        if (_zoneInfoText != null && _selectedZone != null)
+        if (zoneInfoText != null && _selectedZone != null)
         {
             string spiritsInfo = _unlockService?.GetZoneProgressText(_selectedZone) ?? "";
-            _zoneInfoText.text = $"Время: {_selectedZone.explorationTime} сек\n{spiritsInfo}\nЦена: {cost} капель";
+            zoneInfoText.text = $"Время: {_selectedZone.ExplorationTime} сек\n{spiritsInfo}\nЦена: {cost} капель";
         }
     }
     
@@ -145,9 +142,9 @@ public class ZoneSelectionUI : MonoBehaviour
     
     public void ShowMessage(string message)
     {
-        if (_messageText != null)
+        if (messageText != null)
         {
-            _messageText.text = message;
+            messageText.text = message;
             
             if (_messageCoroutine != null)
                 StopCoroutine(_messageCoroutine);
@@ -158,14 +155,14 @@ public class ZoneSelectionUI : MonoBehaviour
     private System.Collections.IEnumerator ClearMessageAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        if (_messageText != null)
-            _messageText.text = "";
+        if (messageText != null)
+            messageText.text = "";
     }
     
     public void ClosePanel()
     {
-        if (_explorationPanel != null)
-            _explorationPanel.SetActive(false);
+        if (explorationPanel != null)
+            explorationPanel.SetActive(false);
         _selectedZone = null;
         
         RefreshAllButtonsState();

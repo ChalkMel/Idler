@@ -31,16 +31,12 @@ public class CauldronUI : MonoBehaviour
         if (_ingredientUIPrefab == null || _ingredientsPanel == null) return;
         GameObject iconObj = Instantiate(_ingredientUIPrefab, _ingredientsPanel);
         Image img = iconObj.GetComponentInChildren<Image>();
-        if (img != null && ingredient.icon != null) img.sprite = ingredient.icon;
+        if (img != null && ingredient.Icon != null) img.sprite = ingredient.Icon;
         _ingredientIcons.Add(iconObj);
-        
-        Debug.Log($"Added icon, total icons: {_ingredientIcons.Count}");
     }
 
     public void ClearIngredientIcons()
     {
-        Debug.Log($"Clearing {_ingredientIcons.Count} icons");
-        
         foreach (var icon in _ingredientIcons)
         {
             if (icon != null) 

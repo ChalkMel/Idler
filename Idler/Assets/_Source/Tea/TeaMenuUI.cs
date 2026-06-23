@@ -81,7 +81,7 @@ public class TeaMenu : MonoBehaviour
             if (image.transform.parent == buttonObj.transform)
             {
 
-                image.sprite = tea.icon;
+                image.sprite = tea.Icon;
                 image.preserveAspect = true;
                 
                 break;
@@ -89,7 +89,7 @@ public class TeaMenu : MonoBehaviour
         }
 
         TextMeshProUGUI buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
-        buttonText.text = tea.teaName;
+        buttonText.text = tea.TeaName;
         
     }
     
@@ -99,52 +99,44 @@ public class TeaMenu : MonoBehaviour
 
         if (selectedTeaIcon != null)
         {
-            if (tea.icon != null)
+            if (tea.Icon != null)
             {
-                selectedTeaIcon.sprite = tea.icon;
+                selectedTeaIcon.sprite = tea.Icon;
                 selectedTeaIcon.preserveAspect = true;
             }
         }
         
         if (selectedTeaName != null)
         {
-            selectedTeaName.text = tea.teaName;
+            selectedTeaName.text = tea.TeaName;
         }
         
         if (selectedTeaDescription != null)
         {
-            selectedTeaDescription.text = tea.description;
+            selectedTeaDescription.text = tea.Description;
         }
 
         ClearPanel(recipeIngredientsPanel);
         ClearPanel(likedSpiritsPanel);
 
-        if (tea.ingredients is {Count: > 0})
+        if (tea.Ingredients is {Count: > 0})
         {
-            foreach (var ingredient in tea.ingredients)
+            foreach (var ingredient in tea.Ingredients)
             {
                 if (ingredient == null) continue;
                 
-                CreateIconInPanel(recipeIngredientsPanel, ingredient.icon, ingredient.ingredientName);
+                CreateIconInPanel(recipeIngredientsPanel, ingredient.Icon, ingredient.IngredientName);
             }
         }
-        else
-        {
-            CreateTextInPanel(recipeIngredientsPanel, "Рецепт не указан");
-        }
 
-        if (tea.likedBySpirits is {Count: > 0})
+        if (tea.LikedBySpirits is {Count: > 0})
         {
-            foreach (var spirit in tea.likedBySpirits)
+            foreach (var spirit in tea.LikedBySpirits)
             {
                 if (spirit == null) continue;
                 
-                CreateIconInPanel(likedSpiritsPanel, spirit.icon, spirit.spiritName);
+                CreateIconInPanel(likedSpiritsPanel, spirit.Icon, spirit.SpiritName);
             }
-        }
-        else
-        {
-            CreateTextInPanel(likedSpiritsPanel, "Никому не нравится");
         }
     }
     
@@ -160,26 +152,6 @@ public class TeaMenu : MonoBehaviour
             iconImage.sprite = icon;
             iconImage.preserveAspect = true;
         }
-
-        TextMeshProUGUI text = iconObj.GetComponentInChildren<TextMeshProUGUI>();
-        if (text != null)
-        {
-            text.text = name;
-            text.fontSize = 10;
-        }
-    }
-    
-    private void CreateTextInPanel(Transform panel, string text)
-    {
-        if (panel == null) return;
-        
-        GameObject textObj = new GameObject("InfoText");
-        textObj.transform.SetParent(panel);
-        
-        TextMeshProUGUI textComponent = textObj.AddComponent<TextMeshProUGUI>();
-        textComponent.text = text;
-        textComponent.fontSize = 14;
-        textComponent.color = Color.gray;
     }
     
     private void ClearPanel(Transform panel)

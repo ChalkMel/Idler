@@ -73,10 +73,10 @@ public class SaveManager : MonoBehaviour
         data.leaves = credits.leaves;
         data.berries = credits.berries;
         data.flowers = credits.flowers;
-        data.dropletsMulti = credits.dropletsMulti;
-        data.leavesMulti = credits.leavesMulti;
-        data.berriesMulti = credits.berriesMulti;
-        data.flowersMulti = credits.flowersMulti;
+        data.dropletsMulti = credits.DropletsMulti;
+        data.leavesMulti = credits.LeavesMulti;
+        data.berriesMulti = credits.BerriesMulti;
+        data.flowersMulti = credits.FlowersMulti;
         data.helperCount = credits.HelperCount;
         data.dropletHelperCount = credits.DropletHelperCount;
     }
@@ -87,10 +87,10 @@ public class SaveManager : MonoBehaviour
         credits.leaves = data.leaves;
         credits.berries = data.berries;
         credits.flowers = data.flowers;
-        credits.dropletsMulti = data.dropletsMulti;
-        credits.leavesMulti = data.leavesMulti;
-        credits.berriesMulti = data.berriesMulti;
-        credits.flowersMulti = data.flowersMulti;
+        credits.DropletsMulti = data.dropletsMulti;
+        credits.LeavesMulti = data.leavesMulti;
+        credits.BerriesMulti = data.berriesMulti;
+        credits.FlowersMulti = data.flowersMulti;
         credits.HelperCount = data.helperCount;
         credits.DropletHelperCount = data.dropletHelperCount;
         credits.UpdateUI();
@@ -100,27 +100,27 @@ public class SaveManager : MonoBehaviour
     {
         if (helperItem != null)
         {
-            data.helperCurrentCost = helperItem.cost;
-            data.helperBaseCost = helperItem.baseCost;
-            data.helperCostMultiplier = helperItem.costMultiplier;
-            data.helperBoughtCount = helperItem.boughtCount;
+            data.helperCurrentCost = helperItem.Cost;
+            data.helperBaseCost = helperItem.BaseCost;
+            data.helperCostMultiplier = helperItem.CostMultiplier;
+            data.helperBoughtCount = helperItem.BoughtCount;
         }
         
         if (dropletHelperItem != null)
         {
-            data.dropletHelperCurrentCost = dropletHelperItem.cost;
-            data.dropletHelperBaseCost = dropletHelperItem.baseCost;
-            data.dropletHelperCostMultiplier = dropletHelperItem.costMultiplier;
-            data.dropletHelperBoughtCount = dropletHelperItem.boughtCount;
+            data.dropletHelperCurrentCost = dropletHelperItem.Cost;
+            data.dropletHelperBaseCost = dropletHelperItem.BaseCost;
+            data.dropletHelperCostMultiplier = dropletHelperItem.CostMultiplier;
+            data.dropletHelperBoughtCount = dropletHelperItem.BoughtCount;
         }
         
         if (dropletMultiplierItem != null)
         {
-            data.dropletMultiplierCurrentCost = dropletMultiplierItem.cost;
-            data.dropletMultiplierBaseCost = dropletMultiplierItem.baseCost;
-            data.dropletMultiplierCostMultiplier = dropletMultiplierItem.costMultiplier;
-            data.dropletMultiplierBoughtCount = dropletMultiplierItem.boughtCount;
-            data.dropletMultiplierTotalValue = dropletMultiplierItem.totalMultiplierValue;
+            data.dropletMultiplierCurrentCost = dropletMultiplierItem.Cost;
+            data.dropletMultiplierBaseCost = dropletMultiplierItem.BaseCost;
+            data.dropletMultiplierCostMultiplier = dropletMultiplierItem.CostMultiplier;
+            data.dropletMultiplierBoughtCount = dropletMultiplierItem.BoughtCount;
+            data.dropletMultiplierTotalValue = dropletMultiplierItem.TotalMultiplierValue;
         }
     }
     
@@ -128,26 +128,26 @@ public class SaveManager : MonoBehaviour
     {
         if (helperItem != null)
         {
-            helperItem.baseCost = data.helperBaseCost > 0 ? data.helperBaseCost : 50;
-            helperItem.costMultiplier = data.helperCostMultiplier > 0 ? data.helperCostMultiplier : 2;
-            helperItem.boughtCount = data.helperBoughtCount;
+            helperItem.BaseCost = data.helperBaseCost > 0 ? data.helperBaseCost : 50;
+            helperItem.CostMultiplier = data.helperCostMultiplier > 0 ? data.helperCostMultiplier : 2;
+            helperItem.BoughtCount = data.helperBoughtCount;
             helperItem.UpdateCost();
         }
         
         if (dropletHelperItem != null)
         {
-            dropletHelperItem.baseCost = data.dropletHelperBaseCost > 0 ? data.dropletHelperBaseCost : 50;
-            dropletHelperItem.costMultiplier = data.dropletHelperCostMultiplier > 0 ? data.dropletHelperCostMultiplier : 2;
-            dropletHelperItem.boughtCount = data.dropletHelperBoughtCount;
+            dropletHelperItem.BaseCost = data.dropletHelperBaseCost > 0 ? data.dropletHelperBaseCost : 50;
+            dropletHelperItem.CostMultiplier = data.dropletHelperCostMultiplier > 0 ? data.dropletHelperCostMultiplier : 2;
+            dropletHelperItem.BoughtCount = data.dropletHelperBoughtCount;
             dropletHelperItem.UpdateCost();
         }
         
         if (dropletMultiplierItem != null)
         {
-            dropletMultiplierItem.baseCost = data.dropletMultiplierBaseCost > 0 ? data.dropletMultiplierBaseCost : 50;
-            dropletMultiplierItem.costMultiplier = data.dropletMultiplierCostMultiplier > 0 ? data.dropletMultiplierCostMultiplier : 2;
-            dropletMultiplierItem.boughtCount = data.dropletMultiplierBoughtCount;
-            dropletMultiplierItem.totalMultiplierValue = data.dropletMultiplierTotalValue;
+            dropletMultiplierItem.BaseCost = data.dropletMultiplierBaseCost > 0 ? data.dropletMultiplierBaseCost : 50;
+            dropletMultiplierItem.CostMultiplier = data.dropletMultiplierCostMultiplier > 0 ? data.dropletMultiplierCostMultiplier : 2;
+            dropletMultiplierItem.BoughtCount = data.dropletMultiplierBoughtCount;
+            dropletMultiplierItem.TotalMultiplierValue = data.dropletMultiplierTotalValue;
             dropletMultiplierItem.UpdateCost();
         }
     }
@@ -166,25 +166,25 @@ public class SaveManager : MonoBehaviour
     
     private void SaveSpiritCollection(SaveData data)
     {
-        foreach (var spirit in spiritCollection.unlockedSpirits)
+        foreach (var spirit in spiritCollection.UnlockedSpirits)
         {
-            data.unlockedSpiritNames.Add(spirit.spiritName);
+            data.unlockedSpiritNames.Add(spirit.SpiritName);
         }
     }
     
     private void LoadSpiritCollection(SaveData data)
     {
-        spiritCollection.unlockedSpirits.Clear();
-        spiritCollection.availableSpirits.Clear();
+        spiritCollection.UnlockedSpirits.Clear();
+        spiritCollection.AvailableSpirits.Clear();
         
         foreach (var spiritName in data.unlockedSpiritNames)
         {
-            SpiritData spirit = spiritCollection.allSpirits.Find(s => s.spiritName == spiritName);
+            SpiritData spirit = spiritCollection.AllSpirits.Find(s => s.SpiritName == spiritName);
             if (spirit != null)
             {
                 spirit.isUnlocked = true;
-                spiritCollection.unlockedSpirits.Add(spirit);
-                spiritCollection.availableSpirits.Add(spirit);
+                spiritCollection.UnlockedSpirits.Add(spirit);
+                spiritCollection.AvailableSpirits.Add(spirit);
             }
         }
     }
@@ -196,7 +196,7 @@ public class SaveManager : MonoBehaviour
         foreach (var item in shopManager.GetAllShopItems())
         {
             if (item.isPurchased)
-                data.purchasedShopItemNames.Add(item.itemName);
+                data.purchasedShopItemNames.Add(item.ItemName);
         }
     }
     
@@ -206,7 +206,7 @@ public class SaveManager : MonoBehaviour
         
         foreach (var item in shopManager.GetAllShopItems())
         {
-            item.isPurchased = data.purchasedShopItemNames.Contains(item.itemName);
+            item.isPurchased = data.purchasedShopItemNames.Contains(item.ItemName);
         }
     }
     
@@ -230,7 +230,7 @@ public class SaveManager : MonoBehaviour
         {
             SavedSpiritBuff saved = new SavedSpiritBuff
             {
-                spiritName = activeSpirit.SpiritData.spiritName,
+                spiritName = activeSpirit.SpiritData.SpiritName,
                 endTime = activeSpirit.EndTime - Time.time,
                 slotIndex = activeSpirit.SlotIndex,
                 multiplier = activeSpirit.Multiplier
@@ -243,7 +243,7 @@ public class SaveManager : MonoBehaviour
     {
         foreach (var saved in data.activeSpiritBuffs)
         {
-            SpiritData spirit = spiritCollection.allSpirits.Find(s => s.spiritName == saved.spiritName);
+            SpiritData spirit = spiritCollection.AllSpirits.Find(s => s.SpiritName == saved.spiritName);
             if (spirit != null && saved.endTime > 0)
             {
                 buffManager.LoadBuff(spirit, saved.endTime, saved.slotIndex, saved.multiplier);

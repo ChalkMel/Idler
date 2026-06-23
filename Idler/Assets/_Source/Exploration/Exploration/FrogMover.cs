@@ -1,14 +1,14 @@
-// FrogMover.cs - исправленный
 using System.Collections;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.Serialization;
 
 public class FrogMover : MonoBehaviour
 {
-    [SerializeField] private GameObject _frogSprite;
-    [SerializeField] private GameObject _frogMover;
-    [SerializeField] private Vector3 _originalPosition;
-    [SerializeField] private GameObject Panel;
+    [SerializeField] private GameObject frogSprite;
+    [SerializeField] private GameObject frogMover;
+    [SerializeField] private Vector3 originalPosition;
+    [SerializeField] private GameObject panel;
     
     public event System.Action OnMovementStarted;
     public event System.Action OnMovementCompleted;
@@ -17,43 +17,43 @@ public class FrogMover : MonoBehaviour
     
     private void Awake()
     {
-        if (_frogMover != null)
-            _originalPosition = _frogMover.transform.position;
+        if (frogMover != null)
+            originalPosition = frogMover.transform.position;
     }
     
     public IEnumerator MoveToTargetAndBack(Transform target)
     {
-        if (_frogMover == null || target == null || _isMoving) yield break;
+        if (frogMover == null || target == null || _isMoving) yield break;
         
         _isMoving = true;
-        _frogMover.gameObject.SetActive(true);
-        Panel.SetActive(false);
+        frogMover.gameObject.SetActive(true);
+        panel.SetActive(false);
         
-        if (_frogSprite != null)
+        if (frogSprite != null)
         {
-            _frogSprite.transform.DOPunchScale(new Vector2(0.5f, 0.5f), 0.2f);
-            _frogSprite.gameObject.SetActive(false);
+            frogSprite.transform.DOPunchScale(new Vector2(0.5f, 0.5f), 0.2f);
+            frogSprite.gameObject.SetActive(false);
         }
         
         OnMovementStarted?.Invoke();
         
         float moveDuration = 0.5f;
         
-        _frogMover.transform.DOMove(target.position, moveDuration).SetEase(Ease.OutQuad);
+        frogMover.transform.DOMove(target.position, moveDuration).SetEase(Ease.OutQuad);
         yield return new WaitForSeconds(moveDuration);
         
         yield return new WaitForSeconds(10f);
         
-        _frogMover.transform.DOMove(_originalPosition, moveDuration).SetEase(Ease.InQuad);
+        frogMover.transform.DOMove(originalPosition, moveDuration).SetEase(Ease.InQuad);
         yield return new WaitForSeconds(moveDuration);
         
-        Panel.SetActive(true);
-        _frogMover.gameObject.SetActive(false);
+        panel.SetActive(true);
+        frogMover.gameObject.SetActive(false);
         
-        if (_frogSprite != null)
+        if (frogSprite != null)
         {
-            _frogSprite.gameObject.SetActive(true);
-            _frogSprite.transform.DOPunchScale(new Vector2(0.5f, 0.5f), 0.2f);
+            frogSprite.gameObject.SetActive(true);
+            frogSprite.transform.DOPunchScale(new Vector2(0.5f, 0.5f), 0.2f);
         }
         
         _isMoving = false;
@@ -62,8 +62,8 @@ public class FrogMover : MonoBehaviour
     
     public void ResetPosition()
     {
-        if (_frogMover != null)
-            _frogMover.transform.position = _originalPosition;
+        if (frogMover != null)
+            frogMover.transform.position = originalPosition;
         _isMoving = false;
     }
     

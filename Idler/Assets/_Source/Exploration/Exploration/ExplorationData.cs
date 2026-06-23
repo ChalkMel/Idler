@@ -3,30 +3,30 @@ using System;
 [Serializable]
 public class ExplorationData
 {
-  public ZoneData zone;
-  public float timeRemaining;
-  public bool isExploring;
+  public ZoneData Zone {get; private set; }
+  public float TimeRemaining;
+  public bool IsExploring;
     
   public ExplorationData(ZoneData targetZone)
   {
-    zone = targetZone;
-    timeRemaining = targetZone.explorationTime;
-    isExploring = true;
+    Zone = targetZone;
+    TimeRemaining = targetZone.ExplorationTime;
+    IsExploring = true;
   }
     
   public void Update(float deltaTime)
   {
-    if (isExploring)
+    if (IsExploring)
     {
-      timeRemaining -= deltaTime;
-      if (timeRemaining <= 0)
+      TimeRemaining -= deltaTime;
+      if (TimeRemaining <= 0)
       {
-        timeRemaining = 0;
-        isExploring = false;
+        TimeRemaining = 0;
+        IsExploring = false;
       }
     }
   }
     
-  public bool IsComplete => !isExploring && timeRemaining <= 0;
-  public float Progress => 1f - (timeRemaining / zone.explorationTime);
+  public bool IsComplete => !IsExploring && TimeRemaining <= 0;
+  public float Progress => 1f - (TimeRemaining / Zone.ExplorationTime);
 }

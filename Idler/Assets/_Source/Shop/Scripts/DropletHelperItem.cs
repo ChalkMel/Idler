@@ -8,7 +8,7 @@ public class HelperDropletItem : ShopItem
   {
     base.ApplyEffect(item, credits, spiritBuffManager);
         
-    boughtCount++;
+    BoughtCount++;
     isPurchased = false;
     UpdateCost();
         

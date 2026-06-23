@@ -1,27 +1,28 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "NewDropletMultiplier", menuName = "Shop/Shop Item/Droplet Multiplier")]
 public class DropletMultiplierItem : ShopItem
 {
   [Header("Multiplier Settings")]
-  public float multiplierValue = 2f;
-  public float totalMultiplierValue = 0f;
+  [SerializeField] private float multiplierValue = 2f;
+  public float TotalMultiplierValue;
 
   public override void ApplyEffect(ShopItem item, Credits credits, SpiritBuffManager spiritBuffManager)
   {
     base.ApplyEffect(item, credits, spiritBuffManager);
         
-    boughtCount++;
-    totalMultiplierValue += multiplierValue;
+    BoughtCount++;
+    TotalMultiplierValue += multiplierValue;
     isPurchased = false;
     UpdateCost();
         
-    credits.dropletsMulti += multiplierValue;
+    credits.DropletsMulti += multiplierValue;
   }
     
   public override void ResetToBase()
   {
     base.ResetToBase();
-    totalMultiplierValue = 0f;
+    TotalMultiplierValue = 0f;
   }
 }

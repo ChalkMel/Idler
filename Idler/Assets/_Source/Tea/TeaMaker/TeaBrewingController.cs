@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class TeaBrewingController : MonoBehaviour
 {
-    
     [Header("References")]
     [SerializeField] private Credits _credits;
     [SerializeField] private SpiritBuffManager _buffManager;
@@ -45,7 +44,7 @@ public class TeaBrewingController : MonoBehaviour
         foreach (var tea in allTeas)
         {
             if (tea.baseBrewingTime == 0)
-                tea.baseBrewingTime = tea.brewingTime;
+                tea.baseBrewingTime = tea.BrewingTime;
         }
         
         UpdateCounters();
@@ -79,7 +78,7 @@ public class TeaBrewingController : MonoBehaviour
 
         if (!_inventory.HasIngredient(ingredient))
         {
-            ShowMessage($"У вас нет {ingredient.ingredientName}!");
+            ShowMessage($"У вас нет {ingredient.IngredientName}!");
             return;
         }
 
@@ -94,7 +93,7 @@ public class TeaBrewingController : MonoBehaviour
         _cauldronUI?.AddIngredientIcon(ingredient);
         UpdateCounters();
         
-        Debug.Log($"Added ingredient {ingredient.ingredientName}, total: {_currentIngredients.Count}");
+        Debug.Log($"Added ingredient {ingredient.IngredientName}, total: {_currentIngredients.Count}");
     }
 
     public void UpdateCounters()
@@ -156,7 +155,7 @@ public class TeaBrewingController : MonoBehaviour
                 _resultPresenter?.ShowResult(tea, chosenSpirit);
                 ApplySpiritBuff(chosenSpirit);
                 GiveReward(chosenSpirit);
-                ShowMessage($"Ура! сварили {tea.teaName} и пришел дух {chosenSpirit.spiritName}");
+                ShowMessage($"Ура! сварили {tea.TeaName} и пришел дух {chosenSpirit.SpiritName}");
             }
             else
             {
@@ -173,18 +172,12 @@ public class TeaBrewingController : MonoBehaviour
 
     private void ClearAllAfterBrewing()
     {
-        Debug.Log("ClearAllAfterBrewing called");
         
         _currentIngredients.Clear();
         
         if (_cauldronUI != null)
         { 
-            Debug.Log("ClearAllAfterBrewing called");
             _cauldronUI.ClearIngredientIcons();
-        }
-        else
-        {
-            Debug.LogError("CauldronUI is null!");
         }
         
         UpdateCounters();
@@ -194,8 +187,6 @@ public class TeaBrewingController : MonoBehaviour
             _cauldronUI.SetBrewButtonInteractable(true);
             _cauldronUI.SetClearButtonInteractable(true);
         }
-        
-        Debug.Log($"Current ingredients count after clear: {_currentIngredients.Count}");
     }
 
     private void ApplySpiritBuff(SpiritData spirit)
@@ -208,7 +199,7 @@ public class TeaBrewingController : MonoBehaviour
     {
         if (_credits == null || spirit == null) return;
         int baseReward = 10;
-        int finalReward = Mathf.RoundToInt(baseReward * spirit.buffMultiplier);
+        int finalReward = Mathf.RoundToInt(baseReward * spirit.BuffMultiplier);
         _credits.droplets += finalReward;
         _credits.UpdateUI();
     }
@@ -219,8 +210,6 @@ public class TeaBrewingController : MonoBehaviour
         {
             return;
         }
-        
-        Debug.Log("ClearCauldron called manually");
         ReturnIngredientsAndClear();
         ClearVisuals();
         _cauldronUI?.SetClearButtonInteractable(true);

@@ -4,18 +4,26 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SpiritCollection", menuName = "Tea/Spirit Collection")]
 public class SpiritCollection : ScriptableObject
 {
-  public List<SpiritData> allSpirits = new List<SpiritData>();
-  public List<SpiritData> unlockedSpirits = new List<SpiritData>();
-  public List<SpiritData> availableSpirits = new List<SpiritData>();
+  public List<SpiritData> AllSpirits { get; private set; } = new List<SpiritData>();
+  public List<SpiritData> UnlockedSpirits { get; private set; } = new List<SpiritData>();
+  public List<SpiritData> AvailableSpirits { get; private set; } = new List<SpiritData>();
   
   public bool UnlockSpirit(SpiritData spirit)
   {
-    if (unlockedSpirits.Contains(spirit))
+    if (UnlockedSpirits.Contains(spirit))
       return false;
             
-    unlockedSpirits.Add(spirit);
-    availableSpirits.Add(spirit);
+    UnlockedSpirits.Add(spirit);
+    AvailableSpirits.Add(spirit);
     spirit.isUnlocked = true;
     return true;
+  }
+
+  public void MakeSpiritAvailable(SpiritData spirit, bool isAvailable)
+  {
+    if(isAvailable)
+      AvailableSpirits.Add(spirit);
+    else
+      AvailableSpirits.Remove(spirit);
   }
 }

@@ -50,34 +50,20 @@ public class SpiritMenu : MonoBehaviour
         
         CreateSpiritButtons();
 
-        if (spiritCollection.unlockedSpirits.Count > 0)
+        if (spiritCollection.UnlockedSpirits.Count > 0)
         {
-            ShowSpiritDetails(spiritCollection.unlockedSpirits[0]);
+            ShowSpiritDetails(spiritCollection.UnlockedSpirits[0]);
         }
-        else if (spiritCollection.allSpirits.Count > 0)
+        else if (spiritCollection.AllSpirits.Count > 0)
         {
-            ShowSpiritDetails(spiritCollection.allSpirits[0]);
+            ShowSpiritDetails(spiritCollection.AllSpirits[0]);
         }
     }
-    
-    private void ShowErrorMessage(string message)
-    {
-        if (selectedSpiritName != null)
-            selectedSpiritName.text = message;
-        
-        if (selectedSpiritDescription != null)
-            selectedSpiritDescription.text = "";
-        
-        if (selectedSpiritBuff != null)
-            selectedSpiritBuff.text = "";
-        
-        ClearPanel(likedTeasPanel);
-    }
-    
+
     private void CreateSpiritButtons()
     {
         
-        foreach (var spirit in spiritCollection.allSpirits)
+        foreach (var spirit in spiritCollection.AllSpirits)
         {
             if (spirit == null) continue;
 
@@ -114,9 +100,9 @@ public class SpiritMenu : MonoBehaviour
         {
             if (image.transform.parent == buttonObj.transform)
             {
-                if (spirit.icon != null)
+                if (spirit.Icon != null)
                 {
-                    image.sprite = spirit.icon;
+                    image.sprite = spirit.Icon;
                     image.preserveAspect = true;
                     
                     if (!spirit.isUnlocked)
@@ -129,7 +115,7 @@ public class SpiritMenu : MonoBehaviour
         }
         
         
-        if (buttonObj.GetComponent<Image>() != null && spirit.icon != null)
+        if (buttonObj.GetComponent<Image>() != null && spirit.Icon != null)
         {
             
             if (!spirit.isUnlocked)
@@ -141,7 +127,7 @@ public class SpiritMenu : MonoBehaviour
         TextMeshProUGUI buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
         if (buttonText != null)
         {
-            buttonText.text = spirit.spiritName;
+            buttonText.text = spirit.SpiritName;
         }
     }
     
@@ -151,9 +137,9 @@ public class SpiritMenu : MonoBehaviour
         
         if (selectedSpiritIcon != null)
         {
-            if (spirit.icon != null)
+            if (spirit.Icon != null)
             {
-                selectedSpiritIcon.sprite = spirit.icon;
+                selectedSpiritIcon.sprite = spirit.Icon;
                 selectedSpiritIcon.preserveAspect = true;
 
                 selectedSpiritIcon.color = spirit.isUnlocked ? Color.white : butColor;
@@ -162,7 +148,7 @@ public class SpiritMenu : MonoBehaviour
         
         if (selectedSpiritName != null)
         {
-            selectedSpiritName.text = spirit.spiritName;
+            selectedSpiritName.text = spirit.SpiritName;
             if (!spirit.isUnlocked)
             {
                 selectedSpiritName.text += " закрыт";
@@ -171,35 +157,24 @@ public class SpiritMenu : MonoBehaviour
         
         if (selectedSpiritDescription != null)
         {
-            selectedSpiritDescription.text = spirit.description;
+            selectedSpiritDescription.text = spirit.Description;
         }
         
         if (selectedSpiritBuff != null)
         {
-            if (spirit.isUnlocked)
-            {
-                selectedSpiritBuff.text = $"{spirit.buffName}\n{spirit.buffDescription}";
-            }
-            else
-            {
-                selectedSpiritBuff.text = "Ещё не нашли";
-            }
+            selectedSpiritBuff.text = spirit.isUnlocked ? $"{spirit.BuffName}\n{spirit.BuffDescription}" : "Ещё не нашли";
         }
 
         ClearPanel(likedTeasPanel);
 
-        if (spirit.likedTeas is {Length: > 0})
+        if (spirit.LikedTeas is {Length: > 0})
         {
-            foreach (var tea in spirit.likedTeas)
+            foreach (var tea in spirit.LikedTeas)
             {
                 if (tea == null) continue;
                 
                 CreateTeaIconInPanel(likedTeasPanel, tea);
             }
-        }
-        else
-        {
-            CreateTextInPanel(likedTeasPanel, "Doesn't like any tea yet");
         }
     }
     
@@ -210,31 +185,11 @@ public class SpiritMenu : MonoBehaviour
         GameObject iconObj = Instantiate(teaIconPrefab, panel);
 
         Image iconImage = iconObj.GetComponent<Image>();
-        if (iconImage != null && tea.icon != null)
+        if (iconImage != null && tea.Icon != null)
         {
-            iconImage.sprite = tea.icon;
+            iconImage.sprite = tea.Icon;
             iconImage.preserveAspect = true;
         }
-
-        TextMeshProUGUI text = iconObj.GetComponentInChildren<TextMeshProUGUI>();
-        if (text != null)
-        {
-            text.text = tea.teaName;
-            text.fontSize = 10;
-        }
-    }
-    
-    private void CreateTextInPanel(Transform panel, string text)
-    {
-        if (panel == null) return;
-        
-        GameObject textObj = new GameObject("InfoText");
-        textObj.transform.SetParent(panel);
-        
-        TextMeshProUGUI textComponent = textObj.AddComponent<TextMeshProUGUI>();
-        textComponent.text = text;
-        textComponent.fontSize = 14;
-        textComponent.color = Color.gray;
     }
     
     private void ClearPanel(Transform panel)

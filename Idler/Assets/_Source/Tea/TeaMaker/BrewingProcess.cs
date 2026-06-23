@@ -1,4 +1,3 @@
-// BrewingProcess.cs - добавляем методы для сохранения
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -45,7 +44,7 @@ public class BrewingProcess : MonoBehaviour
     {
         IsBrewing = true;
         _currentTea = tea;
-        _totalTime = tea.brewingTime;
+        _totalTime = tea.BrewingTime;
         
         if (startRemainingTime > 0)
             _elapsedTime = _totalTime - startRemainingTime;
@@ -55,10 +54,10 @@ public class BrewingProcess : MonoBehaviour
         OnBrewingStarted?.Invoke(tea);
 
         if (_brewingPanel != null) _brewingPanel.SetActive(true);
-        if (_brewingTeaNameText != null) _brewingTeaNameText.text = $"Варим: {tea.teaName}";
-        if (_brewingTeaIcon != null && tea.icon != null)
+        if (_brewingTeaNameText != null) _brewingTeaNameText.text = $"Варим: {tea.TeaName}";
+        if (_brewingTeaIcon != null && tea.Icon != null)
         {
-            _brewingTeaIcon.sprite = tea.icon;
+            _brewingTeaIcon.sprite = tea.Icon;
             _brewingTeaIcon.gameObject.SetActive(true);
         }
         if (_brewingSlider != null) _brewingSlider.value = _elapsedTime / _totalTime;
@@ -76,8 +75,8 @@ public class BrewingProcess : MonoBehaviour
                 _brewingTimer.gameObject.SetActive(true);
                 _brewingTimer.text = $"{_totalTime - _elapsedTime:F0}s";
             }
-            if (_brewingTimerIcon != null && tea.icon != null)
-                _brewingTimerIcon.sprite = tea.icon;
+            if (_brewingTimerIcon != null && tea.Icon != null)
+                _brewingTimerIcon.sprite = tea.Icon;
             yield return null;
         }
         

@@ -1,20 +1,21 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class VisitorSpawner : MonoBehaviour
 {
-    [SerializeField] private OrderGenerator _orderGenerator;
-    [SerializeField] private OrderMatcher _orderMatcher;
-    [SerializeField] private RewardDistributor _rewardDistributor;
-    [SerializeField] private VisitorUI _visitorUI;
-    [SerializeField] private TeaBrewingController _teaMaker;
+    [SerializeField] private OrderGenerator orderGenerator;
+    [SerializeField] private OrderMatcher orderMatcher;
+    [SerializeField] private RewardDistributor rewardDistributor;
+    [SerializeField] private VisitorUI visitorUI;
+    [SerializeField] private TeaBrewingController teaMaker;
     
     [Header("Timing")]
-    [SerializeField] private float _minTimeBetweenVisits = 30f;
-    [SerializeField] private float _maxTimeBetweenVisits = 60f;
-    [SerializeField] private float _responseTimeout = 15f;
-    [SerializeField] private float _requestTimeout = 30f;
+    [SerializeField] private float minTimeBetweenVisits = 30f;
+    [SerializeField] private float maxTimeBetweenVisits = 60f;
+    [SerializeField] private float responseTimeout = 15f;
+    [SerializeField] private float requestTimeout = 30f;
     [SerializeField] private Image hint;
     
     private bool _isWaitingForResponse;
@@ -34,23 +35,23 @@ public class VisitorSpawner : MonoBehaviour
     
     private void Start()
     {
-        _baseResponseTimeout = _responseTimeout;
-        _baseRequestTimeout = _requestTimeout;
+        _baseResponseTimeout = responseTimeout;
+        _baseRequestTimeout = requestTimeout;
         
         ResetTimeouts();
         
         _audioSource = GetComponent<AudioSource>();
         ScheduleNextVisit();
         
-        if (_visitorUI != null)
+        if (visitorUI != null)
         {
-            _visitorUI.AcceptButton.onClick.AddListener(AcceptOrder);
-            _visitorUI.RejectButton.onClick.AddListener(RejectOrder);
+            visitorUI.AcceptButton.onClick.AddListener(AcceptOrder);
+            visitorUI.RejectButton.onClick.AddListener(RejectOrder);
         }
         
-        if (_orderMatcher != null)
+        if (orderMatcher != null)
         {
-            _orderMatcher.OnOrderCompleted += OnOrderCompleted;
+            orderMatcher.OnOrderCompleted += OnOrderCompleted;
         }
     }
     
@@ -81,7 +82,7 @@ public class VisitorSpawner : MonoBehaviour
         if (!_isWaitingForResponse && !_isWaitingForTea && _timeUntilNextVisit > 0)
         {
             _timeUntilNextVisit -= Time.deltaTime;
-            _visitorUI?.SetNextVisitTimer(_timeUntilNextVisit, _maxTimeBetweenVisits);
+            visitorUI?.SetNextVisitTimer(_timeUntilNextVisit, maxTimeBetweenVisits);
         
             if (_timeUntilNextVisit <= 0)
             {
@@ -89,7 +90,7 @@ public class VisitorSpawner : MonoBehaviour
             }
         }
     
-        if (_isWaitingForTea && _teaMaker != null)
+        if (_isWaitingForTea && teaMaker != null)
         {
             CheckBrewedTea();
         }
@@ -97,18 +98,18 @@ public class VisitorSpawner : MonoBehaviour
     
     private void ScheduleNextVisit()
     {
-        _timeUntilNextVisit = Random.Range(_minTimeBetweenVisits, _maxTimeBetweenVisits);
+        _timeUntilNextVisit = Random.Range(minTimeBetweenVisits, maxTimeBetweenVisits);
     }
     
     private void SpawnVisitor()
     {
         hint.gameObject.SetActive(true);
         _audioSource.Play();
-        OrderData order = _orderGenerator.GenerateOrder();
+        OrderData order = orderGenerator.GenerateOrder();
         if (order == null) return;
         
-        _orderMatcher.SetOrder(order);
-        _visitorUI.ShowVisitor(order.visitor, order.GetOrderText());
+        orderMatcher.SetOrder(order);
+        visitorUI.ShowVisitor(order.visitor, order.GetOrderText());
         
         _isWaitingForResponse = true;
         StartResponseTimer();
@@ -128,7 +129,7 @@ public class VisitorSpawner : MonoBehaviour
         while (timer > 0 && _isWaitingForResponse)
         {
             timer -= Time.deltaTime;
-            _visitorUI?.SetResponseTimer(_currentResponseTimeout, timer);
+            visitorUI?.SetResponseTimer(_currentResponseTimeout, timer);
             yield return null;
         }
         
@@ -152,7 +153,7 @@ public class VisitorSpawner : MonoBehaviour
         while (timer > 0 && _isWaitingForTea)
         {
             timer -= Time.deltaTime;
-            _visitorUI?.SetWaitTimer(_currentRequestTimeout, timer);
+            visitorUI?.SetWaitTimer(_currentRequestTimeout, timer);
             yield return null;
         }
         
@@ -172,34 +173,34 @@ public class VisitorSpawner : MonoBehaviour
         _isWaitingForResponse = false;
         _isWaitingForTea = true;
         
-        _visitorUI?.ShowOrderUI(true);
-        _visitorUI?.HideButton();
+        visitorUI?.ShowOrderUI(true);
+        visitorUI?.HideButton();
         StartRequestTimer();
     }
     
     private void CheckBrewedTea()
     {
-        TeaData lastBrewed = _teaMaker?.GetLastBrewedTea();
+        TeaData lastBrewed = teaMaker?.GetLastBrewedTea();
         if (lastBrewed == null) return;
         
-        _teaMaker.ResetLastBrewedTea();
+        teaMaker.ResetLastBrewedTea();
         
-        if (_orderMatcher.TrySubmitTea(lastBrewed))
+        if (orderMatcher.TrySubmitTea(lastBrewed))
         {
-            _visitorUI?.UpdateRequestDisplay(_orderMatcher.CurrentOrder);
+            visitorUI?.UpdateRequestDisplay(orderMatcher.CurrentOrder);
         }
     }
     
     private void OnOrderCompleted()
     {
-        _rewardDistributor.GiveReward(_orderMatcher.CurrentOrder);
-        _visitorUI?.ShowOrderUI(true);
+        rewardDistributor.GiveReward(orderMatcher.CurrentOrder);
+        visitorUI?.ShowOrderUI(true);
         EndVisit();
     }
     
     private void RejectOrder()
     {
-        _visitorUI?.ShowOrderUI(false);
+        visitorUI?.ShowOrderUI(false);
         EndVisit();
     }
     
@@ -214,9 +215,9 @@ public class VisitorSpawner : MonoBehaviour
         if (_requestCoroutine != null)
             StopCoroutine(_requestCoroutine);
         
-        _orderMatcher.ClearOrder();
-        _visitorUI?.HideVisitor();
-        _visitorUI?.ResetUI();
+        orderMatcher.ClearOrder();
+        visitorUI?.HideVisitor();
+        visitorUI?.ResetUI();
         
         ScheduleNextVisit();
         ResetTimeouts();

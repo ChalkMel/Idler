@@ -12,7 +12,6 @@ public class Bush : MonoBehaviour
     private void OnMouseDown()
     { 
         if(EventSystem.current.IsPointerOverGameObject()) return; 
-        var collider = GetComponent<Collider2D>(); 
         GetComponent<Collider2D>().enabled = false; 
         generator.OnBushClicked(this);
         

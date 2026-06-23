@@ -1,13 +1,14 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class DraggableIng : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
-    [SerializeField] private IngredientData _ingredientData;
-    [SerializeField] private TeaBrewingController _teaController;
-    [SerializeField] private string _dropZoneTag = "DropZone";
-    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private IngredientData ingredientData;
+    [SerializeField] private TeaBrewingController teaController;
+    [SerializeField] private string dropZoneTag = "DropZone";
+    [SerializeField] private AudioSource audioSource;
     private Vector2 _originalPosition;
     private RectTransform _rectTransform;
     private Canvas _canvas;
@@ -15,7 +16,7 @@ public class DraggableIng : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
     
     private void Awake()
     {
-        GetComponent<Image>().sprite = _ingredientData.icon;
+        GetComponent<Image>().sprite = ingredientData.Icon;
         _rectTransform = GetComponent<RectTransform>();
         _canvas = GetComponentInParent<Canvas>();
         _canvasGroup = GetComponent<CanvasGroup>();
@@ -31,7 +32,7 @@ public class DraggableIng : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
         _canvasGroup.alpha = 0.6f;
         _canvasGroup.blocksRaycasts = false;
         transform.localScale = Vector3.one * 1.1f;
-        _audioSource.Play();
+        audioSource.Play();
     }
     
     public void OnDrag(PointerEventData eventData)
@@ -44,18 +45,13 @@ public class DraggableIng : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
         transform.localScale = Vector3.one;
         _canvasGroup.alpha = 1f;
         _canvasGroup.blocksRaycasts = true;
-        _audioSource.Stop();
+        audioSource.Stop();
         
         bool droppedOnCauldron = IsDroppedOnCauldron(eventData);
         
-        if (droppedOnCauldron && _teaController != null && _ingredientData != null)
+        if (droppedOnCauldron && teaController != null && ingredientData != null)
         {
-            _teaController.AddIngredient(_ingredientData);
-            Debug.Log($"Added ingredient: {_ingredientData.ingredientName}");
-        }
-        else if (!droppedOnCauldron)
-        {
-            Debug.Log("Ingredient dropped outside cauldron, not adding");
+            teaController.AddIngredient(ingredientData);
         }
         
         _rectTransform.anchoredPosition = _originalPosition;
@@ -65,13 +61,13 @@ public class DraggableIng : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
     {
         if (eventData.pointerEnter == null) return false;
         
-        if (eventData.pointerEnter.CompareTag(_dropZoneTag))
+        if (eventData.pointerEnter.CompareTag(dropZoneTag))
             return true;
         
         Transform parentCheck = eventData.pointerEnter.transform;
         while (parentCheck != null)
         {
-            if (parentCheck.CompareTag(_dropZoneTag))
+            if (parentCheck.CompareTag(dropZoneTag))
                 return true;
             parentCheck = parentCheck.parent;
         }

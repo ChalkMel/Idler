@@ -1,36 +1,38 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "NewTea", menuName = "Tea/Tea Data")]
 public class TeaData : ScriptableObject
 {
-        [Header("Basic Info")] public string teaName;
-        public Sprite icon;
-        [TextArea(2, 4)] public string description;
+        [Header("Basic Info")] 
+        public string TeaName {get; private set; }
+        public Sprite Icon {get; private set; }
+        [TextArea(2, 4)] public string Description {get; private set; }
 
-        [Header("Brewing")] public float brewingTime;
-        public float baseBrewingTime; // Добавить это поле
+        [Header("Brewing")] 
+        public float BrewingTime;
+        public float baseBrewingTime;
 
-        [Header("Recipe")] public List<IngredientData> ingredients = new List<IngredientData>();
+        [Header("Recipe")] 
+        public List<IngredientData> Ingredients {get; private set; } = new List<IngredientData>();
 
-        [Header("Spirits who like this tea")] public List<SpiritData> likedBySpirits = new List<SpiritData>();
+        [Header("Spirits who like this tea")] 
+        public List<SpiritData> LikedBySpirits {get; private set; } = new List<SpiritData>();
 
         private void OnEnable()
         {
             if (baseBrewingTime == 0)
-                baseBrewingTime = brewingTime;
+                baseBrewingTime = BrewingTime;
         }
 
         public void ResetBrewingTime()
         {
-            brewingTime = baseBrewingTime;
+            BrewingTime = baseBrewingTime;
         }
 
         public bool Matches(List<IngredientData> inputIngredients)
         {
-            if (inputIngredients.Count != ingredients.Count)
+            if (inputIngredients.Count != Ingredients.Count)
                 return false;
 
             int leafCount = 0, berryCount = 0, flowerCount = 0;
@@ -38,7 +40,7 @@ public class TeaData : ScriptableObject
 
             foreach (var ing in inputIngredients)
             {
-                switch (ing.type)
+                switch (ing.Type)
                 {
                     case IngredientType.Leaf: leafCount++; break;
                     case IngredientType.Berry: berryCount++; break;
@@ -46,9 +48,9 @@ public class TeaData : ScriptableObject
                 }
             }
 
-            foreach (var ing in ingredients)
+            foreach (var ing in Ingredients)
             {
-                switch (ing.type)
+                switch (ing.Type)
                 {
                     case IngredientType.Leaf: requiredLeaf++; break;
                     case IngredientType.Berry: requiredBerry++; break;
@@ -65,12 +67,12 @@ public class TeaData : ScriptableObject
         {
             List<SpiritData> result = new List<SpiritData>();
 
-            if (playerSpirits == null || likedBySpirits == null || playerSpirits.unlockedSpirits == null)
+            if (playerSpirits == null || LikedBySpirits == null || playerSpirits.UnlockedSpirits == null)
                 return result;
 
-            foreach (var spirit in likedBySpirits)
+            foreach (var spirit in LikedBySpirits)
             {
-                if (spirit != null && playerSpirits.availableSpirits.Contains(spirit))
+                if (spirit != null && playerSpirits.AvailableSpirits.Contains(spirit))
                 {
                     result.Add(spirit);
                 }
